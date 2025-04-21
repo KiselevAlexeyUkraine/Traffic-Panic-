@@ -18,13 +18,13 @@ namespace Codebase.Components.Level
         private float _acceleration;
 
         private LinkedList<Level> _handledLevels = new();
+        private int _levelIndex = 0;
 
         private void Start()
         {
             for (int i = 0; i < _levelsCount; i++)
             {
-                int index = Random.Range(0, _levels.Count);
-                Level newLevel = Instantiate(_levels[index], transform);
+                Level newLevel = Instantiate(GetNextLevel(), transform);
 
                 if (i == 0)
                 {
@@ -33,7 +33,6 @@ namespace Codebase.Components.Level
                 else
                 {
                     Level lastLevel = _handledLevels.Last.Value;
-
                     newLevel.MoveToEdge(lastLevel, newLevel);
                 }
 
@@ -59,12 +58,18 @@ namespace Codebase.Components.Level
                 Destroy(firstLevel.gameObject);
                 _handledLevels.RemoveFirst();
 
-                int index = Random.Range(0, _levels.Count);
-                Level newLevel = Instantiate(_levels[index], transform);
+                Level newLevel = Instantiate(GetNextLevel(), transform);
                 newLevel.MoveToEdge(lastLevel, newLevel);
 
                 _handledLevels.AddLast(newLevel);
             }
+        }
+
+        private Level GetNextLevel()
+        {
+            Level level = _levels[_levelIndex];
+            _levelIndex = (_levelIndex + 1) % _levels.Count;
+            return level;
         }
 
 #if UNITY_EDITOR

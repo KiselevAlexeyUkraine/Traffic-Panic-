@@ -29,14 +29,14 @@ namespace Codebase.Components.Player
         {
             if (_playerInput.Left && _currentXPosition > _minXPosition)
             {
-                _targetXPosition = _currentXPosition - 1f;
+                _targetXPosition = _currentXPosition - 2f;
                 OnMoving?.Invoke();
                 Debug.Log("Нажата клавиша влево");
             }
 
             if (_playerInput.Right && _currentXPosition < _maxXPosition)
             {
-                _targetXPosition = _currentXPosition + 1f;
+                _targetXPosition = _currentXPosition + 2f;
                 OnMoving?.Invoke();
                 Debug.Log("Нажата клавиша вправо");
             }
