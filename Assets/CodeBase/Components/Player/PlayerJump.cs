@@ -8,9 +8,10 @@ namespace Codebase.Components.Player
         [SerializeField] private float jumpForce = 10f;
         [SerializeField] private LayerMask groundLayer;
 
+        public bool IsJumping { get; private set; }
+
         private PlayerCollisionHandler _playerCollisionHandler;
         private Rigidbody _rigidbody;
-        private bool _isJumping;
 
         private void Awake()
         {
@@ -26,9 +27,9 @@ namespace Codebase.Components.Player
 
         private void OnJump()
         {
-            if (_isJumping) return;
+            if (IsJumping) return;
 
-            _isJumping = true;
+            IsJumping = true;
 
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -38,16 +39,14 @@ namespace Codebase.Components.Player
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!_isJumping)
+            if (!IsJumping)
                 return;
 
             int otherLayerMask = 1 << collision.gameObject.layer;
 
             if ((groundLayer.value & otherLayerMask) != 0 && _rigidbody.linearVelocity.y <= 0.1f)
             {
-                _isJumping = false;
-
-                
+                IsJumping = false;
                 _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             }
         }

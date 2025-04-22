@@ -13,7 +13,7 @@ namespace Codebase.Components.Player
         {
             _playerInput = desktopInput;
         }
-        
+
         public Action OnMoving;
 
         [SerializeField] private float _maxXPosition = 2f;
@@ -24,16 +24,22 @@ namespace Codebase.Components.Player
         private float _targetXPosition = 0f;
         private IInput _playerInput;
         private Rigidbody _rigidbody;
+        private PlayerJump _playerJump;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             _targetXPosition = _currentXPosition;
+
+            _playerJump = GetComponent<PlayerJump>();
         }
 
         private void Update()
         {
+            if (_playerJump != null && _playerJump.IsJumping)
+                return; // запрет на смену позиции в воздухе
+
             if (_playerInput.Left && _currentXPosition > _minXPosition)
             {
                 _targetXPosition = _currentXPosition - 2f;
@@ -51,11 +57,14 @@ namespace Codebase.Components.Player
 
         private void FixedUpdate()
         {
+            if (_playerJump != null && _playerJump.IsJumping)
+                return;
+
             if (Mathf.Approximately(_currentXPosition, _targetXPosition))
                 return;
 
             Vector3 currentPosition = _rigidbody.position;
-            Vector3 targetPosition = new (_targetXPosition, currentPosition.y, currentPosition.z);
+            Vector3 targetPosition = new(_targetXPosition, currentPosition.y, currentPosition.z);
             Vector3 newPosition = Vector3.MoveTowards(currentPosition, targetPosition, _moveSpeed * Time.fixedDeltaTime);
             _rigidbody.MovePosition(newPosition);
 
