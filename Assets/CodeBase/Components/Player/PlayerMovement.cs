@@ -12,7 +12,6 @@ namespace Codebase.Components.Player
         private void Construct(DesktopInput desktopInput)
         {
             _playerInput = desktopInput;
-            Debug.Log("Пробросили зависимость");
         }
         
         public Action OnMoving;

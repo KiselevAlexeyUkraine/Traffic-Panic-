@@ -14,7 +14,7 @@ namespace Codebase.Components.Ui.Pages.Menu
         [SerializeField] private Slider _musicVolume;
 
         private AudioService _audioService;
-        private bool _isInitialized = false; // Флаг для предотвращения звука при загрузке
+        private bool _isInitialized = false;
 
         [Inject]
         private void Construct(AudioService audioService)
@@ -37,12 +37,12 @@ namespace Codebase.Components.Ui.Pages.Menu
             AddHoverSound(_back);
             LoadSettings();
 
-            _isInitialized = true; // Теперь можно воспроизводить звук
+            _isInitialized = true;
         }
 
         private void LoadSettings()
         {
-            _isInitialized = false; // Запрещаем звуки при загрузке
+            _isInitialized = false;
             _masterVolume.value = _audioService.SavedMasterVolume;
             _soundsVolume.value = _audioService.SavedSoundsVolume;
             _musicVolume.value = _audioService.SavedMusicVolume;

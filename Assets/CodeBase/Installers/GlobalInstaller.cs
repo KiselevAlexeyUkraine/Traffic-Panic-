@@ -14,6 +14,7 @@ public class GlobalInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.BindInterfacesAndSelfTo<DesktopInput>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<CursorToggle>().AsSingle().NonLazy();
         Container.Bind<AudioService>().FromComponentInNewPrefab(_audioService).AsSingle().NonLazy();
         Container.Bind<EventSystem>().FromComponentInNewPrefab(_eventSystem).AsSingle().NonLazy();
     }

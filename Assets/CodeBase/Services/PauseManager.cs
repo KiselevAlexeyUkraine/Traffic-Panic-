@@ -2,30 +2,25 @@ using Codebase.Components.Player;
 using Codebase.Services.Inputs;
 using Codebase.Components.Ui.Pages;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Codebase.Services
-
 {
     public class PauseManager : MonoBehaviour
     {
-        [SerializeField]
-        private PageSwitcher _pageSwitcher;
-
-        private CursorToggle _cursorToggle = new();
+        [SerializeField] private PageSwitcher _pageSwitcher;
+        [SerializeField] private PlayerMovement playerMovement;
 
         public bool IsPaused { get; private set; }
 
-        [SerializeField] private PlayerMovement playerMovement;
-
         private IInput _playerInput;
+        private CursorToggle _cursorToggle;
 
         [Inject]
-        private void Construct(DesktopInput desktopInput)
+        private void Construct(DesktopInput desktopInput, CursorToggle cursorToggle)
         {
             _playerInput = desktopInput;
-            Debug.Log("Пробросили зависимость");
+            _cursorToggle = cursorToggle;
         }
 
         private void Awake()
@@ -45,23 +40,14 @@ namespace Codebase.Services
         {
             Time.timeScale = 0f;
             _cursorToggle.Enable();
-            if (playerMovement != null)
-            {
-                playerMovement.enabled = false;
-            }
-
+            playerMovement.enabled = false;
         }
 
         public void Play()
         {
             Time.timeScale = 1f;
             _cursorToggle.Disable();
-
-            if (playerMovement != null)
-            {
-                playerMovement.enabled = true;
-            }
-
+            playerMovement.enabled = true;
         }
 
         public void SwitchState()
