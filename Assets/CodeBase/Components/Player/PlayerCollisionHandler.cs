@@ -12,10 +12,9 @@ namespace Codebase.Components.Player
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            GameObject other = collision.gameObject;
-            int otherLayerMask = 1 << other.layer;
+            int otherLayerMask = 1 << other.gameObject.layer;
 
             if ((enemyLayer.value & otherLayerMask) != 0)
             {
@@ -23,15 +22,9 @@ namespace Codebase.Components.Player
             }
             else if ((coinLayer.value & otherLayerMask) != 0)
             {
-                HandleCoinPickup(other);
+                HandleCoinPickup(other.gameObject);
             }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            int otherLayerMask = 1 << other.gameObject.layer;
-
-            if ((jumpLayer.value & otherLayerMask) != 0)
+            else if ((jumpLayer.value & otherLayerMask) != 0)
             {
                 Springboard();
             }
