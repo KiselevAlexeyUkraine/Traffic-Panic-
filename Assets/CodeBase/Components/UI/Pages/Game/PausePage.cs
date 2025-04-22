@@ -6,17 +6,14 @@ using Zenject;
 
 namespace Codebase.Components.Ui.Pages.Game
 {
-    /// <summary>
-    /// Класс отвечает за управление страницей паузы, предоставляя кнопки для продолжения игры, перезапуска, настроек и выхода.
-    /// </summary>
     public class PausePage : BasePage
     {
-        [SerializeField] private Button _continue; // Кнопка для продолжения игры.
-        [SerializeField] private Button _restart; // Кнопка для перезапуска текущего уровня.
-        [SerializeField] private Button _settings; // Кнопка для перехода в меню настроек.
-        [SerializeField] private Button _exit; // Кнопка для выхода в главное меню.
+        [SerializeField] private Button _continue; 
+        [SerializeField] private Button _restart;
+        [SerializeField] private Button _settings;
+        [SerializeField] private Button _exit; 
 
-        [SerializeField] private PauseManager _pauseManager; // Менеджер паузы для управления состоянием игры.
+        [SerializeField] private PauseManager _pauseManager;
 
         private AudioService _audioService;
 
@@ -26,9 +23,6 @@ namespace Codebase.Components.Ui.Pages.Game
             _audioService = audioService;
         }
 
-        /// <summary>
-        /// Подписываемся на события кнопок при инициализации объекта.
-        /// </summary>
         private void Awake()
         {
             _continue.onClick.AddListener(() =>
@@ -52,7 +46,7 @@ namespace Codebase.Components.Ui.Pages.Game
             _exit.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                SceneSwitcher.Instance.LoadScene(0);
+                SceneSwitcher.Instance.LoadScene(1);
             });
 
             AddHoverSound(_continue);
@@ -61,9 +55,6 @@ namespace Codebase.Components.Ui.Pages.Game
             AddHoverSound(_exit);
         }
 
-        /// <summary>
-        /// Убираем подписки с событий кнопок при уничтожении объекта, чтобы избежать утечек памяти.
-        /// </summary>
         private void OnDestroy()
         {
             _continue.onClick.RemoveAllListeners();

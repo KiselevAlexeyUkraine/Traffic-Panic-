@@ -2,6 +2,8 @@ using Codebase.Components.Player;
 using Codebase.Services.Inputs;
 using Codebase.Components.Ui.Pages;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Codebase.Services
 
@@ -17,24 +19,23 @@ namespace Codebase.Services
 
         [SerializeField] private PlayerMovement playerMovement;
 
-        private IInput _desktopInput;
+        private IInput _playerInput;
+
+        [Inject]
+        private void Construct(DesktopInput desktopInput)
+        {
+            _playerInput = desktopInput;
+            Debug.Log("Пробросили зависимость");
+        }
 
         private void Awake()
         {
             Play();
         }
 
-        private void Start()
-        {
-            if (SceneSwitcher.Instance.CurrentScene == 2)
-            {
-                Pause();
-            }
-        }
-
         private void Update()
         {
-            if (_desktopInput.Pause)
+            if (_playerInput.Pause)
             {
                 SwitchState();
             }
