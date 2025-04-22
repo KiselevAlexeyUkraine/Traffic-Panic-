@@ -1603,6 +1603,7 @@ GameObject:
   - component: {fileID: 7572713547151994619}
   - component: {fileID: 7572713547151994618}
   - component: {fileID: 7572713547151994620}
+  - component: {fileID: 7572713547151994621}
   m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
@@ -1731,6 +1732,21 @@ MonoBehaviour:
   coinLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &7572713547151994621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087678958735995971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e744ccde43b3cb44a62d09c33952bf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _carBody: {fileID: 7572713547151994617}
+  _tiltAngle: 5
+  _tiltDuration: 0.2
 --- !u!4 &8549009630091403014
 Transform:
   m_ObjectHideFlags: 0
