@@ -1,4 +1,3 @@
-using Codebase.Components.Player;
 using Codebase.Services.Inputs;
 using DG.Tweening;
 using UnityEngine;
