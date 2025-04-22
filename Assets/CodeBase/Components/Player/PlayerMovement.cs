@@ -1,12 +1,20 @@
 using Codebase.Services.Inputs;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Codebase.Components.Player
 {
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerMovement : MonoBehaviour
     {
+        [Inject]
+        private void Construct(DesktopInput desktopInput)
+        {
+            _playerInput = desktopInput;
+            Debug.Log("Пробросили зависимость");
+        }
+        
         public Action OnMoving;
 
         [SerializeField] private float _maxXPosition = 2f;
@@ -15,7 +23,7 @@ namespace Codebase.Components.Player
 
         private float _currentXPosition = 0f;
         private float _targetXPosition = 0f;
-        private IInput _playerInput = new DesktopInput();
+        private IInput _playerInput;
         private Rigidbody _rigidbody;
 
         private void Awake()

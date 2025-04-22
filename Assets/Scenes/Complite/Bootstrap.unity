@@ -149,56 +149,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 872494871}
-  - {fileID: 1195998400}
-  - {fileID: 708165991}
+  - {fileID: 1172354590}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &708165990
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 708165991}
-  - component: {fileID: 708165992}
-  m_Layer: 0
-  m_Name: ProjectContext
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &708165991
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708165990}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 416479981}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &708165992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708165990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ddcf8fe20304b9479cb751c921b3584, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _eventSystem: {fileID: 7329280795485698828, guid: 9fead70d227329143a75ce6f68c4951a, type: 3}
-  _audioService: {fileID: 5618896766568627317, guid: f625c50cf832f7a4ea449f90380dec89, type: 3}
 --- !u!1 &872494870
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 018470a1f436c1345a9d05a55ad79471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1195998399
+--- !u!1 &1172354589
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,8 +204,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1195998400}
-  - component: {fileID: 1195998401}
+  - component: {fileID: 1172354590}
+  - component: {fileID: 1172354592}
+  - component: {fileID: 1172354593}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -260,35 +214,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1195998400
+--- !u!4 &1172354590
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1195998399}
+  m_GameObject: {fileID: 1172354589}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 416479981}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1195998401
+--- !u!114 &1172354592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1195998399}
+  m_GameObject: {fileID: 1172354589}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 1172354593}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -306,6 +261,20 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
+--- !u!114 &1172354593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172354589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff959f94b21960f40a1eff5e2f3a5b64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventSystem: {fileID: 7329280795485698828, guid: 9fead70d227329143a75ce6f68c4951a, type: 3}
+  _audioService: {fileID: 5618896766568627317, guid: f625c50cf832f7a4ea449f90380dec89, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
