@@ -8,7 +8,7 @@ namespace Codebase.Components.Player
 {
     public class PlayerAnimator : MonoBehaviour
     {
-        [SerializeField] private Transform _carBody;
+        private Transform _carBody;
         [SerializeField] private float _tiltYAngle = 10f;
         [SerializeField] private float _tiltDuration = 0.25f;
 
@@ -26,6 +26,7 @@ namespace Codebase.Components.Player
         {
             _playerMovement = GetComponent<PlayerMovement>();
             _playerMovement.OnMoving += HandleLean;
+            _carBody = transform;
         }
 
         private void HandleLean()
