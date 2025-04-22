@@ -919,27 +919,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &622550804571355540
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254660307368862583}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.5687051, y: 0.18314902, z: 0.1925743}
-  m_Center: {x: 0, y: 0, z: -0.00000013411045}
 --- !u!1001 &716060730429355662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1280,7 +1259,6 @@ GameObject:
   - component: {fileID: 6724594895066875395}
   - component: {fileID: 729346684041954805}
   - component: {fileID: 1944148793796422505}
-  - component: {fileID: 622550804571355540}
   m_Layer: 3
   m_Name: front_wheels_HMMWV_br
   m_TagString: Untagged
