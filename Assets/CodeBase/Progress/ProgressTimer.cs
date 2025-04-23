@@ -30,7 +30,6 @@ namespace Codebase.Progress
             {
                 _isRunning = false;
                 OnProgressComplete?.Invoke();
-                Debug.Log("Вызвали прогресс бар");
             }
         }
     }
