@@ -715,13 +715,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levels:
   - {fileID: 5385966855428111777, guid: ff6c7069d31b87840a5226e125b97805, type: 3}
-  - {fileID: 5385966855428111777, guid: c8b03fca094b24e47959271c06c22e2e, type: 3}
-  - {fileID: 5385966855428111777, guid: c8b03fca094b24e47959271c06c22e2e, type: 3}
   - {fileID: 5385966855428111777, guid: ff6c7069d31b87840a5226e125b97805, type: 3}
   - {fileID: 5385966855428111777, guid: ff6c7069d31b87840a5226e125b97805, type: 3}
-  _levelsCount: 2
+  _levelsCount: 3
   _zBound: -8
-  _speed: 10
+  _speed: 1
   _acceleration: 0.05
 --- !u!4 &1746278180
 Transform:
