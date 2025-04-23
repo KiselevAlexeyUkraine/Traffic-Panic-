@@ -310,7 +310,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2282374578103780740, guid: dcd7237bff1c34745968839fc32619fb, type: 3}
       propertyPath: m_Name
-      value: EnemyStatic_2
+      value: Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5831952789146298728, guid: dcd7237bff1c34745968839fc32619fb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

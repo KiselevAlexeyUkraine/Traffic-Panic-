@@ -11,6 +11,7 @@ namespace Codebase.Components.Player
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
+        public event Action OnCoinCollected; 
 
         private void OnTriggerEnter(Collider other)
         {
@@ -32,19 +33,17 @@ namespace Codebase.Components.Player
 
         private void HandleEnemyCollision()
         {
-            //Debug.Log("Столкновение с врагом!");
             OnPlayerDeath?.Invoke();
         }
 
         private void HandleCoinPickup(GameObject coin)
         {
-            Debug.Log("Монета подобрана!");
             Destroy(coin);
+            OnCoinCollected?.Invoke();
         }
 
         private void Springboard()
         {
-            Debug.Log("Игрок подпрыгнул");
             OnPlayerJump?.Invoke();
         }
     }
