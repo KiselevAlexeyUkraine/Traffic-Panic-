@@ -39,28 +39,28 @@ namespace Codebase.Components.Player
 
         private void HandleDeathAnimation()
         {
-            //int random = Random.Range(0, 4);
+            int random = Random.Range(0, 2);
 
-            //switch (random)
-            //{
-            //    case 0:
-            //        _animator.Play("Death_1");
-            //        break;
-            //    case 1:
-            //        _animator.Play("Death_2");
-            //        break;
-            //    case 2:
-            //        _animator.Play("Death_3");
-            //        break;
-            //    case 3:
-            //        _animator.Play("Death_4");
-            //        break;
-            //    default:
-            //        Debug.Log("Нет анимаций");
-            //        break;
-            //}
-            _animator.Play("Death_1");
-            Debug.Log("Столкновение с врагом!");
+            switch (random)
+            {
+                case 0:
+                    _animator.Play("Death_1");
+                    break;
+                case 1:
+                    _animator.Play("Death_2");
+                    break;
+                //case 2:
+                //    _animator.Play("Death_3");
+                //    break;
+                //case 3:
+                //    _animator.Play("Death_4");
+                //    break;
+                default:
+                    Debug.Log("Нет анимаций");
+                    break;
+            }
+            //_animator.Play("Death_1");
+            //Debug.Log("Столкновение с врагом!");
         }
 
         private void OnDestroy()
