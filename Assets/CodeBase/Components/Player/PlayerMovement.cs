@@ -14,7 +14,8 @@ namespace Codebase.Components.Player
             _playerInput = desktopInput;
         }
 
-        public Action OnMoving;
+        public Action OnMovingLeft;
+        public Action OnMovingRight;
 
         [SerializeField] private float _maxXPosition = 2f;
         [SerializeField] private float _minXPosition = -2f;
@@ -43,14 +44,14 @@ namespace Codebase.Components.Player
             if (_playerInput.Left && _currentXPosition > _minXPosition)
             {
                 _targetXPosition = _currentXPosition - 2f;
-                OnMoving?.Invoke();
+                OnMovingLeft?.Invoke();
                 Debug.Log("Нажата клавиша влево");
             }
 
             if (_playerInput.Right && _currentXPosition < _maxXPosition)
             {
                 _targetXPosition = _currentXPosition + 2f;
-                OnMoving?.Invoke();
+                OnMovingRight?.Invoke();
                 Debug.Log("Нажата клавиша вправо");
             }
         }

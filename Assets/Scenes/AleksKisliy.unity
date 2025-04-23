@@ -6451,6 +6451,7 @@ GameObject:
   - component: {fileID: 7572713547151994621}
   - component: {fileID: 7572713547151994622}
   - component: {fileID: 7572713547151994623}
+  - component: {fileID: 7572713547151994624}
   m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
@@ -6594,9 +6595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e744ccde43b3cb44a62d09c33952bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _carBody: {fileID: 2042153093}
-  _tiltYAngle: 10
-  _tiltDuration: 0.2
 --- !u!114 &7572713547151994622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6634,6 +6632,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1.4, z: 4.806801}
   m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!95 &7572713547151994624
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087678958735995971}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b095760f8ff5999469e7a36a1b75a5fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &8549009630091403014
 Transform:
   m_ObjectHideFlags: 0

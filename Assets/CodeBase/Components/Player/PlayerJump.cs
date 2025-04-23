@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Codebase.Components.Player
@@ -9,6 +10,8 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask groundLayer;
 
         public bool IsJumping { get; private set; }
+
+        public Action OnJumping;
 
         private PlayerCollisionHandler _playerCollisionHandler;
         private Rigidbody _rigidbody;
@@ -30,7 +33,7 @@ namespace Codebase.Components.Player
             if (IsJumping) return;
 
             IsJumping = true;
-
+            OnJumping?.Invoke();
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 

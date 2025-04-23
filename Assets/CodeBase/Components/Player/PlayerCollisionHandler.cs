@@ -32,7 +32,7 @@ namespace Codebase.Components.Player
 
         private void HandleEnemyCollision()
         {
-            Debug.Log("Столкновение с врагом!");
+            //Debug.Log("Столкновение с врагом!");
             OnPlayerDeath?.Invoke();
         }
 
