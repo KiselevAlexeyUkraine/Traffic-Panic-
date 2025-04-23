@@ -11,24 +11,30 @@ namespace Codebase.Components.Player
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
-        public event Action OnCoinCollected; 
+        public event Action OnCoinCollected;
+
+        private bool IsAlive = false;
 
         private void OnTriggerEnter(Collider other)
         {
-            int otherLayerMask = 1 << other.gameObject.layer;
+            if (IsAlive == false)
+            {
+                int otherLayerMask = 1 << other.gameObject.layer;
 
-            if ((enemyLayer.value & otherLayerMask) != 0)
-            {
-                HandleEnemyCollision();
-            }
-            else if ((coinLayer.value & otherLayerMask) != 0)
-            {
-                HandleCoinPickup(other.gameObject);
-            }
-            else if ((jumpLayer.value & otherLayerMask) != 0)
-            {
-                Springboard();
-            }
+                if ((enemyLayer.value & otherLayerMask) != 0)
+                {
+                    HandleEnemyCollision();
+                    IsAlive = true;
+                }
+                else if ((coinLayer.value & otherLayerMask) != 0)
+                {
+                    HandleCoinPickup(other.gameObject);
+                }
+                else if ((jumpLayer.value & otherLayerMask) != 0)
+                {
+                    Springboard();
+                }
+            }         
         }
 
         private void HandleEnemyCollision()

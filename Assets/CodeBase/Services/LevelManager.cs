@@ -3,6 +3,7 @@ using Codebase.Components.Ui.Pages;
 using Codebase.Components.Player;
 using Zenject;
 using System.Collections;
+using Codebase.Progress;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private CursorToggle _cursorToggle;
     [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
+    [SerializeField] private ProgressTimer _progressTimer;
 
     [Inject]
     private void Construct(CursorToggle cursorToggle)
@@ -20,11 +22,13 @@ public class LevelManager : MonoBehaviour
     private void OnEnable()
     {
         _playerCollisionHandler.OnPlayerDeath += HandlePlayerDeath;
+        _progressTimer.OnProgressComplete += EndLevelVictory;
     }
 
     private void OnDisable()
     {
         _playerCollisionHandler.OnPlayerDeath -= HandlePlayerDeath;
+        _progressTimer.OnProgressComplete -= EndLevelVictory;
     }
 
     private void HandlePlayerDeath()
@@ -48,10 +52,11 @@ public class LevelManager : MonoBehaviour
         _pageSwitcher.Open(PageName.Failed);
     }
 
-    public void EndLevelVictory()
+    private void EndLevelVictory()
     {
         Debug.Log("Уровень завершён. Победа!");
         _cursorToggle.Enable();
+        Time.timeScale = 0f;
         _playerMovement.enabled = false;
         _pageSwitcher.Open(PageName.Complete);
     }
