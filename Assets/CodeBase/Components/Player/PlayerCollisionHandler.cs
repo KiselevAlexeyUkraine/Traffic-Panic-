@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Codebase.NPC;
 
 namespace Codebase.Components.Player
 {
@@ -8,6 +9,7 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask enemyLayer;
         [SerializeField] private LayerMask coinLayer;
         [SerializeField] private LayerMask jumpLayer;
+        [SerializeField] private LayerMask stepTriggerLayer;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
@@ -17,10 +19,17 @@ namespace Codebase.Components.Player
 
         private void OnTriggerEnter(Collider other)
         {
+            int otherLayerMask = 1 << other.gameObject.layer;
+
+            if ((stepTriggerLayer.value & otherLayerMask) != 0)
+            {
+                NpcMover npcMover = other.GetComponent<NpcMover>();
+                if (npcMover != null)
+                    npcMover.TriggerMove();
+            }
+
             if (IsAlive == false)
             {
-                int otherLayerMask = 1 << other.gameObject.layer;
-
                 if ((enemyLayer.value & otherLayerMask) != 0)
                 {
                     HandleEnemyCollision();
@@ -34,7 +43,7 @@ namespace Codebase.Components.Player
                 {
                     Springboard();
                 }
-            }         
+            }
         }
 
         private void HandleEnemyCollision()

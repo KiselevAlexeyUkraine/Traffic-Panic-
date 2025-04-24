@@ -5811,6 +5811,9 @@ MonoBehaviour:
   jumpLayer:
     serializedVersion: 2
     m_Bits: 256
+  stepTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &5426495391346480029
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,12 +1,10 @@
 using UnityEngine;
-using System.Linq;
 
 namespace Codebase.NPC
 {
     public class NpcMover : MonoBehaviour
     {
-        [SerializeField] private float moveInterval = 1f;
-        [SerializeField] private float moveDuration = 0.5f;
+        [SerializeField] private float moveDuration = 1.2f;
 
         private readonly float[] _positionsX = { -4f, -2f, 0f, 2f, 4f };
 
@@ -18,8 +16,6 @@ namespace Codebase.NPC
         private void Start()
         {
             _targetLocalPosition = transform.localPosition;
-            SetRandomTarget();
-            InvokeRepeating(nameof(SetRandomTarget), moveInterval, moveInterval);
         }
 
         private void Update()
@@ -35,19 +31,26 @@ namespace Codebase.NPC
             }
         }
 
-        private void SetRandomTarget()
+        public void TriggerMove()
         {
             if (_isMoving) return;
 
             float currentX = Mathf.Round(transform.localPosition.x);
-            var options = _positionsX.Where(x => Mathf.Abs(x - currentX) > 0.1f).ToArray();
-            if (options.Length == 0) return;
+            int currentIndex = System.Array.IndexOf(_positionsX, currentX);
+            if (currentIndex == -1) return;
 
-            float nextX = options[Random.Range(0, options.Length)];
+            var adjacentOptions = new System.Collections.Generic.List<float>();
+            if (currentIndex > 0) adjacentOptions.Add(_positionsX[currentIndex - 1]);
+            if (currentIndex < _positionsX.Length - 1) adjacentOptions.Add(_positionsX[currentIndex + 1]);
+
+            if (adjacentOptions.Count == 0) return;
+
+            float nextX = adjacentOptions[Random.Range(0, adjacentOptions.Count)];
             _startPosition = transform.localPosition;
             _targetLocalPosition = new Vector3(nextX, _startPosition.y, _startPosition.z);
             _moveTimer = 0f;
             _isMoving = true;
+
         }
     }
 }
