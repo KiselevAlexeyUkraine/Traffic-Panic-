@@ -10,7 +10,6 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask groundLayer;
 
         public bool IsJumping { get; private set; }
-
         public Action OnJumping;
 
         private PlayerCollisionHandler _playerCollisionHandler;
@@ -36,21 +35,16 @@ namespace Codebase.Components.Player
             OnJumping?.Invoke();
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-            _rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!IsJumping)
-                return;
+            if (!IsJumping) return;
 
             int otherLayerMask = 1 << collision.gameObject.layer;
-
             if ((groundLayer.value & otherLayerMask) != 0 && _rigidbody.linearVelocity.y <= 0.1f)
             {
                 IsJumping = false;
-                _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             }
         }
     }
