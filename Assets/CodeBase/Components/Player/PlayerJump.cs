@@ -7,9 +7,6 @@ namespace Codebase.Components.Player
     public class PlayerJump : MonoBehaviour
     {
         [SerializeField] private float jumpForce = 10f;
-        [SerializeField] private LayerMask groundLayer;
-
-        public bool IsJumping { get; private set; }
 
         public Action OnJumping;
 
@@ -30,28 +27,9 @@ namespace Codebase.Components.Player
 
         private void OnJump()
         {
-            if (IsJumping) return;
-
-            IsJumping = true;
             OnJumping?.Invoke();
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-            _rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (!IsJumping)
-                return;
-
-            int otherLayerMask = 1 << collision.gameObject.layer;
-
-            if ((groundLayer.value & otherLayerMask) != 0 && _rigidbody.linearVelocity.y <= 0.1f)
-            {
-                IsJumping = false;
-                _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-            }
         }
     }
 }
