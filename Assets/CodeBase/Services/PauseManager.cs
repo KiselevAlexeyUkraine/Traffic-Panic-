@@ -38,14 +38,14 @@ namespace Codebase.Services
 
         public void Pause()
         {
-            Time.timeScale = 0f;
+            UnityEngine.Time.timeScale = 0f;
             _cursorToggle.Enable();
             playerMovement.enabled = false;
         }
 
         public void Play()
         {
-            Time.timeScale = 1f;
+            UnityEngine.Time.timeScale = 1f;
             _cursorToggle.Disable();
             playerMovement.enabled = true;
         }

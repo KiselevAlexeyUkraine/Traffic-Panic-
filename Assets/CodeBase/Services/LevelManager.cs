@@ -4,6 +4,7 @@ using Codebase.Components.Player;
 using Zenject;
 using System.Collections;
 using Codebase.Progress;
+using Codebase.Services.Time;
 
 public class LevelManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CursorToggle _cursorToggle;
     [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
     [SerializeField] private ProgressTimer _progressTimer;
+    [SerializeField] private SpeedModifier _speedModifier;
 
     [Inject]
     private void Construct(CursorToggle cursorToggle)
@@ -35,6 +37,7 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Игрок погиб. Завершаем уровень...");
         _playerMovement.enabled = false;
+        _speedModifier.enabled = false;
         StartCoroutine(EndLevelFailureWithDelay());
     }
 
@@ -58,6 +61,7 @@ public class LevelManager : MonoBehaviour
         _cursorToggle.Enable();
         Time.timeScale = 0f;
         _playerMovement.enabled = false;
+        _speedModifier.enabled = false;
         _pageSwitcher.Open(PageName.Complete);
     }
 }
