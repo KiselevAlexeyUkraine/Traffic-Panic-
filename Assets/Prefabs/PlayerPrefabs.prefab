@@ -5842,7 +5842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc01c2027b9c274f96ff5ede9d480f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
+  targetJumpHeight: 5
 --- !u!65 &8419287216442439841
 BoxCollider:
   m_ObjectHideFlags: 0
