@@ -10,12 +10,14 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask coinLayer;
         [SerializeField] private LayerMask jumpLayer;
         [SerializeField] private LayerMask stepTriggerLayer;
+        [SerializeField] private LayerMask policeCarTriggerLayer;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
+        public event Action OnActivateRandomObject;
 
-        private bool IsAlive = false;
+        private bool isAlive = false;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -28,12 +30,12 @@ namespace Codebase.Components.Player
                     npcMover.TriggerMove();
             }
 
-            if (IsAlive == false)
+            if (isAlive == false)
             {
                 if ((enemyLayer.value & otherLayerMask) != 0)
                 {
                     HandleEnemyCollision();
-                    IsAlive = true;
+                    isAlive = true;
                 }
                 else if ((coinLayer.value & otherLayerMask) != 0)
                 {
@@ -42,6 +44,10 @@ namespace Codebase.Components.Player
                 else if ((jumpLayer.value & otherLayerMask) != 0)
                 {
                     Springboard();
+                }
+                else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    ActivateRandomObject();
                 }
             }
         }
@@ -60,6 +66,11 @@ namespace Codebase.Components.Player
         private void Springboard()
         {
             OnPlayerJump?.Invoke();
+        }
+
+        private void ActivateRandomObject()
+        {
+            OnActivateRandomObject?.Invoke();
         }
     }
 }

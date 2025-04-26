@@ -5815,6 +5815,9 @@ MonoBehaviour:
   stepTriggerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  policeCarTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &5426495391346480029
 MonoBehaviour:
   m_ObjectHideFlags: 0
