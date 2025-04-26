@@ -470,7 +470,7 @@ MonoBehaviour:
   - {fileID: 5385966855428111777, guid: ff6c7069d31b87840a5226e125b97805, type: 3}
   _levelsCount: 3
   _zBound: -8
-  _speed: 20
+  _speed: 10
   _acceleration: 0.05
 --- !u!4 &1746278180
 Transform:
