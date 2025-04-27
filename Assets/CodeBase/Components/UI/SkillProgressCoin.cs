@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Codebase.Components.Player;
 using Codebase.Services.Inputs;
-using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Codebase.Components.Ui
