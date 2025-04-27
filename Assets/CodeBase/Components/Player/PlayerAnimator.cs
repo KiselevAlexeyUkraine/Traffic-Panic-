@@ -7,16 +7,13 @@ namespace Codebase.Components.Player
         private Animator _animator;
         private PlayerMovement _playerMovement;
         private PlayerCollisionHandler _playerCollisionHandler;
-        private PlayerJump playerJump;
-
 
         private void Start()
         {
             _playerMovement = GetComponent<PlayerMovement>();
             _playerCollisionHandler = GetComponent<PlayerCollisionHandler>();
-            playerJump = GetComponent<PlayerJump>();
             _animator = GetComponent<Animator>();
-            playerJump.OnJumping += HandJump;
+            _playerCollisionHandler.OnPlayerJump += HandJump;
             _playerMovement.OnMovingLeft += HandleLeanLeft;
             _playerMovement.OnMovingRight += HandleLeanRight;
             _playerCollisionHandler.OnPlayerDeath += HandleDeathAnimation;
@@ -66,7 +63,7 @@ namespace Codebase.Components.Player
             _playerMovement.OnMovingLeft -= HandleLeanLeft;
             _playerMovement.OnMovingRight -= HandleLeanRight;
             _playerCollisionHandler.OnPlayerDeath -= HandleDeathAnimation;
-            playerJump.OnJumping -= HandJump;
+            _playerCollisionHandler.OnPlayerJump -= HandJump;
         }
     }
 }
