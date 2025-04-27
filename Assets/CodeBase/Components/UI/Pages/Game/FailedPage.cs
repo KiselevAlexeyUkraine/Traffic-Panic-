@@ -6,18 +6,19 @@ using Codebase.Services;
 
 namespace Codebase.Components.Ui.Pages.Game
 {
-
     public class FailedPage : BasePage
     {
-        [SerializeField] private Button _restart; 
+        [SerializeField] private Button _restart;
         [SerializeField] private Button _exit;
 
         private AudioService _audioService;
+        private SceneService _sceneService;
 
         [Inject]
-        private void Construct(AudioService audioService)
+        private void Construct(AudioService audioService, SceneService sceneService)
         {
             _audioService = audioService;
+            _sceneService = sceneService;
         }
 
         private void Awake()
@@ -25,13 +26,13 @@ namespace Codebase.Components.Ui.Pages.Game
             _restart.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                SceneSwitcher.Instance.LoadScene(SceneSwitcher.Instance.CurrentScene);
+                _sceneService.RestartCurrentScene();
             });
 
             _exit.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                SceneSwitcher.Instance.LoadScene(1);
+                _sceneService.Load(1);
             });
 
             AddHoverSound(_restart);
@@ -46,6 +47,9 @@ namespace Codebase.Components.Ui.Pages.Game
 
         private void AddHoverSound(Button button)
         {
+            if (button == null)
+                return;
+
             EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>() ?? button.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry
             {

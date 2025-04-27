@@ -54,12 +54,12 @@ namespace Codebase.Services
         {
             if (IsPaused)
             {
-                _pageSwitcher.Open(PageName.Stats);
+                _pageSwitcher.Open(PageName.Stats).Forget();
                 Play();
             }
             else
             {
-                _pageSwitcher.Open(PageName.Pause);
+                _pageSwitcher.Open(PageName.Pause).Forget();
                 Pause();
             }
 

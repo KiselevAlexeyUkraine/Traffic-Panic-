@@ -3,7 +3,6 @@ using Codebase.Services.Inputs;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using Zenject;
-using Services;
 
 public class GlobalInstaller : MonoInstaller
 {

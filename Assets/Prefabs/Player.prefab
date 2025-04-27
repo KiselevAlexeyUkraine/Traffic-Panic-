@@ -11232,7 +11232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxXPosition: 4
   _minXPosition: -4
-  _moveSpeed: 15
+  _moveSpeed: 10
 --- !u!114 &8635362920701190219
 MonoBehaviour:
   m_ObjectHideFlags: 0

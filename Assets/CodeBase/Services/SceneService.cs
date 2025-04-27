@@ -1,12 +1,13 @@
 using UnityEngine.SceneManagement;
 
-namespace Services
+namespace Codebase.Services
 {
     public class SceneService
     {
         public int SceneToLoad { private get; set; } = DEFAULT_START_SCENE;
-
         private const int DEFAULT_START_SCENE = 2;
+
+        public int CurrentScene => SceneManager.GetActiveScene().buildIndex;
 
         public void Load()
         {
@@ -26,16 +27,44 @@ namespace Services
 
         public void LoadNextScene()
         {
-            var next = GetCurrentScene() + 1;
+            int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-            if (next < SceneManager.sceneCountInBuildSettings)
+            if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
             {
-                Load(next);
+                SceneManager.LoadScene(nextSceneIndex);
             }
             else
             {
-                Load(1);
+                SceneManager.LoadScene(1);
+                UnityEngine.Debug.Log("Нажата клавиша вправо");
             }
+        }
+
+        public void LoadPreviousScene()
+        {
+            int previousSceneIndex = SceneManager.GetActiveScene().buildIndex - 1;
+
+            if (previousSceneIndex >= 0)
+            {
+                SceneManager.LoadScene(previousSceneIndex);
+            }
+            else
+            {
+                UnityEngine.Debug.Log("Это первая сцена в сборке.");
+            }
+        }
+
+        public void RestartCurrentScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        public void ExitGame()
+        {
+            UnityEngine.Application.Quit();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
 
         public int GetCurrentScene()

@@ -1,10 +1,14 @@
 using Codebase.Services;
+using UnityEngine;
 using Zenject;
 
-namespace Codebase.Components.Ui.Pages.Menu
+namespace Components.Helpers
 {
-    public class StartPage : BasePage
+    public class SceneLoader : MonoBehaviour
     {
+        [SerializeField]
+        private int _sceneName;
+
         private SceneService _sceneService;
 
         [Inject]
@@ -13,9 +17,9 @@ namespace Codebase.Components.Ui.Pages.Menu
             _sceneService = sceneService;
         }
 
-        private void Awake()
+        private void Start()
         {
-            Opened += () => { _sceneService.Load(); };
+            _sceneService.Load(_sceneName);
         }
     }
 }

@@ -16,11 +16,13 @@ namespace Codebase.Components.Ui.Pages.Game
         [SerializeField] private PauseManager _pauseManager;
 
         private AudioService _audioService;
+        private SceneService _sceneService;
 
         [Inject]
-        private void Construct(AudioService audioService)
+        private void Construct(AudioService audioService, SceneService sceneService)
         {
             _audioService = audioService;
+            _sceneService = sceneService;
         }
 
         private void Awake()
@@ -34,19 +36,19 @@ namespace Codebase.Components.Ui.Pages.Game
             _restart.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                SceneSwitcher.Instance.RestartCurrentScene();
+                _sceneService.RestartCurrentScene();
             });
 
             _settings.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                PageSwitcher.Open(PageName.GameSettings);
+                PageSwitcher.Open(PageName.GameSettings).Forget();
             });
 
             _exit.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                SceneSwitcher.Instance.LoadScene(1);
+                _sceneService.Load(1);
             });
 
             AddHoverSound(_continue);
