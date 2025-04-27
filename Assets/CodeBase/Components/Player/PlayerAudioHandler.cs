@@ -12,7 +12,6 @@ namespace Codebase.Components.Player
         [SerializeField] private AudioClip deathClip;
         [Space(40)]
         [SerializeField] private PlayerMovement playerMovement;
-        [SerializeField] private PlayerJump playerJump;
         [SerializeField] private PlayerCollisionHandler playerCollisionHandler;
 
         private AudioSource _audioSource;
@@ -29,14 +28,12 @@ namespace Codebase.Components.Player
                 playerMovement.OnMovingLeft += PlayMoveSound;
                 playerMovement.OnMovingRight += PlayMoveSound;
             }
-            if (playerJump != null)
-            {
-                playerJump.OnJumping += PlayJumpSound;
-            }
+
             if (playerCollisionHandler != null)
             {
                 playerCollisionHandler.OnCoinCollected += PlayCoinCollectedSound;
                 playerCollisionHandler.OnPlayerDeath += PlayDeathSound;
+                playerCollisionHandler.OnPlayerJump += PlayJumpSound;
             }
         }
 
@@ -47,14 +44,11 @@ namespace Codebase.Components.Player
                 playerMovement.OnMovingLeft -= PlayMoveSound;
                 playerMovement.OnMovingRight -= PlayMoveSound;
             }
-            if (playerJump != null)
-            {
-                playerJump.OnJumping -= PlayJumpSound;
-            }
             if (playerCollisionHandler != null)
             {
                 playerCollisionHandler.OnCoinCollected -= PlayCoinCollectedSound;
                 playerCollisionHandler.OnPlayerDeath -= PlayDeathSound;
+                playerCollisionHandler.OnPlayerJump -= PlayJumpSound;
             }
         }
 

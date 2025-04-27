@@ -8,8 +8,6 @@ namespace Codebase.Components.Player
     {
         [SerializeField] private float targetJumpHeight = 2f;
 
-        public Action OnJumping;
-
         private PlayerCollisionHandler _playerCollisionHandler;
         private Rigidbody _rigidbody;
 
@@ -27,7 +25,6 @@ namespace Codebase.Components.Player
 
         private void OnJump()
         {
-            OnJumping?.Invoke();
 
             Vector3 velocity = _rigidbody.linearVelocity;
             velocity.y = 0f;
