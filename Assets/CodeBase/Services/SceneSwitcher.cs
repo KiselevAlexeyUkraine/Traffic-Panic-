@@ -16,13 +16,15 @@ namespace Codebase.Services
                 Instance = this;
             }
 
-        }
-        private void Start()
-        {
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
                 SceneManager.LoadScene(1);
             }
+
+        }
+        private void Start()
+        {
+            
         }
 
         public void LoadScene(int sceneIndex)

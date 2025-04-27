@@ -3,6 +3,7 @@ using Codebase.Services.Inputs;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using Zenject;
+using Services;
 
 public class GlobalInstaller : MonoInstaller
 {
@@ -13,6 +14,7 @@ public class GlobalInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        Container.Bind<SceneService>().FromNew().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<DesktopInput>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<CursorToggle>().AsSingle().NonLazy();
         Container.Bind<AudioService>().FromComponentInNewPrefab(_audioService).AsSingle().NonLazy();
