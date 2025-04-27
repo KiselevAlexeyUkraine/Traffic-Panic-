@@ -119,6 +119,59 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &29694823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 29694824}
+  - component: {fileID: 29694825}
+  m_Layer: 12
+  m_Name: Magnet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &29694824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29694823}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 764847477}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &29694825
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29694823}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 30, y: 10, z: 20}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!1 &541014087
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +314,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &764847477 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7243041231544720807, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+  m_PrefabInstance: {fileID: 1743456061362027844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &919168058 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 583699103668675365, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
@@ -669,7 +727,10 @@ PrefabInstance:
       objectReference: {fileID: 919168058}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7243041231544720807, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 29694824}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
 --- !u!114 &7572713547151994618 stripped
