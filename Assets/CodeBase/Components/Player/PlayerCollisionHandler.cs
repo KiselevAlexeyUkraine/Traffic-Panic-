@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using Codebase.NPC;
 
 namespace Codebase.Components.Player
@@ -18,6 +19,8 @@ namespace Codebase.Components.Player
         public event Action OnActivateRandomObject;
 
         private bool isAlive = false;
+        private bool canJump = true;
+        private float jumpCooldown = 1f;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -30,7 +33,7 @@ namespace Codebase.Components.Player
                     npcMover.TriggerMove();
             }
 
-            if (isAlive == false)
+            if (!isAlive)
             {
                 if ((enemyLayer.value & otherLayerMask) != 0)
                 {
@@ -43,7 +46,7 @@ namespace Codebase.Components.Player
                 }
                 else if ((jumpLayer.value & otherLayerMask) != 0)
                 {
-                    Springboard();
+                    TrySpringboard();
                 }
                 else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
                 {
@@ -63,6 +66,16 @@ namespace Codebase.Components.Player
             OnCoinCollected?.Invoke();
         }
 
+        private void TrySpringboard()
+        {
+            if (!canJump)
+                return;
+
+            Springboard();
+            canJump = false;
+            StartCoroutine(JumpCooldownCoroutine());
+        }
+
         private void Springboard()
         {
             OnPlayerJump?.Invoke();
@@ -71,6 +84,12 @@ namespace Codebase.Components.Player
         private void ActivateRandomObject()
         {
             OnActivateRandomObject?.Invoke();
+        }
+
+        private IEnumerator JumpCooldownCoroutine()
+        {
+            yield return new WaitForSeconds(jumpCooldown);
+            canJump = true;
         }
     }
 }
