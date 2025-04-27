@@ -6,8 +6,6 @@ using System.Collections;
 using Codebase.Progress;
 using Codebase.Services.Time;
 using Codebase.Services;
-using UnityEngine.UIElements;
-using Codebase.Components.Ui;
 
 public class LevelManager : MonoBehaviour
 {
@@ -58,7 +56,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Уровень завершён. Игрок погиб.");
         _cursorToggle.Enable();
         Time.timeScale = 0f;
-        _pageSwitcher.Open(PageName.Failed);
+        _pageSwitcher.Open(PageName.Failed).Forget();
     }
 
     private void EndLevelVictory()
@@ -69,6 +67,6 @@ public class LevelManager : MonoBehaviour
         _playerMovement.enabled = false;
         _speedModifier.enabled = false;
         _pauseManager.enabled = false;
-        _pageSwitcher.Open(PageName.Complete);
+        _pageSwitcher.Open(PageName.Complete).Forget();
     }
 }

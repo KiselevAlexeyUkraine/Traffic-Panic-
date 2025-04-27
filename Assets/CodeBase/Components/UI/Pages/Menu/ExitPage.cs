@@ -24,13 +24,13 @@ namespace Codebase.Components.Ui.Pages.Menu
             _accept.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                SceneSwitcher.Instance.ExitGame();
+                Application.Quit();
             });
 
             _cancel.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                PageSwitcher.Open(PageName.Menu);
+                PageSwitcher.Open(PageName.Menu).Forget();
             });
 
             AddHoverSound(_accept);
@@ -45,6 +45,9 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void AddHoverSound(Button button)
         {
+            if (button == null)
+                return;
+
             EventTrigger trigger = button.gameObject.GetComponent<EventTrigger>() ?? button.gameObject.AddComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry
             {

@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using Codebase.NPC;
+using Codebase.Components.Ui;
 
 namespace Codebase.Components.Player
 {
@@ -12,15 +13,33 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask jumpLayer;
         [SerializeField] private LayerMask stepTriggerLayer;
         [SerializeField] private LayerMask policeCarTriggerLayer;
+        [SerializeField] private LayerMask ArmorTriggerLayer;
+
+        [SerializeField] private SkillProgressCoin skillProgressCoin;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
         public event Action OnActivateRandomObject;
+        //public event Action OnSkillActive;
 
         private bool isAlive = false;
+        public bool IsAlive { get { return isAlive; } }
+        private bool IsSkill = false;
         private bool canJump = true;
         private float jumpCooldown = 1f;
+        [SerializeField] private float skillTime = 4f;
+        [SerializeField] private GameObject particleSystemSkils;
+
+        private void OnEnable()
+        {
+            skillProgressCoin.OnSkillActivated += CLickSkill;
+        }
+
+        private void OnDisable()
+        {
+            skillProgressCoin.OnSkillActivated -= CLickSkill;
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -35,7 +54,7 @@ namespace Codebase.Components.Player
 
             if (!isAlive)
             {
-                if ((enemyLayer.value & otherLayerMask) != 0)
+                if ((enemyLayer.value & otherLayerMask) != 0 && IsSkill == false)
                 {
                     HandleEnemyCollision();
                     isAlive = true;
@@ -51,6 +70,11 @@ namespace Codebase.Components.Player
                 else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
                 {
                     ActivateRandomObject();
+                }
+                else if ((ArmorTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    Destroy(other.gameObject);
+                    CLickSkill();
                 }
             }
         }
@@ -90,6 +114,20 @@ namespace Codebase.Components.Player
         {
             yield return new WaitForSeconds(jumpCooldown);
             canJump = true;
+        }
+
+        private void CLickSkill()
+        {
+            IsSkill = true;
+            particleSystemSkils.SetActive(true);
+            StartCoroutine(SkillTime());
+        }
+
+        private IEnumerator SkillTime()
+        {
+            yield return new WaitForSeconds(skillTime);
+            particleSystemSkils.SetActive(false);
+            IsSkill = false;
         }
     }
 }

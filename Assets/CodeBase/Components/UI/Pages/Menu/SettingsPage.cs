@@ -27,7 +27,7 @@ namespace Codebase.Components.Ui.Pages.Menu
             _back.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
-                PageSwitcher.Open(PageName.Menu);
+                PageSwitcher.Open(PageName.Menu).Forget();
             });
 
             _masterVolume.onValueChanged.AddListener(OnMasterVolumeChanged);
