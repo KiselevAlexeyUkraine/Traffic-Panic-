@@ -11260,6 +11260,9 @@ MonoBehaviour:
   policeCarTriggerLayer:
     serializedVersion: 2
     m_Bits: 512
+  ArmorTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   skillProgressCoin: {fileID: 0}
   skillTime: 5
   particleSystemSkils: {fileID: 2382854964594466690}

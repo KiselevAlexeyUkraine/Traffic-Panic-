@@ -13,6 +13,7 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask jumpLayer;
         [SerializeField] private LayerMask stepTriggerLayer;
         [SerializeField] private LayerMask policeCarTriggerLayer;
+        [SerializeField] private LayerMask ArmorTriggerLayer;
 
         [SerializeField] private SkillProgressCoin skillProgressCoin;
 
@@ -69,6 +70,11 @@ namespace Codebase.Components.Player
                 else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
                 {
                     ActivateRandomObject();
+                }
+                else if ((ArmorTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    Destroy(other.gameObject);
+                    CLickSkill();
                 }
             }
         }
