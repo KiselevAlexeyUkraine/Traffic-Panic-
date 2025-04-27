@@ -6,8 +6,6 @@ using System.Collections;
 using Codebase.Progress;
 using Codebase.Services.Time;
 using Codebase.Services;
-using UnityEngine.UIElements;
-using Codebase.Components.Ui;
 
 public class LevelManager : MonoBehaviour
 {
