@@ -9,6 +9,7 @@ namespace Codebase.Components.Ui
     {
         [SerializeField] private TMP_Text _coinText;
         [SerializeField] private PlayerCollisionHandler _collisionHandler;
+        [SerializeField] private PlayerMagnetCollector _magnetCollector;
 
         private int _coinCount;
 
@@ -16,11 +17,13 @@ namespace Codebase.Components.Ui
         {
             UpdateUI();
             _collisionHandler.OnCoinCollected += HandleCoinCollected;
+            _magnetCollector.OnCoinCollected += HandleCoinCollected;
         }
 
         private void OnDestroy()
         {
             _collisionHandler.OnCoinCollected -= HandleCoinCollected;
+            _magnetCollector.OnCoinCollected -= HandleCoinCollected;
         }
 
         private void HandleCoinCollected()

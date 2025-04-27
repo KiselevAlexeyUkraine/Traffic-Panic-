@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private ProgressTimer _progressTimer;
     [SerializeField] private SpeedModifier _speedModifier;
     [SerializeField] private PauseManager _pauseManager;
+    [SerializeField] private PlayerMagnetCollector _playerMagnetCollector;
 
     [Inject]
     private void Construct(CursorToggle cursorToggle)
@@ -42,6 +43,7 @@ public class LevelManager : MonoBehaviour
         _speedModifier.enabled = false;
         _pauseManager.enabled = false;
         _progressTimer.enabled = false;
+
         StartCoroutine(EndLevelFailureWithDelay());
     }
 
@@ -67,6 +69,7 @@ public class LevelManager : MonoBehaviour
         _playerMovement.enabled = false;
         _speedModifier.enabled = false;
         _pauseManager.enabled = false;
+        _playerMagnetCollector.enabled = false;
         _pageSwitcher.Open(PageName.Complete).Forget();
     }
 }

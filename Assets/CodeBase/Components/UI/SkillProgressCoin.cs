@@ -10,6 +10,7 @@ namespace Codebase.Components.Ui
     {
         [SerializeField] private Slider _progressSlider;
         [SerializeField] private PlayerCollisionHandler _collisionHandler;
+        [SerializeField] private PlayerMagnetCollector playerMagnetCollector;
         [SerializeField] private float _progressPerCoin = 0.1f;
 
         [Inject]
@@ -29,11 +30,13 @@ namespace Codebase.Components.Ui
         {
             ResetProgress();
             _collisionHandler.OnCoinCollected += HandleCoinCollected;
+            playerMagnetCollector.OnCoinCollected += HandleCoinCollected;
         }
 
         private void OnDestroy()
         {
             _collisionHandler.OnCoinCollected -= HandleCoinCollected;
+            playerMagnetCollector.OnCoinCollected -= HandleCoinCollected;
         }
 
         private void Update()

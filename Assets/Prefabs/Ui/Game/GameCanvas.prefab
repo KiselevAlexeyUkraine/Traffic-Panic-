@@ -2518,6 +2518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coinText: {fileID: 4529232922619319026}
   _collisionHandler: {fileID: 0}
+  _magnetCollector: {fileID: 0}
 --- !u!1 &3785309000809186260
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,7 +4229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _progressSlider: {fileID: 8678524354808825153}
   _collisionHandler: {fileID: 0}
-  _progressPerCoin: 0.5
+  playerMagnetCollector: {fileID: 0}
+  _progressPerCoin: 0.1
 --- !u!1 &7773290859147404519
 GameObject:
   m_ObjectHideFlags: 0
