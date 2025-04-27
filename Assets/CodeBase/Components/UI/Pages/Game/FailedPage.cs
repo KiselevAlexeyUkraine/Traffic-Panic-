@@ -6,13 +6,11 @@ using Codebase.Services;
 
 namespace Codebase.Components.Ui.Pages.Game
 {
-    /// <summary>
-    /// Класс отвечает за управление страницей "Неудачи", предоставляя кнопки для перезапуска уровня или выхода в меню.
-    /// </summary>
+
     public class FailedPage : BasePage
     {
-        [SerializeField] private Button _restart; // Кнопка для перезапуска текущего уровня.
-        [SerializeField] private Button _exit; // Кнопка для перехода в главное меню.
+        [SerializeField] private Button _restart; 
+        [SerializeField] private Button _exit;
 
         private AudioService _audioService;
 
@@ -22,9 +20,6 @@ namespace Codebase.Components.Ui.Pages.Game
             _audioService = audioService;
         }
 
-        /// <summary>
-        /// Подписываемся на события кнопок при инициализации объекта.
-        /// </summary>
         private void Awake()
         {
             _restart.onClick.AddListener(() =>
@@ -43,9 +38,6 @@ namespace Codebase.Components.Ui.Pages.Game
             AddHoverSound(_exit);
         }
 
-        /// <summary>
-        /// Убираем подписки с событий кнопок при уничтожении объекта, чтобы избежать утечек памяти.
-        /// </summary>
         private void OnDestroy()
         {
             _restart.onClick.RemoveAllListeners();

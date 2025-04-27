@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Codebase.Components.Player;
+using Codebase.Services.Inputs;
+using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Codebase.Components.Ui
 {
@@ -9,6 +12,14 @@ namespace Codebase.Components.Ui
         [SerializeField] private Slider _progressSlider;
         [SerializeField] private PlayerCollisionHandler _collisionHandler;
         [SerializeField] private float _progressPerCoin = 0.1f;
+
+        [Inject]
+        private void Construct(DesktopInput desktopInput)
+        {
+            _playerInput = desktopInput;
+        }
+
+        private IInput _playerInput;
 
         private float _currentProgress = 0f;
         private bool _skillReady = false;
@@ -28,7 +39,7 @@ namespace Codebase.Components.Ui
 
         private void Update()
         {
-            if (_skillReady && Input.GetKeyDown(KeyCode.E))
+            if (_skillReady && _playerInput.Action && _collisionHandler.IsAlive == false)
             {
                 ActivateSkill();
             }

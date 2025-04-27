@@ -23,6 +23,7 @@ namespace Codebase.Components.Player
         //public event Action OnSkillActive;
 
         private bool isAlive = false;
+        public bool IsAlive { get { return isAlive; } }
         private bool IsSkill = false;
         private bool canJump = true;
         private float jumpCooldown = 1f;
