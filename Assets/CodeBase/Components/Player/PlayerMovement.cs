@@ -20,12 +20,13 @@ namespace Codebase.Components.Player
         [SerializeField] private float _maxXPosition = 2f;
         [SerializeField] private float _minXPosition = -2f;
         [SerializeField] private float _moveSpeed = 5f;
-
+        [SerializeField] private float _distanceOveraging = 2f; //дистанция на которую игрок перестраивается, добавил так как игрался с шириной дороги
+        private float _currentXPosition = 0f;
+        private float _targetXPosition = 0f;
         private IInput _playerInput;
         private Rigidbody _rigidbody;
 
-        private float _targetXPosition;
-        private float _currentXPosition;
+       
         private bool _isMoving = false;
 
         private void Awake()
@@ -43,7 +44,7 @@ namespace Codebase.Components.Player
 
             if (_playerInput.Left && _currentXPosition > _minXPosition)
             {
-                _targetXPosition = Mathf.Max(_currentXPosition - 2f, _minXPosition);
+                _targetXPosition = Mathf.Max(_currentXPosition - _distanceOveraging, _minXPosition);
                 _isMoving = true;
                 OnMovingLeft?.Invoke();
                 Debug.Log("Нажата клавиша влево");
@@ -51,7 +52,7 @@ namespace Codebase.Components.Player
 
             if (_playerInput.Right && _currentXPosition < _maxXPosition)
             {
-                _targetXPosition = Mathf.Min(_currentXPosition + 2f, _maxXPosition);
+                _targetXPosition = Mathf.Min(_currentXPosition + _distanceOveraging, _maxXPosition);
                 _isMoving = true;
                 OnMovingRight?.Invoke();
                 Debug.Log("Нажата клавиша вправо");

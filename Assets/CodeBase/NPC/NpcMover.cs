@@ -4,9 +4,18 @@ namespace Codebase.NPC
 {
     public class NpcMover : MonoBehaviour
     {
-        [SerializeField] private float moveDuration = 1.2f;
+        // добавил выбор куда двигается машина, для более осмысленного левелдизайна
+        public enum MoveDirection
+        {
+            Right,
+            Left,
+            Stay
+        }
 
-        private readonly float[] _positionsX = { -4f, -2f, 0f, 2f, 4f };
+        [SerializeField] private float moveDuration = 1.2f;
+        [SerializeField] private MoveDirection direction = MoveDirection.Stay;
+
+        private readonly float[] _positionsX = { -6f, -3f, 0f, 3f, 6f };
 
         private Vector3 _startPosition;
         private Vector3 _targetLocalPosition;
@@ -39,18 +48,30 @@ namespace Codebase.NPC
             int currentIndex = System.Array.IndexOf(_positionsX, currentX);
             if (currentIndex == -1) return;
 
-            var adjacentOptions = new System.Collections.Generic.List<float>();
-            if (currentIndex > 0) adjacentOptions.Add(_positionsX[currentIndex - 1]);
-            if (currentIndex < _positionsX.Length - 1) adjacentOptions.Add(_positionsX[currentIndex + 1]);
+            float? nextX = null;
 
-            if (adjacentOptions.Count == 0) return;
+            switch (direction)
+            {
+                case MoveDirection.Right:
+                    if (currentIndex < _positionsX.Length - 1)
+                        nextX = _positionsX[currentIndex + 1];
+                    break;
 
-            float nextX = adjacentOptions[Random.Range(0, adjacentOptions.Count)];
+                case MoveDirection.Left:
+                    if (currentIndex > 0)
+                        nextX = _positionsX[currentIndex - 1];
+                    break;
+
+                case MoveDirection.Stay:
+                    return; 
+            }
+
+            if (nextX == null) return; // Нет доступной позиции в выбранном направлении
+
             _startPosition = transform.localPosition;
-            _targetLocalPosition = new Vector3(nextX, _startPosition.y, _startPosition.z);
+            _targetLocalPosition = new Vector3(nextX.Value, _startPosition.y, _startPosition.z);
             _moveTimer = 0f;
             _isMoving = true;
-
         }
     }
 }
