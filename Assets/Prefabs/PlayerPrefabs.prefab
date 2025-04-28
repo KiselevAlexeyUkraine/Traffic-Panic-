@@ -797,8 +797,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3503452356570396789}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1675435, y: -0.000000018158492, z: 0.0000000030859582, w: 0.9858647}
-  m_LocalPosition: {x: 0, y: 3.5, z: -10}
+  m_LocalRotation: {x: 0.2098553, y: 0.00000003238011, z: -0.0000000069498944, w: 0.9777325}
+  m_LocalPosition: {x: 0, y: 4.57, z: -3.8600001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6399,6 +6399,7 @@ MonoBehaviour:
   _maxXPosition: 4
   _minXPosition: -4
   _moveSpeed: 15
+  _distanceOveraging: 2
 --- !u!114 &8635362920701190219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6451,6 +6452,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetJumpHeight: 5
+  flyHeight: 3
+  flyDuration: 1
 --- !u!65 &8419287216442439841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6509,6 +6512,9 @@ MonoBehaviour:
   boostScale: 2
   brakeScale: 0.5
   effectDuration: 2
+  cameraAnimator: {fileID: 0}
+  cameraShaker: {fileID: 0}
+  shakeInterval: 0.5
 --- !u!81 &5990403165139947586
 AudioListener:
   m_ObjectHideFlags: 0

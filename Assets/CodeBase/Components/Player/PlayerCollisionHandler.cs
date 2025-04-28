@@ -57,6 +57,7 @@ namespace Codebase.Components.Player
 
         private void HandleEnemyCollision()
         {
+            LevelManager.l.HandlePlayerDeath();
             OnPlayerDeath?.Invoke();
         }
 

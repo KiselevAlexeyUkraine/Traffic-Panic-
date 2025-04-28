@@ -13,6 +13,7 @@ namespace Codebase.Components.Player
 
         private void Start()
         {
+           
             if (playerCollisionHandler != null)
                 playerCollisionHandler.OnActivateRandomObject += ActivateRandomObject;
         }
