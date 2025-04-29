@@ -1,20 +1,26 @@
-using UnityEngine; 
-using System; 
-using Cysharp.Threading.Tasks; 
-using Codebase.NPC; 
-using Codebase.Components.Ui; 
+using UnityEngine;
+using System;
+using Cysharp.Threading.Tasks;
+using Codebase.NPC;
+using Codebase.Components.Ui;
 using System.Threading;
+using Codebase.Services;
 
 namespace Codebase.Components.Player
 {
     public class PlayerCollisionHandler : MonoBehaviour
     {
-        [Header("Layers")][SerializeField] private LayerMask enemyLayer; [SerializeField] private LayerMask coinLayer; [SerializeField] private LayerMask jumpLayer; [SerializeField] private LayerMask stepTriggerLayer; [SerializeField] private LayerMask policeCarTriggerLayer; [SerializeField] private LayerMask armorTriggerLayer; [SerializeField] private LayerMask magnetTriggerLayer;
+        [Header("Layers")]
+        [SerializeField] private LayerMask enemyLayer;
+        [SerializeField] private LayerMask coinLayer;
+        [SerializeField] private LayerMask jumpLayer;
+        [SerializeField] private LayerMask stepTriggerLayer;
+        [SerializeField] private LayerMask policeCarTriggerLayer;
+        [SerializeField] private LayerMask armorTriggerLayer;
+        [SerializeField] private LayerMask magnetTriggerLayer;
 
         [Header("Settings")]
         [SerializeField] private float jumpCooldown = 1f;
-        [SerializeField] private float skillDuration = 4f;
-        [SerializeField] private float magnetDuration = 4f;
 
         [Header("References")]
         [SerializeField] private SkillProgressCoin skillProgressCoin;
@@ -37,9 +43,31 @@ namespace Codebase.Components.Player
         private float remainingSkillTime;
         private float remainingMagnetTime;
 
+                private float skillDuration;
+        private float magnetDuration;
+
         private CancellationTokenSource skillCts;
         private CancellationTokenSource magnetCts;
         private CancellationTokenSource jumpCooldownCts;
+
+        private void Awake()
+        {
+            if (SkillProgressService.Instance == null)
+            {
+                Debug.LogError("SkillProgressService not initialized");
+            }
+        }
+
+        private void Start()
+        {
+            RefreshDurations();
+        }
+
+        private void RefreshDurations()
+        {
+            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 2f);
+            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 4f);
+        }
 
         private void OnEnable()
         {
@@ -130,6 +158,7 @@ namespace Codebase.Components.Player
 
         private void ActivateSkill()
         {
+            RefreshDurations();
             remainingSkillTime += skillDuration;
 
             if (!isSkillActive)
@@ -163,6 +192,7 @@ namespace Codebase.Components.Player
 
         private void ActivateMagnet()
         {
+            RefreshDurations();
             remainingMagnetTime += magnetDuration;
 
             if (!isMagnetActive)
@@ -203,5 +233,4 @@ namespace Codebase.Components.Player
             canJump = true;
         }
     }
-
 }
