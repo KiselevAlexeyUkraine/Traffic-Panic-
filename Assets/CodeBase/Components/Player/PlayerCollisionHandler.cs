@@ -1,17 +1,32 @@
 using UnityEngine;
 using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using Codebase.NPC;
+using Codebase.Components.Ui;
+using System.Threading;
+using Codebase.Services;
 
 namespace Codebase.Components.Player
 {
     public class PlayerCollisionHandler : MonoBehaviour
     {
+        [Header("Layers")]
         [SerializeField] private LayerMask enemyLayer;
         [SerializeField] private LayerMask coinLayer;
         [SerializeField] private LayerMask jumpLayer;
         [SerializeField] private LayerMask stepTriggerLayer;
         [SerializeField] private LayerMask policeCarTriggerLayer;
+        [SerializeField] private LayerMask armorTriggerLayer;
+        [SerializeField] private LayerMask magnetTriggerLayer;
+
+        [Header("Settings")]
+        [SerializeField] private float jumpCooldown = 1f;
+
+        [Header("References")]
+        [SerializeField] private SkillProgressCoin skillProgressCoin;
+        [SerializeField] private GameObject particleSystemSkillsArmor;
+        [SerializeField] private GameObject particleSystemSkillsMagnute;
+        [SerializeField] private GameObject magnet;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
@@ -19,8 +34,53 @@ namespace Codebase.Components.Player
         public event Action OnActivateRandomObject;
 
         private bool isAlive = false;
+        public bool IsAlive => isAlive;
+
+        private bool isSkillActive = false;
+        private bool isMagnetActive = false;
         private bool canJump = true;
-        private float jumpCooldown = 1f;
+
+        private float remainingSkillTime;
+        private float remainingMagnetTime;
+
+                private float skillDuration;
+        private float magnetDuration;
+
+        private CancellationTokenSource skillCts;
+        private CancellationTokenSource magnetCts;
+        private CancellationTokenSource jumpCooldownCts;
+
+        private void Awake()
+        {
+            if (SkillProgressService.Instance == null)
+            {
+                Debug.LogError("SkillProgressService not initialized");
+            }
+        }
+
+        private void Start()
+        {
+            RefreshDurations();
+        }
+
+        private void RefreshDurations()
+        {
+            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 2f);
+            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 4f);
+        }
+
+        private void OnEnable()
+        {
+            skillProgressCoin.OnSkillActivated += ActivateSkill;
+        }
+
+        private void OnDisable()
+        {
+            skillProgressCoin.OnSkillActivated -= ActivateSkill;
+            skillCts?.Cancel();
+            magnetCts?.Cancel();
+            jumpCooldownCts?.Cancel();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -29,13 +89,12 @@ namespace Codebase.Components.Player
             if ((stepTriggerLayer.value & otherLayerMask) != 0)
             {
                 NpcMover npcMover = other.GetComponent<NpcMover>();
-                if (npcMover != null)
-                    npcMover.TriggerMove();
+                npcMover?.TriggerMove();
             }
 
             if (!isAlive)
             {
-                if ((enemyLayer.value & otherLayerMask) != 0)
+                if ((enemyLayer.value & otherLayerMask) != 0 && !isSkillActive)
                 {
                     HandleEnemyCollision();
                     isAlive = true;
@@ -51,6 +110,15 @@ namespace Codebase.Components.Player
                 else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
                 {
                     ActivateRandomObject();
+                }
+                else if ((armorTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    Destroy(other.gameObject);
+                    ActivateSkill();
+                }
+                else if ((magnetTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    HandleMagnetPickup(other.gameObject);
                 }
             }
         }
@@ -74,7 +142,9 @@ namespace Codebase.Components.Player
 
             Springboard();
             canJump = false;
-            StartCoroutine(JumpCooldownCoroutine());
+            jumpCooldownCts?.Cancel();
+            jumpCooldownCts = new CancellationTokenSource();
+            JumpCooldownAsync(jumpCooldownCts.Token).Forget();
         }
 
         private void Springboard()
@@ -87,9 +157,80 @@ namespace Codebase.Components.Player
             OnActivateRandomObject?.Invoke();
         }
 
-        private IEnumerator JumpCooldownCoroutine()
+        private void ActivateSkill()
         {
-            yield return new WaitForSeconds(jumpCooldown);
+            RefreshDurations();
+            remainingSkillTime += skillDuration;
+
+            if (!isSkillActive)
+            {
+                skillCts?.Cancel();
+                skillCts = new CancellationTokenSource();
+                SkillTimerAsync(skillCts.Token).Forget();
+            }
+        }
+
+        private async UniTaskVoid SkillTimerAsync(CancellationToken token)
+        {
+            isSkillActive = true;
+            particleSystemSkillsArmor.SetActive(true);
+
+            while (remainingSkillTime > 0f)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+                remainingSkillTime -= Time.deltaTime;
+            }
+
+            particleSystemSkillsArmor.SetActive(false);
+            isSkillActive = false;
+        }
+
+        private void HandleMagnetPickup(GameObject magnetPickup)
+        {
+            Destroy(magnetPickup);
+            ActivateMagnet();
+        }
+
+        private void ActivateMagnet()
+        {
+            RefreshDurations();
+            remainingMagnetTime += magnetDuration;
+
+            if (!isMagnetActive)
+            {
+                magnetCts?.Cancel();
+                magnetCts = new CancellationTokenSource();
+                MagnetTimerAsync(magnetCts.Token).Forget();
+            }
+        }
+
+        private async UniTaskVoid MagnetTimerAsync(CancellationToken token)
+        {
+            isMagnetActive = true;
+            particleSystemSkillsMagnute.SetActive(true);
+            magnet.SetActive(true);
+
+            while (remainingMagnetTime > 0f)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+                remainingMagnetTime -= Time.deltaTime;
+            }
+
+            particleSystemSkillsMagnute.SetActive(false);
+            magnet.SetActive(false);
+            isMagnetActive = false;
+        }
+
+        private async UniTaskVoid JumpCooldownAsync(CancellationToken token)
+        {
+            float cooldown = jumpCooldown;
+
+            while (cooldown > 0f)
+            {
+                await UniTask.Yield(PlayerLoopTiming.Update, token);
+                cooldown -= Time.deltaTime;
+            }
+
             canJump = true;
         }
     }

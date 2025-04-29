@@ -8,7 +8,14 @@ namespace Codebase.Components.Ui
     {
         [SerializeField] private TMP_Text _coinText;
 
+
+
         private void Start()
+        {
+            UpdateCoinsTotall();
+        }
+
+        public void UpdateCoinsTotall()
         {
             _coinText.text = "Coins: " + CoinStorage.GetCoins();
         }

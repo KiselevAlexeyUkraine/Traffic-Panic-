@@ -3,6 +3,7 @@ using Codebase.Services.Inputs;
 using Codebase.Components.Ui.Pages;
 using UnityEngine;
 using Zenject;
+using Codebase.Services.Time;
 
 namespace Codebase.Services
 {
@@ -10,6 +11,7 @@ namespace Codebase.Services
     {
         [SerializeField] private PageSwitcher _pageSwitcher;
         [SerializeField] private PlayerMovement playerMovement;
+        [SerializeField] private SpeedModifier speedModifier;
 
         public bool IsPaused { get; private set; }
 
@@ -41,6 +43,7 @@ namespace Codebase.Services
             UnityEngine.Time.timeScale = 0f;
             _cursorToggle.Enable();
             playerMovement.enabled = false;
+            speedModifier.enabled = false;
         }
 
         public void Play()
@@ -48,18 +51,19 @@ namespace Codebase.Services
             UnityEngine.Time.timeScale = 1f;
             _cursorToggle.Disable();
             playerMovement.enabled = true;
+            speedModifier.enabled = true;
         }
 
         public void SwitchState()
         {
             if (IsPaused)
             {
-                _pageSwitcher.Open(PageName.Stats);
+                _pageSwitcher.Open(PageName.Stats).Forget();
                 Play();
             }
             else
             {
-                _pageSwitcher.Open(PageName.Pause);
+                _pageSwitcher.Open(PageName.Pause).Forget();
                 Pause();
             }
 

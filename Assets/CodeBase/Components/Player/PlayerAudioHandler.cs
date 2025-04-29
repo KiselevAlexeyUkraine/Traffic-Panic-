@@ -13,6 +13,7 @@ namespace Codebase.Components.Player
         [Space(40)]
         [SerializeField] private PlayerMovement playerMovement;
         [SerializeField] private PlayerCollisionHandler playerCollisionHandler;
+        [SerializeField] private PlayerMagnetCollector playerMagnetCollector;
 
         private AudioSource _audioSource;
 
@@ -35,6 +36,7 @@ namespace Codebase.Components.Player
                 playerCollisionHandler.OnPlayerDeath += PlayDeathSound;
                 playerCollisionHandler.OnPlayerJump += PlayJumpSound;
             }
+            playerMagnetCollector.OnCoinCollected += PlayCoinCollectedSound;
         }
 
         private void OnDisable()
@@ -50,6 +52,7 @@ namespace Codebase.Components.Player
                 playerCollisionHandler.OnPlayerDeath -= PlayDeathSound;
                 playerCollisionHandler.OnPlayerJump -= PlayJumpSound;
             }
+            playerMagnetCollector.OnCoinCollected -= PlayCoinCollectedSound;
         }
 
         private void PlayMoveSound()

@@ -6,8 +6,6 @@ using System.Collections;
 using Codebase.Progress;
 using Codebase.Services.Time;
 using Codebase.Services;
-using UnityEngine.UIElements;
-using Codebase.Components.Ui;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,6 +17,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private SpeedModifier _speedModifier;
     [SerializeField] private PauseManager _pauseManager;
     public static LevelManager l;
+    [SerializeField] private PlayerMagnetCollector _playerMagnetCollector;
 
     [Inject]
     private void Construct(CursorToggle cursorToggle)
@@ -46,6 +45,7 @@ public class LevelManager : MonoBehaviour
         _speedModifier.enabled = false;
         _pauseManager.enabled = false;
         _progressTimer.enabled = false;
+
         StartCoroutine(EndLevelFailureWithDelay());
     }
 
@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Уровень завершён. Игрок погиб.");
         _cursorToggle.Enable();
         Time.timeScale = 0f;
-        _pageSwitcher.Open(PageName.Failed);
+        _pageSwitcher.Open(PageName.Failed).Forget();
     }
 
     private void EndLevelVictory()
@@ -71,6 +71,7 @@ public class LevelManager : MonoBehaviour
         _playerMovement.enabled = false;
         _speedModifier.enabled = false;
         _pauseManager.enabled = false;
-        _pageSwitcher.Open(PageName.Complete);
+        _playerMagnetCollector.enabled = false;
+        _pageSwitcher.Open(PageName.Complete).Forget();
     }
 }

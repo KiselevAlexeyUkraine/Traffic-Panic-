@@ -5,17 +5,17 @@ namespace Codebase.Components.Ui.Pages.Menu
 {
     public class StartPage : BasePage
     {
-        //private SceneService _sceneService;
+        private SceneService _sceneService;
 
-        //[Inject]
-        //private void Construct(SceneService sceneService)
-        //{
-        //    _sceneService = sceneService;
-        //}
-
-        private void Start()
+        [Inject]
+        private void Construct(SceneService sceneService)
         {
-            Opened += () => { SceneSwitcher.Instance.LoadScene(1); };
+            _sceneService = sceneService;
+        }
+
+        private void Awake()
+        {
+            Opened += () => { _sceneService.Load(); };
         }
     }
 }
