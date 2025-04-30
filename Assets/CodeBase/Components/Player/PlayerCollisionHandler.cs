@@ -1,9 +1,7 @@
 using UnityEngine;
 using System;
-using Cysharp.Threading.Tasks;
 using Codebase.NPC;
 using Codebase.Components.Ui;
-using System.Threading;
 using Codebase.Services;
 
 namespace Codebase.Components.Player
@@ -39,15 +37,12 @@ namespace Codebase.Components.Player
         private bool isMagnetActive = false;
         private bool canJump = true;
 
-        private float remainingSkillTime;
-        private float remainingMagnetTime;
+        private float skillTimeLeft;
+        private float magnetTimeLeft;
+        private float jumpCooldownLeft;
 
         private float skillDuration;
         private float magnetDuration;
-
-        private CancellationTokenSource skillCts;
-        private CancellationTokenSource magnetCts;
-        private CancellationTokenSource jumpCooldownCts;
 
         private void Awake()
         {
@@ -60,6 +55,42 @@ namespace Codebase.Components.Player
         private void Start()
         {
             Invoke(nameof(RefreshDurations), 0.1f);
+        }
+
+        private void Update()
+        {
+            if (isSkillActive)
+            {
+                skillTimeLeft -= Time.deltaTime;
+                if (skillTimeLeft <= 0f)
+                {
+                    skillTimeLeft = 0f;
+                    isSkillActive = false;
+                    particleSystemSkillsArmor.SetActive(false);
+                }
+            }
+
+            if (isMagnetActive)
+            {
+                magnetTimeLeft -= Time.deltaTime;
+                if (magnetTimeLeft <= 0f)
+                {
+                    magnetTimeLeft = 0f;
+                    isMagnetActive = false;
+                    particleSystemSkillsMagnute.SetActive(false);
+                    magnet.SetActive(false);
+                }
+            }
+
+            if (!canJump)
+            {
+                jumpCooldownLeft -= Time.deltaTime;
+                if (jumpCooldownLeft <= 0f)
+                {
+                    jumpCooldownLeft = 0f;
+                    canJump = true;
+                }
+            }
         }
 
         private void RefreshDurations()
@@ -146,9 +177,7 @@ namespace Codebase.Components.Player
 
             Springboard();
             canJump = false;
-            jumpCooldownCts?.Cancel();
-            jumpCooldownCts = new CancellationTokenSource();
-            JumpCooldownAsync(jumpCooldownCts.Token).Forget();
+            jumpCooldownLeft = jumpCooldown;
         }
 
         private void Springboard()
@@ -164,29 +193,13 @@ namespace Codebase.Components.Player
         public void ActivateSkill()
         {
             RefreshDurations();
-            remainingSkillTime += skillDuration;
+            skillTimeLeft += skillDuration;
 
             if (!isSkillActive)
             {
-                skillCts?.Cancel();
-                skillCts = new CancellationTokenSource();
-                SkillTimerAsync(skillCts.Token).Forget();
+                isSkillActive = true;
+                particleSystemSkillsArmor.SetActive(true);
             }
-        }
-
-        private async UniTaskVoid SkillTimerAsync(CancellationToken token)
-        {
-            isSkillActive = true;
-            particleSystemSkillsArmor.SetActive(true);
-
-            while (remainingSkillTime > 0f)
-            {
-                await UniTask.Yield(PlayerLoopTiming.Update, token);
-                remainingSkillTime -= Time.deltaTime;
-            }
-
-            particleSystemSkillsArmor.SetActive(false);
-            isSkillActive = false;
         }
 
         private void HandleMagnetPickup(GameObject magnetPickup)
@@ -198,44 +211,14 @@ namespace Codebase.Components.Player
         public void ActivateMagnet()
         {
             RefreshDurations();
-            remainingMagnetTime += magnetDuration;
+            magnetTimeLeft += magnetDuration;
 
             if (!isMagnetActive)
             {
-                magnetCts?.Cancel();
-                magnetCts = new CancellationTokenSource();
-                MagnetTimerAsync(magnetCts.Token).Forget();
+                isMagnetActive = true;
+                particleSystemSkillsMagnute.SetActive(true);
+                magnet.SetActive(true);
             }
-        }
-
-        private async UniTaskVoid MagnetTimerAsync(CancellationToken token)
-        {
-            isMagnetActive = true;
-            particleSystemSkillsMagnute.SetActive(true);
-            magnet.SetActive(true);
-
-            while (remainingMagnetTime > 0f)
-            {
-                await UniTask.Yield(PlayerLoopTiming.Update, token);
-                remainingMagnetTime -= Time.deltaTime;
-            }
-
-            particleSystemSkillsMagnute.SetActive(false);
-            magnet.SetActive(false);
-            isMagnetActive = false;
-        }
-
-        private async UniTaskVoid JumpCooldownAsync(CancellationToken token)
-        {
-            float cooldown = jumpCooldown;
-
-            while (cooldown > 0f)
-            {
-                await UniTask.Yield(PlayerLoopTiming.Update, token);
-                cooldown -= Time.deltaTime;
-            }
-
-            canJump = true;
         }
     }
 }
