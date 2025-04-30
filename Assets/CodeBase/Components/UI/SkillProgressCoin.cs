@@ -9,7 +9,7 @@ namespace Codebase.Components.Ui
 {
     public class SkillProgressCoin : MonoBehaviour
     {
-        [SerializeField] private Slider _progressSlider;
+        [SerializeField] private Image _progressImage;
         [SerializeField] private PlayerCollisionHandler _collisionHandler;
         [SerializeField] private PlayerMagnetCollector playerMagnetCollector;
         [SerializeField] private float _progressPerCoin = 0.1f;
@@ -55,7 +55,7 @@ namespace Codebase.Components.Ui
 
             _currentProgress += _progressPerCoin;
             _currentProgress = Mathf.Clamp01(_currentProgress);
-            UpdateSlider();
+            UpdateProgressImage();
 
             if (Mathf.Approximately(_currentProgress, 1f))
             {
@@ -63,11 +63,11 @@ namespace Codebase.Components.Ui
             }
         }
 
-        private void UpdateSlider()
+        private void UpdateProgressImage()
         {
-            if (_progressSlider != null)
+            if (_progressImage != null)
             {
-                _progressSlider.value = _currentProgress;
+                _progressImage.fillAmount = _currentProgress;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Codebase.Components.Ui
         {
             _currentProgress = 0f;
             _skillReady = false;
-            UpdateSlider();
+            UpdateProgressImage();
         }
     }
 }
