@@ -43,7 +43,7 @@ namespace Codebase.Components.Player
         private float remainingSkillTime;
         private float remainingMagnetTime;
 
-                private float skillDuration;
+        private float skillDuration;
         private float magnetDuration;
 
         private CancellationTokenSource skillCts;
@@ -60,13 +60,16 @@ namespace Codebase.Components.Player
 
         private void Start()
         {
-            RefreshDurations();
+            Invoke(nameof(RefreshDurations), 0.1f); // короткая задержка на чтение сохранений
         }
 
         private void RefreshDurations()
         {
             skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 2f);
             magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 4f);
+
+            Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
+            Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
         }
 
         private void OnEnable()

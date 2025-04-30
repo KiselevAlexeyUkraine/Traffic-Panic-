@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 namespace Codebase.Services
@@ -18,19 +19,40 @@ namespace Codebase.Services
             }
 
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+            LoadSkills();
         }
 
         public void SetSkillData(string skillKey, float duration)
         {
+            Debug.Log($"[SkillProgressService] Set {skillKey} duration to {duration}");
             skillDurations[skillKey] = duration;
+            PlayerPrefs.SetFloat(skillKey + "_Duration", duration);
+            PlayerPrefs.Save();
         }
 
         public float GetSkillDuration(string skillKey, float defaultValue)
         {
-            Debug.Log("Стринг ключ сохранения =  " + skillKey);
-            float result = skillDurations.TryGetValue(skillKey, out var value) ? value : defaultValue;
-            Debug.Log("Значение сохранения =  " + result);
-            return result;
+            if (skillDurations.TryGetValue(skillKey, out var value))
+            {
+                Debug.Log($"[SkillProgressService] Loaded cached {skillKey} duration = {value}");
+                return value;
+            }
+
+            float loaded = PlayerPrefs.GetFloat(skillKey + "_Duration", defaultValue);
+            skillDurations[skillKey] = loaded;
+            Debug.Log($"[SkillProgressService] Loaded saved {skillKey} duration = {loaded}");
+            return loaded;
+        }
+
+        private void LoadSkills()
+        {
+            foreach (var key in new[] { "Armor", "Magnet" })
+            {
+                float duration = PlayerPrefs.GetFloat(key + "_Duration", 0f);
+                skillDurations[key] = duration;
+                Debug.Log($"[SkillProgressService] Init {key} with duration {duration}");
+            }
         }
     }
 }

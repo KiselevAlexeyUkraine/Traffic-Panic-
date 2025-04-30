@@ -3,14 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Codebase.Storage;
 using Codebase.Services;
-using Codebase.Components.Ui;
-using UnityEditor.Experimental.GraphView;
 
 namespace Codebase.UI
 {
     public class SkillUpgradeUI : MonoBehaviour
     {
-        [System.Serializable]
         private enum SkillType { Armor, Magnet, Other }
 
         [System.Serializable]
@@ -42,14 +39,13 @@ namespace Codebase.UI
 
         [SerializeField] private SkillUpgrade[] skills;
 
-        [SerializeField] private UiMainMenuCoins uiMainMenuCoins;
-
         private void Start()
         {
             foreach (var skill in skills)
             {
                 int capturedIndex = System.Array.IndexOf(skills, skill);
                 skill.upgradeButton.onClick.AddListener(() => OnUpgradeSkill(capturedIndex));
+                ApplySkillUpgrade(skill);
                 UpdateUI(capturedIndex);
             }
         }
@@ -64,7 +60,7 @@ namespace Codebase.UI
                 CoinStorage.AddCoins(-skill.UpgradeCost);
                 skill.Level++;
                 skill.Save();
-                uiMainMenuCoins.UpdateCoinsTotall();
+
                 UpdateUI(index);
                 ApplySkillUpgrade(skill);
             }
