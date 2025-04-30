@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Codebase.Components.Player;
 using Codebase.Services.Inputs;
+using Codebase.Services;
 using Zenject;
 
 namespace Codebase.Components.Ui
@@ -24,8 +25,6 @@ namespace Codebase.Components.Ui
         private float _currentProgress = 0f;
         private bool _skillReady = false;
 
-        public event System.Action OnSkillActivated;
-
         private void Awake()
         {
             ResetProgress();
@@ -43,7 +42,9 @@ namespace Codebase.Components.Ui
         {
             if (_skillReady && _playerInput.Action && _collisionHandler.IsAlive == false)
             {
-                ActivateSkill();
+                var skillKey = SkillSelectorPersistent.Instance.SelectedSkill.ToString();
+                _collisionHandler.TriggerSkillByKey(skillKey);
+                ResetProgress();
             }
         }
 
@@ -68,12 +69,6 @@ namespace Codebase.Components.Ui
             {
                 _progressSlider.value = _currentProgress;
             }
-        }
-
-        private void ActivateSkill()
-        {
-            OnSkillActivated?.Invoke();
-            ResetProgress();
         }
 
         public void ResetProgress()

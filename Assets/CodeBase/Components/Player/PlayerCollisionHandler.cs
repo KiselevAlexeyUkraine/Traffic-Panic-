@@ -23,7 +23,6 @@ namespace Codebase.Components.Player
         [SerializeField] private float jumpCooldown = 1f;
 
         [Header("References")]
-        [SerializeField] private SkillProgressCoin skillProgressCoin;
         [SerializeField] private GameObject particleSystemSkillsArmor;
         [SerializeField] private GameObject particleSystemSkillsMagnute;
         [SerializeField] private GameObject magnet;
@@ -60,7 +59,7 @@ namespace Codebase.Components.Player
 
         private void Start()
         {
-            Invoke(nameof(RefreshDurations), 0.1f); // короткая задержка на чтение сохранений
+            Invoke(nameof(RefreshDurations), 0.1f);
         }
 
         private void RefreshDurations()
@@ -72,17 +71,20 @@ namespace Codebase.Components.Player
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
         }
 
-        private void OnEnable()
+        public void TriggerSkillByKey(string skillKey)
         {
-            skillProgressCoin.OnSkillActivated += ActivateSkill;
-        }
-
-        private void OnDisable()
-        {
-            skillProgressCoin.OnSkillActivated -= ActivateSkill;
-            skillCts?.Cancel();
-            magnetCts?.Cancel();
-            jumpCooldownCts?.Cancel();
+            switch (skillKey)
+            {
+                case "Armor":
+                    ActivateSkill();
+                    break;
+                case "Magnet":
+                    ActivateMagnet();
+                    break;
+                default:
+                    Debug.LogWarning("Unknown skill key: " + skillKey);
+                    break;
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -159,7 +161,7 @@ namespace Codebase.Components.Player
             OnActivateRandomObject?.Invoke();
         }
 
-        private void ActivateSkill()
+        public void ActivateSkill()
         {
             RefreshDurations();
             remainingSkillTime += skillDuration;
@@ -193,7 +195,7 @@ namespace Codebase.Components.Player
             ActivateMagnet();
         }
 
-        private void ActivateMagnet()
+        public void ActivateMagnet()
         {
             RefreshDurations();
             remainingMagnetTime += magnetDuration;

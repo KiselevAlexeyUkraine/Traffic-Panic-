@@ -1,0 +1,37 @@
+using UnityEngine;
+
+namespace Codebase.Services
+{
+    public class SkillSelectorPersistent : MonoBehaviour
+    {
+        public enum SkillType
+        {
+            None,
+            Armor,
+            Magnet,
+            Other
+        }
+
+        public static SkillSelectorPersistent Instance { get; private set; }
+
+        public SkillType SelectedSkill { get; private set; } = SkillType.None;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        public void SelectSkill(SkillType skill)
+        {
+            SelectedSkill = skill;
+            Debug.Log("[SkillSelector] Selected: " + skill);
+        }
+    }
+}
