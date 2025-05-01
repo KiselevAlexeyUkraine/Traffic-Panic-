@@ -1242,6 +1242,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoliceCarTrigger (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7647334388512570629, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
+      propertyPath: selectedLane
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1642,7 +1646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 33.341328
+      value: 58.9
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2366,6 +2370,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyDinamic_1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4511800614123712452, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2564,6 +2572,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyDinamic_1 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4511800614123712452, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2592,7 +2604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.918745
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4082,7 +4094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.038582
+      value: -5.2
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalRotation.w

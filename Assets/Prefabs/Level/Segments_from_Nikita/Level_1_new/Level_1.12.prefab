@@ -1441,13 +1441,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4519247769490307167, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 445039831042619252}
   m_SourcePrefab: {fileID: 100100000, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
 --- !u!4 &1226236030890114507 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1926696424236271497, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
   m_PrefabInstance: {fileID: 844837370529528386}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3823240505598214685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4519247769490307167, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
+  m_PrefabInstance: {fileID: 844837370529528386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &445039831042619252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3823240505598214685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6b975a0a9db2642a4a906b9de29bfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedLane: 3
 --- !u!1001 &1235706901121904993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1751,6 +1772,10 @@ PrefabInstance:
     - target: {fileID: 4511800614123712452, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_Name
       value: EnemyDinamic_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511800614123712452, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2437,6 +2462,10 @@ PrefabInstance:
     - target: {fileID: 4511800614123712452, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_Name
       value: EnemyDinamic_1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511800614123712452, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3634,7 +3663,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3642,7 +3671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 39.7
+      value: 40.5
       objectReference: {fileID: 0}
     - target: {fileID: 1916199275026960402, guid: c17b7eda276e87842bf20b1cd0ce35f2, type: 3}
       propertyPath: m_LocalRotation.w

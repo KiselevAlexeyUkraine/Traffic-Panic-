@@ -1,5 +1,4 @@
 using UnityEngine;
-using Unity.Cinemachine;
 using Codebase.Services.Inputs;
 using Zenject;
 using Codebase.Components.Player;
@@ -11,18 +10,23 @@ namespace Codebase.Services.Time
         [SerializeField] private float boostScale = 2f;
         [SerializeField] private float brakeScale = 0.5f;
         [SerializeField] private float effectDuration = 2f;
-        [SerializeField] private Animator cameraAnimator; // Ссылка на Animator камеры
-        [SerializeField] private CameraShaker cameraShaker; // Ссылка на CameraShaker
-        [SerializeField] private float shakeInterval = 0.5f; // Интервал между трясками
-        [SerializeField] private float abilityUnlockDelay = 10f; // Delay before abilities are unlocked
+        [SerializeField] private float returnDuration = 1f; // Длительность возврата к нормальной скорости
+        [SerializeField] private Animator cameraAnimator;
+        [SerializeField] private CameraShaker cameraShaker;
+        [SerializeField] private float shakeInterval = 0.5f;
+        [SerializeField] private float abilityUnlockDelay = 10f;
 
         private IInput _playerInput;
         private float _timer;
         private bool _effectActive;
-        private bool _isBoosting; // Флаг для отслеживания состояния ускорения
-        private float _shakeTimer; // Таймер для интервала тряски
-        private float _startTimer; // Timer for tracking time since game start
-        private bool _abilitiesUnlocked; // Flag to check if abilities are unlocked
+        private bool _isBoosting;
+        private float _shakeTimer;
+        private float _startTimer;
+        private bool _abilitiesUnlocked;
+        private bool _isReturning; // Флаг для состояния возврата
+        private float _returnTimer; // Таймер для возврата
+        private float _targetTimeScale; // Целевая скорость времени для интерполяции
+        private float _startTimeScale; // Начальная скорость времени для интерполяции
 
         [Inject]
         private void Construct(DesktopInput desktopInput)
@@ -32,7 +36,7 @@ namespace Codebase.Services.Time
 
         private void Update()
         {
-            // Update start timer until abilities are unlocked
+            // Обновляем таймер разблокировки способностей
             if (!_abilitiesUnlocked)
             {
                 _startTimer += UnityEngine.Time.unscaledDeltaTime;
@@ -43,53 +47,63 @@ namespace Codebase.Services.Time
                 }
             }
 
-            // Process inputs only if abilities are unlocked
+            // Обрабатываем ввод, если способности разблокированы
             if (_abilitiesUnlocked)
             {
-                // Проверяем, нажата ли кнопка ускорения
                 if (_playerInput.Boost)
                 {
-                    // Если ускорение активно, сбрасываем таймер, чтобы эффект продолжался
                     if (!_effectActive || UnityEngine.Time.timeScale != boostScale)
                     {
                         StartTimeEffect(boostScale);
-                        if (cameraShaker != null) _shakeTimer = 0f; // Сбрасываем таймер тряски при старте
+                        if (cameraShaker != null) _shakeTimer = 0f;
                     }
                     else
                     {
-                        _timer = effectDuration; // Сбрасываем таймер при каждом нажатии
+                        _timer = effectDuration;
                     }
                     _isBoosting = true;
+                    _isReturning = false; // Отключаем возврат при активном ускорении
+                    if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
 
-                    if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true); // Активируем анимацию опускания
-
-                    // Обрабатываем тряску камеры с интервалом
                     _shakeTimer -= UnityEngine.Time.unscaledDeltaTime;
                     if (_shakeTimer <= 0f)
                     {
-                        if (cameraShaker != null) cameraShaker.Shake(); // Вызываем тряску
-                        _shakeTimer = shakeInterval; // Сбрасываем таймер тряски
+                        if (cameraShaker != null) cameraShaker.Shake();
+                        _shakeTimer = shakeInterval;
                     }
                 }
-                // Проверяем, нажата ли кнопка торможения
                 else if (_playerInput.Drag)
                 {
                     StartTimeEffect(brakeScale);
                     _isBoosting = false;
-                    if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false); // Возвращаем камеру в исходное состояние
+                    _isReturning = false; // Отключаем возврат при активном замедлении
+                    if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
                 }
             }
 
-            // Обновляем таймер, если эффект активен
+            // Обновляем таймер эффекта
             if (_effectActive)
             {
                 _timer -= UnityEngine.Time.unscaledDeltaTime;
                 if (_timer <= 0f)
                 {
-                    UnityEngine.Time.timeScale = 1f; // Возвращаем нормальную скорость
+                    StartReturnToNormalSpeed();
+                }
+            }
+
+            // Обрабатываем плавный возврат к нормальной скорости
+            if (_isReturning)
+            {
+                _returnTimer += UnityEngine.Time.unscaledDeltaTime;
+                float t = _returnTimer / returnDuration;
+                UnityEngine.Time.timeScale = Mathf.Lerp(_startTimeScale, 1f, t);
+
+                if (_returnTimer >= returnDuration)
+                {
+                    UnityEngine.Time.timeScale = 1f;
+                    _isReturning = false;
                     _effectActive = false;
 
-                    // Если игрок больше не нажимает ускорение, возвращаем камеру
                     if (!_playerInput.Boost)
                     {
                         _isBoosting = false;
@@ -98,8 +112,8 @@ namespace Codebase.Services.Time
                 }
             }
 
-            // Если эффект не активен и игрок не нажимает ускорение, сбрасываем состояние камеры
-            if (!_effectActive && !_playerInput.Boost)
+            // Сбрасываем состояние камеры, если эффект не активен и нет ускорения
+            if (!_effectActive && !_isReturning && !_playerInput.Boost)
             {
                 _isBoosting = false;
                 if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
@@ -111,9 +125,17 @@ namespace Codebase.Services.Time
             UnityEngine.Time.timeScale = scale;
             _timer = effectDuration;
             _effectActive = true;
+            _isReturning = false; // Отключаем возврат при старте нового эффекта
         }
 
-        // Публичный метод для вызова ускорения из других скриптов
+        private void StartReturnToNormalSpeed()
+        {
+            _startTimeScale = UnityEngine.Time.timeScale;
+            _returnTimer = 0f;
+            _isReturning = true;
+            _effectActive = false;
+        }
+
         public void TriggerBoost(float scale)
         {
             if (!_abilitiesUnlocked)
@@ -125,13 +147,14 @@ namespace Codebase.Services.Time
             if (!_effectActive || UnityEngine.Time.timeScale != scale)
             {
                 StartTimeEffect(scale);
-                _shakeTimer = 0f; // Сбрасываем таймер тряски
+                _shakeTimer = 0f;
             }
             else
             {
-                _timer = effectDuration; // Продлеваем эффект
+                _timer = effectDuration;
             }
             _isBoosting = true;
+            _isReturning = false;
             if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
         }
     }

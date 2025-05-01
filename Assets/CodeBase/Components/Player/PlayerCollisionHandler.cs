@@ -27,11 +27,11 @@ namespace Codebase.Components.Player
         [SerializeField] private GameObject particleSystemSkillsArmor;
         [SerializeField] private GameObject particleSystemSkillsMagnute;
         [SerializeField] private GameObject magnet;
+        [SerializeField] private RandomActivator randomActivator;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
-        public event Action OnActivateRandomObject;
 
         private bool isAlive = false;
         public bool IsAlive => isAlive;
@@ -42,8 +42,7 @@ namespace Codebase.Components.Player
 
         private float remainingSkillTime;
         private float remainingMagnetTime;
-
-                private float skillDuration;
+        private float skillDuration;
         private float magnetDuration;
 
         private CancellationTokenSource skillCts;
@@ -57,7 +56,14 @@ namespace Codebase.Components.Player
                 Debug.LogError("SkillProgressService not initialized");
             }
         }
-
+        public enum Lane
+        {
+            Lane1, // x = -6
+            Lane2, // x = -4
+            Lane3, // x = 0
+            Lane4, // x = 4
+            Lane5  // x = 6
+        }
         private void Start()
         {
             RefreshDurations();
@@ -91,6 +97,18 @@ namespace Codebase.Components.Player
                 NpcMover npcMover = other.GetComponent<NpcMover>();
                 npcMover?.TriggerMove();
             }
+            else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
+            {
+                LaneTrigger laneTrigger = other.GetComponent<LaneTrigger>();
+                if (randomActivator != null)
+                {
+                    randomActivator.ActivateOnLane(laneTrigger.SelectedLane);
+                }
+                else
+                {
+                    Debug.LogWarning("LaneTrigger or RandomActivator is missing on police car trigger.");
+                }
+            }
 
             if (!isAlive)
             {
@@ -106,10 +124,6 @@ namespace Codebase.Components.Player
                 else if ((jumpLayer.value & otherLayerMask) != 0)
                 {
                     TrySpringboard();
-                }
-                else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
-                {
-                    ActivateRandomObject();
                 }
                 else if ((armorTriggerLayer.value & otherLayerMask) != 0)
                 {
@@ -150,11 +164,6 @@ namespace Codebase.Components.Player
         private void Springboard()
         {
             OnPlayerJump?.Invoke();
-        }
-
-        private void ActivateRandomObject()
-        {
-            OnActivateRandomObject?.Invoke();
         }
 
         private void ActivateSkill()

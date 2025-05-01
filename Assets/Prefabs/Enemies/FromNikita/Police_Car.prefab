@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1916199275026960402}
+  - component: {fileID: -2451339098530715791}
   m_Layer: 10
   m_Name: Police_Car
   m_TagString: Untagged
@@ -33,6 +34,21 @@ Transform:
   - {fileID: 1090349200559695417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2451339098530715791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4511800614123712452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b58023e59d5dd246ac26f304a2f05af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 20
+  startZ: -40
+  endZ: 50
 --- !u!1 &7416592073650035097
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4be23f327a1db7b4f9fd8051702776ba, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4be23f327a1db7b4f9fd8051702776ba, type: 3}
       propertyPath: m_LocalRotation.x
@@ -175,11 +191,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4be23f327a1db7b4f9fd8051702776ba, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4be23f327a1db7b4f9fd8051702776ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4be23f327a1db7b4f9fd8051702776ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
