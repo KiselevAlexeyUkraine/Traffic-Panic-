@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b58023e59d5dd246ac26f304a2f05af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  startZ: -40
+  speed: 15
+  startZ: -45
   endZ: 50
 --- !u!1 &7416592073650035097
 GameObject:

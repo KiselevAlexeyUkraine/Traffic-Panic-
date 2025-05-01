@@ -50,17 +50,10 @@ namespace Codebase.Components.Player
         private float skillDuration;
         private float remainingSkillTime;
         private float remainingMagnetTime;
-        private float skillDuration;
+        //private float skillDuration;
         private float magnetDuration;
         private float nitroDuration;
 
-        private void Awake()
-        {
-            if (SkillProgressService.Instance == null)
-            {
-                Debug.LogError("SkillProgressService not initialized");
-            }
-        }
         public enum Lane
         {
             Lane1, // x = -6
@@ -71,6 +64,10 @@ namespace Codebase.Components.Player
         }
         private void Start()
         {
+            if (SkillProgressService.Instance == null)
+            {
+                Debug.LogError("SkillProgressService not initialized");
+            }
             Invoke(nameof(RefreshDurations), 0.1f);
         }
 
@@ -126,9 +123,9 @@ namespace Codebase.Components.Player
 
         private void RefreshDurations()
         {
-            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 2f);
-            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 4f);
-            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 3f);
+            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
+            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
+            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 8f);
 
             Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
@@ -251,10 +248,11 @@ namespace Codebase.Components.Player
 
         private void ActivateRandomObject()
         {
-            OnActivateRandomObject?.Invoke();
+           // OnActivateRandomObject?.Invoke();
         }
 
-        public void ActivateSkill()
+       // public void ActivateSkill()
+        private void ActivateSkill()
         {
             RefreshDurations();
             skillTimeLeft = skillDuration;
@@ -296,7 +294,7 @@ namespace Codebase.Components.Player
             {
                 isNitroActive = true;
                 particleSystemSkillsNitro.SetActive(true);
-                Time.timeScale = 3f;
+                Time.timeScale = 2.5f;
             }
         }
     }

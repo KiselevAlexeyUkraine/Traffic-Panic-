@@ -148,6 +148,7 @@ MonoBehaviour:
   deathClip: {fileID: 8300000, guid: ab01e033b9c4ca2459bdf1e6ed62535a, type: 3}
   playerMovement: {fileID: 4381639654407843709}
   playerCollisionHandler: {fileID: 8635362920701190219}
+  playerMagnetCollector: {fileID: 0}
 --- !u!1 &258599574117937805
 GameObject:
   m_ObjectHideFlags: 0
@@ -5667,7 +5668,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6399,7 +6400,10 @@ MonoBehaviour:
   _maxXPosition: 4
   _minXPosition: -4
   _moveSpeed: 15
+  _smoothness: 0.1
   _distanceOveraging: 2
+  _snapSpeedMultiplier: 2
+  _snapDistanceThreshold: 0.5
 --- !u!114 &8635362920701190219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6427,6 +6431,21 @@ MonoBehaviour:
   policeCarTriggerLayer:
     serializedVersion: 2
     m_Bits: 512
+  armorTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  magnetTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  nitroTriggerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  jumpCooldown: 1
+  particleSystemSkillsArmor: {fileID: 0}
+  particleSystemSkillsMagnute: {fileID: 0}
+  particleSystemSkillsNitro: {fileID: 0}
+  magnet: {fileID: 0}
+  randomActivator: {fileID: 0}
 --- !u!114 &5426495391346480029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6451,9 +6470,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc01c2027b9c274f96ff5ede9d480f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetJumpHeight: 5
   flyHeight: 3
   flyDuration: 1
+  jumpDuration: 1
 --- !u!65 &8419287216442439841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6512,9 +6531,11 @@ MonoBehaviour:
   boostScale: 2
   brakeScale: 0.5
   effectDuration: 2
+  returnDuration: 1
   cameraAnimator: {fileID: 0}
   cameraShaker: {fileID: 0}
   shakeInterval: 0.5
+  abilityUnlockDelay: 10
 --- !u!81 &5990403165139947586
 AudioListener:
   m_ObjectHideFlags: 0

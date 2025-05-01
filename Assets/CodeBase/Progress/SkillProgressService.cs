@@ -11,6 +11,7 @@ namespace Codebase.Services
 
         private void Awake()
         {
+            Instance = this;
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);

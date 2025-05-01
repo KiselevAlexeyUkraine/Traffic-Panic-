@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coinText: {fileID: 3758771315296242607}
   _collisionHandler: {fileID: 0}
+  _magnetCollector: {fileID: 0}
 --- !u!1 &8325606786845752560
 GameObject:
   m_ObjectHideFlags: 0
