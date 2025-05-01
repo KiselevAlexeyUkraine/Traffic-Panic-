@@ -8,8 +8,6 @@ namespace Codebase.Components.Ui
     {
         [SerializeField] private TMP_Text _coinText;
 
-
-
         private void Start()
         {
             UpdateCoinsTotall();
