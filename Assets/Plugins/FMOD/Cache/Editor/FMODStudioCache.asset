@@ -1,5 +1,140 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8096254626558998785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: 
+  Path: ../../24-team/1 project/FMOD/Traffic_Panic/Build/Desktop/UI.bank
+  Name: UI
+  StudioPath: bank:/UI
+  lastModified: 638817170963205701
+  FileSizes:
+  - Name: Desktop
+    Value: 11136
+  Exists: 1
+--- !u!114 &-7037177591872727058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/New Folder/music_main_menu
+  m_EditorClassIdentifier: 
+  Path: event:/New Folder/music_main_menu
+  Guid:
+    Data1: 509217233
+    Data2: 1211274442
+    Data3: 546151341
+    Data4: 517337225
+  Banks:
+  - {fileID: -500824144504810357}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 30334
+--- !u!114 &-1085860367200133331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/music_level_1/master_volume
+  m_EditorClassIdentifier: 
+  Name: master_volume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2717002784
+    data2: 3150085961
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &-788807883351682669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/music_level_1/music_volume
+  m_EditorClassIdentifier: 
+  Name: music_volume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1376771627
+    data2: 211315130
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &-500824144504810357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: 
+  Path: ../../24-team/1 project/FMOD/Traffic_Panic/Build/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 638817170983931768
+  FileSizes:
+  - Name: Desktop
+    Value: 1932032
+  Exists: 1
+--- !u!114 &-149451198709125496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: ../../24-team/1 project/FMOD/Traffic_Panic/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638817170983690716
+  FileSizes:
+  - Name: Desktop
+    Value: 1190
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,10 +147,265 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  EditorBanks: []
-  EditorEvents: []
-  EditorParameters: []
-  MasterBanks: []
-  StringsBanks: []
-  cacheTime: 0
+  EditorBanks:
+  - {fileID: -149451198709125496}
+  - {fileID: 3470130550512137340}
+  - {fileID: 3503086607764365578}
+  - {fileID: -500824144504810357}
+  - {fileID: 2464619093452857920}
+  - {fileID: -8096254626558998785}
+  EditorEvents:
+  - {fileID: 4639802318521813731}
+  - {fileID: -7037177591872727058}
+  - {fileID: 6461170510324868815}
+  - {fileID: 5561423391141711439}
+  EditorParameters:
+  - {fileID: 1677451553283573673}
+  - {fileID: 3760746476782094602}
+  - {fileID: 2265751695919141207}
+  MasterBanks:
+  - {fileID: 3503086607764365578}
+  StringsBanks:
+  - {fileID: -149451198709125496}
+  cacheTime: 638817170983931768
   cacheVersion: 131624
+--- !u!114 &1677451553283573673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/sfx_volume
+  m_EditorClassIdentifier: 
+  Name: sfx_volume
+  StudioPath: parameter:/sfx_volume
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 262639420
+    data2: 4054989533
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &2265751695919141207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/music_volume
+  m_EditorClassIdentifier: 
+  Name: music_volume
+  StudioPath: parameter:/music_volume
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1376771627
+    data2: 211315130
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &2464619093452857920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/music_mainmenu.bank
+  m_EditorClassIdentifier: 
+  Path: ../../24-team/1 project/FMOD/Traffic_Panic/Build/Desktop/music_mainmenu.bank
+  Name: music_mainmenu
+  StudioPath: 
+  lastModified: 638813893926554570
+  FileSizes:
+  - Name: Desktop
+    Value: 381952
+  Exists: 1
+--- !u!114 &3470130550512137340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Level_1.bank
+  m_EditorClassIdentifier: 
+  Path: ../../24-team/1 project/FMOD/Traffic_Panic/Build/Desktop/Level_1.bank
+  Name: Level_1
+  StudioPath: 
+  lastModified: 638813856124015526
+  FileSizes:
+  - Name: Desktop
+    Value: 1549792
+  Exists: 1
+--- !u!114 &3503086607764365578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../24-team/1 project/FMOD/Traffic_Panic/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638817170983680712
+  FileSizes:
+  - Name: Desktop
+    Value: 1552
+  Exists: 1
+--- !u!114 &3760746476782094602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/master_volume
+  m_EditorClassIdentifier: 
+  Name: master_volume
+  StudioPath: parameter:/master_volume
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2717002784
+    data2: 3150085961
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &4639802318521813731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/music_level_1
+  m_EditorClassIdentifier: 
+  Path: event:/music_level_1
+  Guid:
+    Data1: 1550277821
+    Data2: 1174412433
+    Data3: -2025592949
+    Data4: -1197148763
+  Banks:
+  - {fileID: -500824144504810357}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -1085860367200133331}
+  - {fileID: 5890147473304507571}
+  - {fileID: -788807883351682669}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 76000
+--- !u!114 &5561423391141711439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/New Folder/ui_buttonhover
+  m_EditorClassIdentifier: 
+  Path: event:/New Folder/ui_buttonhover
+  Guid:
+    Data1: 1804207549
+    Data2: 1224663981
+    Data3: 1988326062
+    Data4: 1721583181
+  Banks:
+  - {fileID: -8096254626558998785}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 60
+--- !u!114 &5890147473304507571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/music_level_1/sfx_volume
+  m_EditorClassIdentifier: 
+  Name: sfx_volume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 262639420
+    data2: 4054989533
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &6461170510324868815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/New Folder/ui_buttonclick
+  m_EditorClassIdentifier: 
+  Path: event:/New Folder/ui_buttonclick
+  Guid:
+    Data1: -2011047932
+    Data2: 1261751041
+    Data3: 737516991
+    Data4: -1479378901
+  Banks:
+  - {fileID: -8096254626558998785}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
