@@ -9,11 +9,7 @@ namespace Codebase.Services
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _buttonClick;
-        [SerializeField] private AudioClip _buttonHover;
         [SerializeField] private AudioClip _pauseClick;
-        [SerializeField] private AudioClip _mainMenu;
-        [SerializeField] private AudioClip _buttonPauseClick;
-
 
         private const string MasterVolumeKey = "MasterVolume";
         private const string SoundsVolumeKey = "SoundsVolume";
@@ -32,24 +28,17 @@ namespace Codebase.Services
 
         public void PlayHoverSound()
         {
-            if (_audioSource != null && _buttonHover!= null)
+            if (_audioSource != null && _buttonClick != null)
             {
-                _audioSource.PlayOneShot(_buttonHover);
+                _audioSource.PlayOneShot(_buttonClick);
             }
         }
 
         public void PlayClickSound()
         {
-            if (_audioSource != null && _buttonClick!= null)
+            if (_audioSource != null && _pauseClick != null)
             {
-                _audioSource.PlayOneShot(_buttonClick);
-            }
-        }
-        public void PlayPauseClickSound()
-        {
-            if (_audioSource != null && _buttonPauseClick != null)
-            {
-                _audioSource.PlayOneShot(_buttonPauseClick);
+                _audioSource.PlayOneShot(_pauseClick);
             }
         }
 
