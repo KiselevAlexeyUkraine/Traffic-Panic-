@@ -1,11 +1,13 @@
 using Codebase.Services;
 using Zenject;
+using UnityEngine;
 
 namespace Codebase.Components.Ui.Pages.Menu
 {
     public class StartPage : BasePage
     {
         private SceneService _sceneService;
+        private const string SelectedLevelKey = "SelectedLevelIndex";
 
         [Inject]
         private void Construct(SceneService sceneService)
@@ -15,7 +17,12 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-            Opened += () => { _sceneService.Load(); };
+            Opened += () =>
+            {
+                int selectedScene = PlayerPrefs.GetInt(SelectedLevelKey, 2);
+                _sceneService.SceneToLoad = selectedScene;
+                _sceneService.Load();
+            };
         }
     }
 }

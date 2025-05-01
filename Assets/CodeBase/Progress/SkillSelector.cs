@@ -8,13 +8,13 @@ namespace Codebase.UI
     {
         [SerializeField] private Button armorButton;
         [SerializeField] private Button magnetButton;
-        [SerializeField] private Button otherButton;
+        [SerializeField] private Button nitroButton;
 
         private void Awake()
         {
             armorButton.onClick.AddListener(() => SelectSkill(SkillSelectorPersistent.SkillType.Armor));
             magnetButton.onClick.AddListener(() => SelectSkill(SkillSelectorPersistent.SkillType.Magnet));
-            otherButton.onClick.AddListener(() => SelectSkill(SkillSelectorPersistent.SkillType.Other));
+            nitroButton.onClick.AddListener(() => SelectSkill(SkillSelectorPersistent.SkillType.Nitro));
         }
 
         private void Start()
@@ -34,7 +34,7 @@ namespace Codebase.UI
 
             armorButton.interactable = selected != SkillSelectorPersistent.SkillType.Armor;
             magnetButton.interactable = selected != SkillSelectorPersistent.SkillType.Magnet;
-            otherButton.interactable = selected != SkillSelectorPersistent.SkillType.Other;
+            nitroButton.interactable = selected != SkillSelectorPersistent.SkillType.Nitro;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Codebase.Services
             None,
             Armor,
             Magnet,
-            Other
+            Nitro
         }
 
         public static SkillSelectorPersistent Instance { get; private set; }
