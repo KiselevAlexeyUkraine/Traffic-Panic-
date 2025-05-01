@@ -462,7 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armorButton: {fileID: 2069442892598060248}
   magnetButton: {fileID: 1768132828821451642}
-  otherButton: {fileID: 6424117075509507728}
+  nitroButton: {fileID: 6424117075509507728}
 --- !u!1 &394885085065556357
 GameObject:
   m_ObjectHideFlags: 0
@@ -6041,6 +6041,14 @@ MonoBehaviour:
     baseCost: 100
     costIncrement: 150
     skillType: 0
+  - upgradeButton: {fileID: 3393315271448739237}
+    costText: {fileID: 6265591921948541907}
+    progressSlider: {fileID: 4670101240282316942}
+    baseDuration: 2
+    durationIncrement: 2
+    baseCost: 100
+    costIncrement: 150
+    skillType: 2
 --- !u!1 &5800481482003239364
 GameObject:
   m_ObjectHideFlags: 0

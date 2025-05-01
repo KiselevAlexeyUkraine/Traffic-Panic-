@@ -8,7 +8,7 @@ namespace Codebase.UI
 {
     public class SkillUpgradeUI : MonoBehaviour
     {
-        private enum SkillType { Armor, Magnet, Other }
+        private enum SkillType { Armor, Magnet, Nitro }
 
         [System.Serializable]
         private class SkillUpgrade

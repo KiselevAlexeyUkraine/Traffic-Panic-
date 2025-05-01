@@ -16,6 +16,7 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask policeCarTriggerLayer;
         [SerializeField] private LayerMask armorTriggerLayer;
         [SerializeField] private LayerMask magnetTriggerLayer;
+        [SerializeField] private LayerMask nitroTriggerLayer;
 
         [Header("Settings")]
         [SerializeField] private float jumpCooldown = 1f;
@@ -23,6 +24,7 @@ namespace Codebase.Components.Player
         [Header("References")]
         [SerializeField] private GameObject particleSystemSkillsArmor;
         [SerializeField] private GameObject particleSystemSkillsMagnute;
+        [SerializeField] private GameObject particleSystemSkillsNitro;
         [SerializeField] private GameObject magnet;
 
         public event Action OnPlayerDeath;
@@ -35,15 +37,19 @@ namespace Codebase.Components.Player
 
         private bool isSkillActive = false;
         private bool isMagnetActive = false;
+        private bool isNitroActive = false;
         private bool canJump = true;
         private bool hasArmorProtection = false;
+        private bool hasNitroImmunity = false;
 
         private float skillTimeLeft;
         private float magnetTimeLeft;
+        private float nitroTimeLeft;
         private float jumpCooldownLeft;
 
         private float skillDuration;
         private float magnetDuration;
+        private float nitroDuration;
 
         private void Awake()
         {
@@ -84,6 +90,19 @@ namespace Codebase.Components.Player
                 }
             }
 
+            if (isNitroActive)
+            {
+                nitroTimeLeft -= Time.deltaTime;
+                if (nitroTimeLeft <= 0f)
+                {
+                    nitroTimeLeft = 0f;
+                    isNitroActive = false;
+                    hasNitroImmunity = false;
+                    Time.timeScale = 1f;
+                    particleSystemSkillsNitro.SetActive(false);
+                }
+            }
+
             if (!canJump)
             {
                 jumpCooldownLeft -= Time.deltaTime;
@@ -99,9 +118,11 @@ namespace Codebase.Components.Player
         {
             skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 2f);
             magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 4f);
+            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 3f);
 
             Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
+            Debug.Log("[PlayerCollisionHandler] NitroDuration = " + nitroDuration);
         }
 
         public void TriggerSkillByKey(string skillKey)
@@ -113,6 +134,9 @@ namespace Codebase.Components.Player
                     break;
                 case "Magnet":
                     ActivateMagnet();
+                    break;
+                case "Nitro":
+                    ActivateNitro();
                     break;
                 default:
                     Debug.LogWarning("Unknown skill key: " + skillKey);
@@ -136,11 +160,14 @@ namespace Codebase.Components.Player
                 {
                     if (isSkillActive && hasArmorProtection)
                     {
-                        // Use armor once
                         hasArmorProtection = false;
                         isSkillActive = false;
                         skillTimeLeft = 0f;
                         particleSystemSkillsArmor.SetActive(false);
+                    }
+                    else if (isNitroActive && hasNitroImmunity)
+                    {
+                        return;
                     }
                     else
                     {
@@ -168,6 +195,11 @@ namespace Codebase.Components.Player
                 else if ((magnetTriggerLayer.value & otherLayerMask) != 0)
                 {
                     HandleMagnetPickup(other.gameObject);
+                }
+                else if ((nitroTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    Destroy(other.gameObject);
+                    ActivateNitro();
                 }
             }
         }
@@ -232,6 +264,20 @@ namespace Codebase.Components.Player
                 isMagnetActive = true;
                 particleSystemSkillsMagnute.SetActive(true);
                 magnet.SetActive(true);
+            }
+        }
+
+        public void ActivateNitro()
+        {
+            RefreshDurations();
+            nitroTimeLeft = nitroDuration;
+            hasNitroImmunity = true;
+
+            if (!isNitroActive)
+            {
+                isNitroActive = true;
+                particleSystemSkillsNitro.SetActive(true);
+                Time.timeScale = 3f;
             }
         }
     }
