@@ -36,6 +36,7 @@ namespace Codebase.Components.Player
         private bool isSkillActive = false;
         private bool isMagnetActive = false;
         private bool canJump = true;
+        private bool hasArmorProtection = false;
 
         private float skillTimeLeft;
         private float magnetTimeLeft;
@@ -66,6 +67,7 @@ namespace Codebase.Components.Player
                 {
                     skillTimeLeft = 0f;
                     isSkillActive = false;
+                    hasArmorProtection = false;
                     particleSystemSkillsArmor.SetActive(false);
                 }
             }
@@ -130,10 +132,21 @@ namespace Codebase.Components.Player
 
             if (!isAlive)
             {
-                if ((enemyLayer.value & otherLayerMask) != 0 && !isSkillActive)
+                if ((enemyLayer.value & otherLayerMask) != 0)
                 {
-                    HandleEnemyCollision();
-                    isAlive = true;
+                    if (isSkillActive && hasArmorProtection)
+                    {
+                        // Use armor once
+                        hasArmorProtection = false;
+                        isSkillActive = false;
+                        skillTimeLeft = 0f;
+                        particleSystemSkillsArmor.SetActive(false);
+                    }
+                    else
+                    {
+                        HandleEnemyCollision();
+                        isAlive = true;
+                    }
                 }
                 else if ((coinLayer.value & otherLayerMask) != 0)
                 {
@@ -193,7 +206,8 @@ namespace Codebase.Components.Player
         public void ActivateSkill()
         {
             RefreshDurations();
-            skillTimeLeft += skillDuration;
+            skillTimeLeft = skillDuration;
+            hasArmorProtection = true;
 
             if (!isSkillActive)
             {
