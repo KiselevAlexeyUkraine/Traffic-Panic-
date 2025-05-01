@@ -20822,6 +20822,7 @@ MonoBehaviour:
   particleSystemSkillsMagnute: {fileID: 3151086023177705439}
   particleSystemSkillsNitro: {fileID: 6220500045750719740}
   magnet: {fileID: 3676012553843422487}
+  speedModifier: {fileID: 8515171417779921977}
 --- !u!114 &5426495391346480029
 MonoBehaviour:
   m_ObjectHideFlags: 0
