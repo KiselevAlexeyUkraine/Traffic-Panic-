@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Codebase.Components.Player;
 using Codebase.Services.Inputs;
+using Codebase.Services;
 using Zenject;
 
 namespace Codebase.Components.Ui
 {
     public class SkillProgressCoin : MonoBehaviour
     {
-        [SerializeField] private Slider _progressSlider;
+        [SerializeField] private Image _progressImage;
         [SerializeField] private PlayerCollisionHandler _collisionHandler;
         [SerializeField] private PlayerMagnetCollector playerMagnetCollector;
         [SerializeField] private float _progressPerCoin = 0.1f;
@@ -23,8 +24,6 @@ namespace Codebase.Components.Ui
 
         private float _currentProgress = 0f;
         private bool _skillReady = false;
-
-        public event System.Action OnSkillActivated;
 
         private void Awake()
         {
@@ -43,7 +42,9 @@ namespace Codebase.Components.Ui
         {
             if (_skillReady && _playerInput.Action && _collisionHandler.IsAlive == false)
             {
-                ActivateSkill();
+                var skillKey = SkillSelectorPersistent.Instance.SelectedSkill.ToString();
+                _collisionHandler.TriggerSkillByKey(skillKey);
+                ResetProgress();
             }
         }
 
@@ -54,7 +55,7 @@ namespace Codebase.Components.Ui
 
             _currentProgress += _progressPerCoin;
             _currentProgress = Mathf.Clamp01(_currentProgress);
-            UpdateSlider();
+            UpdateProgressImage();
 
             if (Mathf.Approximately(_currentProgress, 1f))
             {
@@ -62,25 +63,19 @@ namespace Codebase.Components.Ui
             }
         }
 
-        private void UpdateSlider()
+        private void UpdateProgressImage()
         {
-            if (_progressSlider != null)
+            if (_progressImage != null)
             {
-                _progressSlider.value = _currentProgress;
+                _progressImage.fillAmount = _currentProgress;
             }
-        }
-
-        private void ActivateSkill()
-        {
-            OnSkillActivated?.Invoke();
-            ResetProgress();
         }
 
         public void ResetProgress()
         {
             _currentProgress = 0f;
             _skillReady = false;
-            UpdateSlider();
+            UpdateProgressImage();
         }
     }
 }
