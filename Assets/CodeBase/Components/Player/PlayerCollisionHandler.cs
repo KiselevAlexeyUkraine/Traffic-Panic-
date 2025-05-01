@@ -3,6 +3,7 @@ using System;
 using Codebase.NPC;
 using Codebase.Components.Ui;
 using Codebase.Services;
+using Codebase.Services.Time;
 
 namespace Codebase.Components.Player
 {
@@ -26,6 +27,7 @@ namespace Codebase.Components.Player
         [SerializeField] private GameObject particleSystemSkillsMagnute;
         [SerializeField] private GameObject particleSystemSkillsNitro;
         [SerializeField] private GameObject magnet;
+        [SerializeField] private SpeedModifier speedModifier;
         [SerializeField] private RandomActivator randomActivator;
 
         public event Action OnPlayerDeath;
@@ -105,6 +107,7 @@ namespace Codebase.Components.Player
                     nitroTimeLeft = 0f;
                     isNitroActive = false;
                     hasNitroImmunity = false;
+                    speedModifier.enabled = true;
                     Time.timeScale = 1f;
                     particleSystemSkillsNitro.SetActive(false);
                 }
@@ -287,8 +290,9 @@ namespace Codebase.Components.Player
         public void ActivateNitro()
         {
             RefreshDurations();
-            nitroTimeLeft = nitroDuration;
+            nitroTimeLeft += nitroDuration;
             hasNitroImmunity = true;
+            speedModifier.enabled = false;
 
             if (!isNitroActive)
             {
