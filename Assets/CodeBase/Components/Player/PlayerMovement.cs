@@ -1,6 +1,5 @@
 using Codebase.Services.Inputs;
 using System;
-using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -18,80 +17,103 @@ namespace Codebase.Components.Player
         public Action OnMovingLeft;
         public Action OnMovingRight;
 
-        [SerializeField] private float _maxXPosition = 6f;
-        [SerializeField] private float _minXPosition = -6f;
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _smoothness = 0.1f;
         [SerializeField] private float _distanceOveraging = 3f;
-        [SerializeField] private float _snapSpeedMultiplier = 2f; // Коэффициент ускорения при подстановке
-        [SerializeField] private float _snapDistanceThreshold = 0.5f; // Порог расстояния для ускорения
-        private float _currentXPosition = 0f;
-        private float _targetXPosition = 0f;
+        [SerializeField] private float _snapSpeedMultiplier = 2f;
+        [SerializeField] private float _snapDistanceThreshold = 0.5f;
+        [SerializeField] private float[] _lanes = new float[] { -6f, -3f, 0f, 3f, 6f }; // Настраиваемые полосы
+
+        private const float DISTANCE_THRESHOLD = 0.01f;
+
+        private float _minXPosition;
+        private float _maxXPosition;
+        private float _currentXPosition;
+        private float _targetXPosition;
         private IInput _playerInput;
         private Rigidbody _rigidbody;
-
-        private bool _isMoving = false;
-        private readonly float[] _lanes = new float[] { -6f, -3f, 0f, 3f, 6f }; // Фиксированные точки
+        private bool _isMoving;
 
         private void Awake()
         {
+            
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+
+          
+            if (_playerInput == null)
+            {
+                Debug.LogError("PlayerInput is not initialized!");
+                enabled = false;
+                return;
+            }
+
+            
+            if (_lanes == null || _lanes.Length == 0)
+            {
+                Debug.LogError("Lanes array is empty or null!");
+                enabled = false;
+                return;
+            }
+
+            _minXPosition = _lanes[0];
+            _maxXPosition = _lanes[_lanes.Length - 1];
             _currentXPosition = _rigidbody.position.x;
-            _targetXPosition = SnapToNearestLane(_currentXPosition); 
+            _targetXPosition = SnapToNearestLane(_currentXPosition);
         }
 
         private void Update()
         {
-            // Обновляем цель для движения
-            if (_playerInput.Left && _currentXPosition > _minXPosition)
+            HandleInput();
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
+        }
+
+        private void HandleInput()
+        {
+            
+            if (_playerInput.Left && _currentXPosition > _minXPosition && !(_isMoving && _targetXPosition == _minXPosition))
             {
                 _targetXPosition = SnapToNearestLane(Mathf.Max(_currentXPosition - _distanceOveraging, _minXPosition));
                 _isMoving = true;
                 OnMovingLeft?.Invoke();
-                Debug.Log("Нажата клавиша влево");
+                Debug.Log("Moving left");
             }
-
-            if (_playerInput.Right && _currentXPosition < _maxXPosition)
+           
+            else if (_playerInput.Right && _currentXPosition < _maxXPosition && !(_isMoving && _targetXPosition == _maxXPosition))
             {
                 _targetXPosition = SnapToNearestLane(Mathf.Min(_currentXPosition + _distanceOveraging, _maxXPosition));
                 _isMoving = true;
                 OnMovingRight?.Invoke();
-                Debug.Log("Нажата клавиша вправо");
+                Debug.Log("Moving right");
             }
+        }
 
-            // Плавное перемещение
+        private void Move()
+        {
+            Vector3 currentPosition = _rigidbody.position;
+            Vector3 targetPosition = new Vector3(_targetXPosition, currentPosition.y, currentPosition.z);
+
             if (_isMoving)
             {
-                Vector3 currentPosition = _rigidbody.position;
-                Vector3 targetPosition = new Vector3(_targetXPosition, currentPosition.y, currentPosition.z);
-
-                
                 float distanceToTarget = Vector3.Distance(currentPosition, targetPosition);
+                float lerpFactor = 1f - Mathf.Pow(1f - _smoothness, Time.fixedDeltaTime * _moveSpeed);
 
-               
-                float lerpFactor = 1f - Mathf.Pow(1f - _smoothness, Time.deltaTime * _moveSpeed);
-
-              
                 if (distanceToTarget <= _snapDistanceThreshold)
                 {
                     lerpFactor *= _snapSpeedMultiplier;
                 }
 
-               
                 lerpFactor = Mathf.Clamp01(lerpFactor);
-
-               
                 Vector3 newPosition = Vector3.Lerp(currentPosition, targetPosition, lerpFactor);
 
-               
                 _rigidbody.MovePosition(newPosition);
-
-              
                 _currentXPosition = newPosition.x;
 
-                
-                if (distanceToTarget < 0.01f)
+                if (distanceToTarget < DISTANCE_THRESHOLD)
                 {
                     _currentXPosition = _targetXPosition;
                     _isMoving = false;
@@ -99,18 +121,28 @@ namespace Codebase.Components.Player
             }
             else
             {
-               
                 _targetXPosition = SnapToNearestLane(_currentXPosition);
-                Vector3 finalPosition = new Vector3(_targetXPosition, _rigidbody.position.y, _rigidbody.position.z);
-                _rigidbody.MovePosition(finalPosition);
+                _rigidbody.MovePosition(targetPosition);
                 _currentXPosition = _targetXPosition;
             }
         }
 
         private float SnapToNearestLane(float xPosition)
         {
-            
-            return _lanes.OrderBy(lane => Mathf.Abs(lane - xPosition)).First();
+            float nearestLane = _lanes[0];
+            float minDistance = Mathf.Abs(xPosition - nearestLane);
+
+            for (int i = 1; i < _lanes.Length; i++)
+            {
+                float distance = Mathf.Abs(xPosition - _lanes[i]);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nearestLane = _lanes[i];
+                }
+            }
+
+            return nearestLane;
         }
     }
 }
