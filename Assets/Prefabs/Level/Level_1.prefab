@@ -187,6 +187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpringboardDinamic
       objectReference: {fileID: 0}
+    - target: {fileID: 6221721979322154646, guid: 111ed01f9c5569342b7cd7d87cc4596e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -624,6 +628,14 @@ PrefabInstance:
     - target: {fileID: 1916199275026960402, guid: dbd530783244db244a0493600e7ea363, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054054549789145585, guid: dbd530783244db244a0493600e7ea363, type: 3}
+      propertyPath: carSpeedX
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054054549789145585, guid: dbd530783244db244a0493600e7ea363, type: 3}
+      propertyPath: moveDuration
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4511800614123712452, guid: dbd530783244db244a0493600e7ea363, type: 3}
       propertyPath: m_Name
