@@ -76,3 +76,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 7329280795485698828, guid: 9fead70d227329143a75ce6f68c4951a, type: 3}
   _audioService: {fileID: 5618896766568627317, guid: f625c50cf832f7a4ea449f90380dec89, type: 3}
+  _skyboxRotation: {fileID: 6011354949549604286, guid: 73563e3d6cf045e48bb6b70cc45e8421, type: 3}

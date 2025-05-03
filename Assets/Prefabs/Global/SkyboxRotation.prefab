@@ -44,15 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eeeef43be8fa8c45baa682002d9422a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skybox: {fileID: 0}
-  angleSpeed: 1
+  skybox: {fileID: 2100000, guid: 127d64a3866608f40a05e0b4188c9369, type: 2}
+  angleSpeed: 20
   gradient:
     serializedVersion: 2
-    key0: {r: 0.23931247, g: 0.9547169, b: 0.055841886, a: 1}
-    key1: {r: 0.98490566, g: 0.952877, b: 0.08734064, a: 1}
-    key2: {r: 1, g: 0.44989705, b: 0, a: 0}
-    key3: {r: 0.08600208, g: 0.28123894, b: 0.96981126, a: 0}
-    key4: {r: 0.027233727, g: 0.9622642, b: 0.114574045, a: 0}
+    key0: {r: 0.6377357, g: 0.3068351, b: 0.5910072, a: 1}
+    key1: {r: 0.08627451, g: 0.23058371, b: 0.9843137, a: 0.49803922}
+    key2: {r: 1, g: 0, b: 0.80007076, a: 1}
+    key3: {r: 0.08600208, g: 0.28123894, b: 0.96981126, a: 0.49803922}
+    key4: {r: 0.9607843, g: 0.027450979, b: 0.77471906, a: 1}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
@@ -65,14 +65,14 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
+    atime1: 11180
+    atime2: 31534
+    atime3: 49421
+    atime4: 65535
     atime5: 0
     atime6: 0
     atime7: 0
     m_Mode: 0
     m_ColorSpace: -1
     m_NumColorKeys: 5
-    m_NumAlphaKeys: 2
+    m_NumAlphaKeys: 5
