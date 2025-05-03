@@ -6,6 +6,7 @@ namespace Codebase.Components.Player
     public class RandomActivator : MonoBehaviour
     {
         [SerializeField] private GameObject[] objects; // Один объект на каждую полосу
+        [SerializeField] private GameObject[] CanvasSign; 
         [SerializeField] private float deactivateDelay = 5f;
 
         private GameObject activeObject;
@@ -28,8 +29,9 @@ namespace Codebase.Components.Player
 
                 if (activeObject != null)
                 {
+                    CanvasSign[laneIndex].SetActive(true);
                     activeObject.SetActive(true);
-                    StartCoroutine(DeactivateAfterDelay(activeObject));
+                    StartCoroutine(DeactivateAfterDelay(activeObject, CanvasSign[laneIndex]));
                 }
                 else
                 {
@@ -42,11 +44,12 @@ namespace Codebase.Components.Player
             }
         }
 
-        private IEnumerator DeactivateAfterDelay(GameObject obj)
+        private IEnumerator DeactivateAfterDelay(GameObject obj, GameObject canvasSign)
         {
             yield return new WaitForSeconds(deactivateDelay);
             if (obj != null)
                 obj.SetActive(false);
+            canvasSign.SetActive(false);
         }
     }
 }

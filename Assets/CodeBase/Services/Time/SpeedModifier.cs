@@ -15,7 +15,7 @@ namespace Codebase.Services.Time
         [SerializeField] private CameraShaker cameraShaker;
         [SerializeField] private float shakeInterval = 0.5f;
         [SerializeField] private float abilityUnlockDelay = 10f;
-
+       
         private IInput _playerInput;
         private float _timer;
         private bool _effectActive;
