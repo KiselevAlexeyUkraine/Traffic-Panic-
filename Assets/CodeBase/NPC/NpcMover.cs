@@ -1,8 +1,9 @@
 using UnityEngine;
+using Codebase.Interfaces;
 
 namespace Codebase.NPC
 {
-    public class NpcMover : MonoBehaviour
+    public class NpcMover : MonoBehaviour, IWetMove
     {
         public enum MoveDirection
         {
@@ -29,10 +30,15 @@ namespace Codebase.NPC
         private float _currentSpeedZ;
         private float _speedChangeTimer;
         private bool _speedChangeEnabled;
+        private float _baseMinSpeedZ;
+        private float _baseMaxSpeedZ;
 
         private void Start()
         {
             _targetLocalPosition = transform.localPosition;
+            _baseMinSpeedZ = minSpeedZ;
+            _baseMaxSpeedZ = maxSpeedZ;
+
             _currentSpeedZ = 0f;
             _speedChangeTimer = speedChangeInterval;
             _speedChangeEnabled = direction != MoveDirection.Random;
@@ -41,6 +47,18 @@ namespace Codebase.NPC
             {
                 _currentSpeedZ = Random.Range(minSpeedZ, maxSpeedZ);
             }
+        }
+
+        public void SetSpeedMultiplier(float multiplier)
+        {
+            minSpeedZ = _baseMinSpeedZ * multiplier;
+            maxSpeedZ = _baseMaxSpeedZ * multiplier;
+        }
+
+        public void ResetSpeedMultiplier()
+        {
+            minSpeedZ = _baseMinSpeedZ;
+            maxSpeedZ = _baseMaxSpeedZ;
         }
 
         private void Update()

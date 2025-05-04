@@ -2,11 +2,12 @@ using Codebase.Services.Inputs;
 using System;
 using UnityEngine;
 using Zenject;
+using Codebase.Interfaces;
 
 namespace Codebase.Components.Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour, IWetMove
     {
         [Inject]
         private void Construct(DesktopInput desktopInput)
@@ -27,6 +28,7 @@ namespace Codebase.Components.Player
         private float _targetXPosition;
         private float _currentXPosition;
         private bool _isMoving = false;
+        private float _baseMoveSpeed;
 
         private void Awake()
         {
@@ -34,6 +36,17 @@ namespace Codebase.Components.Player
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
             _currentXPosition = _rigidbody.position.x;
             _targetXPosition = _currentXPosition;
+            _baseMoveSpeed = _moveSpeed;
+        }
+
+        public void SetSpeedMultiplier(float multiplier)
+        {
+            _moveSpeed = _baseMoveSpeed * multiplier;
+        }
+
+        public void ResetSpeedMultiplier()
+        {
+            _moveSpeed = _baseMoveSpeed;
         }
 
         private void Update()

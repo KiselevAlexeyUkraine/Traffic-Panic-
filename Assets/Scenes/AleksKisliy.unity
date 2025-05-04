@@ -686,6 +686,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4381639654407843709, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: _moveSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4396219697436945129, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_Name
       value: Player
@@ -795,6 +799,22 @@ PrefabInstance:
       propertyPath: playerMagnetCollector
       value: 
       objectReference: {fileID: 1604178336}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3225926385286155171, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
       propertyPath: _magnetCollector
       value: 
@@ -810,6 +830,22 @@ PrefabInstance:
     - target: {fileID: 6848225634740814528, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
       propertyPath: m_Name
       value: GameCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9054203499879858755, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
       propertyPath: m_Pivot.x
