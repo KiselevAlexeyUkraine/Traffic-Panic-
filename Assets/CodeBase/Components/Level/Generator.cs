@@ -1,3 +1,4 @@
+// File: Generator.cs
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,11 +18,23 @@ namespace Codebase.Components.Level
         [SerializeField]
         private float _acceleration;
 
+        private float _initialSpeed;
+        private float _initialAcceleration;
+
         private LinkedList<Level> _handledLevels = new();
         private int _levelIndex = 0;
 
+        private void Awake()
+        {
+            _initialSpeed = _speed;
+            _initialAcceleration = _acceleration;
+        }
+
         private void Start()
         {
+            _speed = _initialSpeed;
+            _acceleration = _initialAcceleration;
+
             for (int i = 0; i < _levelsCount; i++)
             {
                 Level newLevel = Instantiate(GetNextLevel(), transform);
