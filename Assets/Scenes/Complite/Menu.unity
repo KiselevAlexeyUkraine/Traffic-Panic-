@@ -119,6 +119,39 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &590718267 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4963154988325950110, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+  m_PrefabInstance: {fileID: 865987956}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &590718268 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3844145076462731472, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+  m_PrefabInstance: {fileID: 865987956}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &590718269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3295381593947575191, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+  m_PrefabInstance: {fileID: 865987956}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,6 +395,10 @@ PrefabInstance:
     - target: {fileID: 2237488825833763432, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2334439893820833126, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -35
       objectReference: {fileID: 0}
     - target: {fileID: 2395976628955866569, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
       propertyPath: m_Name
@@ -658,10 +695,16 @@ PrefabInstance:
       addedObject: {fileID: 865987965}
     - targetCorrespondingSourceObject: {fileID: 4726547533491108144, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1851794442}
+      addedObject: {fileID: 1844572617}
+    - targetCorrespondingSourceObject: {fileID: 2336084533635264914, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 865987970}
     - targetCorrespondingSourceObject: {fileID: 2336084533635264914, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 865987969}
+    - targetCorrespondingSourceObject: {fileID: 6338721198151325410, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1313307998}
     - targetCorrespondingSourceObject: {fileID: 7279637326524256575, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 865987968}
@@ -735,18 +778,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverSound:
     Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
+      Data1: 1583979572
+      Data2: 1298253440
+      Data3: -408463174
+      Data4: -50263420
+    Path: event:/buttonHover
   clickSound:
     Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
+      Data1: 601335139
+      Data2: 1338529872
+      Data3: -1161864039
+      Data4: -1674524211
+    Path: event:/buttonClick
 --- !u!114 &865987966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,18 +804,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverSound:
     Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
+      Data1: 1583979572
+      Data2: 1298253440
+      Data3: -408463174
+      Data4: -50263420
+    Path: event:/buttonHover
   clickSound:
     Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
+      Data1: 601335139
+      Data2: 1338529872
+      Data3: -1161864039
+      Data4: -1674524211
+    Path: event:/buttonClick
 --- !u!114 &865987967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,18 +830,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverSound:
     Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
+      Data1: 1583979572
+      Data2: 1298253440
+      Data3: -408463174
+      Data4: -50263420
+    Path: event:/buttonHover
   clickSound:
     Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
+      Data1: 601335139
+      Data2: 1338529872
+      Data3: -1161864039
+      Data4: -1674524211
+    Path: event:/buttonClick
 --- !u!114 &865987968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -834,23 +877,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 865987964}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9403525181d409449bbd753a1cf86400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVcaPath: vca:/Master
+  sfxVcaPath: vca:/SFX
+  musicVcaPath: vca:/Music
+  masterVolumeSlider: {fileID: 590718269}
+  sfxVolumeSlider: {fileID: 590718268}
+  musicVolumeSlider: {fileID: 590718267}
+--- !u!114 &865987970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865987964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hoverSound:
     Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
+      Data1: 1583979572
+      Data2: 1298253440
+      Data3: -408463174
+      Data4: -50263420
+    Path: event:/buttonHover
   clickSound:
     Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
+      Data1: 601335139
+      Data2: 1338529872
+      Data3: -1161864039
+      Data4: -1674524211
+    Path: event:/buttonClick
 --- !u!1 &939690195 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9091854440232903249, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
@@ -892,7 +953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
-  - component: {fileID: 963194226}
+  - component: {fileID: 963194230}
   - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
@@ -901,14 +962,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &963194226
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -990,11 +1043,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 509217233
-      Data2: 1211274442
-      Data3: 546151341
-      Data4: 517337225
-    Path: event:/New Folder/music_main_menu
+      Data1: -2121043529
+      Data2: 1229382124
+      Data3: -1279492689
+      Data4: -1367304484
+    Path: event:/musicMainMenu
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
@@ -1006,6 +1059,20 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!114 &992366319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1094,6 +1161,37 @@ MonoBehaviour:
       Data3: 737516991
       Data4: -1479378901
     Path: event:/New Folder/ui_buttonclick
+--- !u!1 &1313307997 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6338721198151325410, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
+  m_PrefabInstance: {fileID: 865987956}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1313307998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313307997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound:
+    Guid:
+      Data1: 1583979572
+      Data2: 1298253440
+      Data3: -408463174
+      Data4: -50263420
+    Path: event:/buttonHover
+  clickSound:
+    Guid:
+      Data1: 601335139
+      Data2: 1338529872
+      Data3: -1161864039
+      Data4: -1674524211
+    Path: event:/buttonClick
 --- !u!114 &1650638994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1120,7 +1218,7 @@ MonoBehaviour:
       Data3: 737516991
       Data4: -1479378901
     Path: event:/New Folder/ui_buttonclick
---- !u!114 &1851794442
+--- !u!114 &1844572617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1134,18 +1232,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverSound:
     Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
+      Data1: 1583979572
+      Data2: 1298253440
+      Data3: -408463174
+      Data4: -50263420
+    Path: event:/buttonHover
   clickSound:
     Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
+      Data1: 601335139
+      Data2: 1338529872
+      Data3: -1161864039
+      Data4: -1674524211
+    Path: event:/buttonClick
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
