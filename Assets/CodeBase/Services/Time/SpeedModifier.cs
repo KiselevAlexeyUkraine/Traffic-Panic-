@@ -1,4 +1,3 @@
-// SpeedModifier.cs
 using UnityEngine;
 using Codebase.Services.Inputs;
 using Zenject;
@@ -6,8 +5,7 @@ using Codebase.Components.Player;
 using Codebase.Components.Level;
 using System;
 
-namespace Codebase.Services.Time
-{
+
     public class SpeedModifier : MonoBehaviour
     {
         [SerializeField] private float boostScale = 2f;
@@ -17,13 +15,14 @@ namespace Codebase.Services.Time
         [SerializeField] private Animator cameraAnimator;
         [SerializeField] private CameraShaker cameraShaker;
         [SerializeField] private float shakeInterval = 0.5f;
-        [SerializeField] private float abilityUnlockDelay = 10f;
-        [SerializeField] private PlayerMovement _playerMovement; // Ссылка на PlayerMovement
-        [SerializeField] private bool IsFirstLevel;
-       public Action OnBoostUsed;
-        public bool HasBoosted { get; private set; }
+        [SerializeField] private PlayerMovement playerMovement;
+        [SerializeField] private Generator generator;
+        [SerializeField] private PlayerCollisionHandler playerCollisionHandler;
+        [SerializeField] private bool isFirstLevel;
 
-        public event System.Action<float, float> OnBoostSpeed;
+        public Action OnBoostUsed;
+        public bool HasBoosted { get; private set; }
+        public event Action<float, float> OnBoostSpeed;
 
         private IInput _playerInput;
         private float _timer;
@@ -31,11 +30,8 @@ namespace Codebase.Services.Time
         private float _shakeTimer;
         private float _startTimer;
         private bool _abilitiesUnlocked;
-        private bool _isReturning;
-        private float _returnTimer;
-        private float _targetTimeScale;
-        private float _startTimeScale;
-        private const int REQUIRED_LANE_CHANGES = 3; // Требуемое количество перестроений
+        private bool _isBoosting;
+        private const int REQUIRED_LANE_CHANGES = 3;
 
         [Inject]
         private void Construct(DesktopInput desktopInput)
@@ -45,17 +41,61 @@ namespace Codebase.Services.Time
 
         private void Awake()
         {
-            if (_playerMovement == null)
+            if (playerMovement == null)
             {
                 Debug.LogError("PlayerMovement is not assigned in SpeedModifier!");
             }
+            if (generator == null)
+            {
+                Debug.LogError("Generator is not assigned in SpeedModifier!");
+            }
+            if (playerCollisionHandler == null)
+            {
+                Debug.LogError("PlayerCollisionHandler is not assigned in SpeedModifier!");
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (playerCollisionHandler != null)
+            {
+                playerCollisionHandler.OnNitroActivated += ResetOnNitro;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (playerCollisionHandler != null)
+            {
+                playerCollisionHandler.OnNitroActivated -= ResetOnNitro;
+            }
+        }
+
+        private void ResetOnNitro()
+        {
+            if (_effectActive)
+            {
+                ResetSpeed();
+                Debug.Log("Nitro activated, resetting Boost/Brake effect");
+            }
+            _timer = 0f;
+            _effectActive = false;
+            _isBoosting = false;
+            if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
         }
 
         private void Update()
         {
+            // Пропускаем логику, если Nitro активно
+            if (playerCollisionHandler != null && playerCollisionHandler.IsNitroActive)
+            {
+                return;
+            }
+
+            // Разблокировка способностей
             if (!_abilitiesUnlocked)
             {
-                _startTimer += UnityEngine.Time.unscaledDeltaTime;
+                _startTimer += Time.deltaTime;
                 if (_startTimer >= abilityUnlockDelay)
                 {
                     _abilitiesUnlocked = true;
@@ -63,14 +103,14 @@ namespace Codebase.Services.Time
                 }
             }
 
+            // Обработка ввода Boost/Brake
             if (_abilitiesUnlocked)
             {
-                // Проверяем, выполнены ли 3 перестроения перед ускорением
                 if (_playerInput.Boost && CanBoost())
                 {
                     if (!_effectActive)
                     {
-                        StartTimeEffect(boostScale);
+                        StartSpeedEffect(boostScale);
                         if (cameraShaker != null) _shakeTimer = 0f;
                         if (!HasBoosted)
                         {
@@ -78,79 +118,64 @@ namespace Codebase.Services.Time
                             OnBoostUsed?.Invoke();
                             Debug.Log("Boost used!");
                         }
-                        TriggerBoost(boostScale);
                     }
-                    else
+                    else if (_isBoosting)
                     {
-                        _timer = effectDuration;
+                        _timer = Mathf.Max(_timer, effectDuration); // Обновляем таймер Boost
+                        Debug.Log($"Updating Boost timer, new timer: {_timer}");
                     }
                     _isBoosting = true;
-                    _isReturning = false;
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
-
-                    _shakeTimer -= UnityEngine.Time.unscaledDeltaTime;
-                    if (_shakeTimer <= 0f)
-                    {
-                        if (cameraShaker != null) cameraShaker.Shake();
-                        _shakeTimer = shakeInterval;
-                    }
                 }
-                else if (_playerInput.Drag)
+                else if (_playerInput.Drag && !_effectActive)
                 {
-                    StartTimeEffect(brakeScale);
+                    StartSpeedEffect(brakeScale);
                     _isBoosting = false;
-                    _isReturning = false;
-                    TriggerBoost(brakeScale);
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
                 }
             }
 
+            // Обновление активного эффекта
             if (_effectActive)
             {
-                _timer -= UnityEngine.Time.unscaledDeltaTime;
+                _shakeTimer -= Time.deltaTime;
+                if (_shakeTimer <= 0f && _isBoosting)
+                {
+                    if (cameraShaker != null) cameraShaker.Shake();
+                    _shakeTimer = shakeInterval;
+                }
+
+                _timer -= Time.deltaTime;
                 if (_timer <= 0f)
                 {
-                    StartReturnToNormalSpeed();
+                    ResetSpeed();
                 }
-            }
-
-            if (_isReturning)
-            {
-                _returnTimer += UnityEngine.Time.unscaledDeltaTime;
-                float t = _returnTimer / returnDuration;
-                UnityEngine.Time.timeScale = Mathf.Lerp(_startTimeScale, 1f, t);
-
-                if (_returnTimer >= returnDuration)
-                {
-                    UnityEngine.Time.timeScale = 1f;
-                    _isReturning = false;
-                    _effectActive = false;
-                    if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
-                    OnBoostSpeed?.Invoke(1f, 0f); // Reset multiplier
-                }
-            }
-
-            if (!_effectActive && !_playerInput.Boost)
-            if (!_effectActive && !_isReturning && !_playerInput.Boost)
-            {
-                if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
             }
         }
 
-        private void StartTimeEffect(float scale)
+        private void StartSpeedEffect(float scale)
         {
-            UnityEngine.Time.timeScale = scale;
+            if (generator != null)
+            {
+                generator.SetSpeedMultiplier(scale);
+                OnBoostSpeed?.Invoke(scale, effectDuration);
+                Debug.Log($"Starting speed effect, multiplier: {scale}, duration: {effectDuration}");
+            }
             _timer = effectDuration;
             _effectActive = true;
-            _isReturning = false;
         }
 
-        private void StartReturnToNormalSpeed()
+        private void ResetSpeed()
         {
-            _startTimeScale = UnityEngine.Time.timeScale;
-            _returnTimer = 0f;
-            _isReturning = true;
+            if (generator != null)
+            {
+                generator.ResetSpeedMultiplier();
+                OnBoostSpeed?.Invoke(1f, 0f);
+                Debug.Log("Resetting speed multiplier to 1");
+            }
             _effectActive = false;
+            _isBoosting = false;
+            if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
         }
 
         public void TriggerBoost(float scale)
@@ -161,8 +186,7 @@ namespace Codebase.Services.Time
                 return;
             }
 
-            // Проверяем, выполнены ли 3 перестроения
-            if (IsFirstLevel)
+            if (isFirstLevel)
             {
                 if (!CanBoost())
                 {
@@ -171,30 +195,24 @@ namespace Codebase.Services.Time
                 }
             }
 
-            if (!_effectActive || UnityEngine.Time.timeScale != scale)
+            if (playerCollisionHandler != null && playerCollisionHandler.IsNitroActive)
             {
-                StartTimeEffect(scale);
-                _shakeTimer = 0f;
-                if (!HasBoosted)
-                {
-                    HasBoosted = true;
-                    OnBoostUsed?.Invoke();
-                    Debug.Log("Boost used!");
-                }
+                Debug.Log("Cannot trigger boost: Nitro is active!");
+                return;
             }
-            else
+
+            StartSpeedEffect(scale);
+            _shakeTimer = 0f;
+            if (!HasBoosted)
             {
-                _timer = effectDuration;
+                HasBoosted = true;
+                OnBoostUsed?.Invoke();
+                Debug.Log("Boost used!");
             }
-            _isBoosting = true;
-            _isReturning = false;
-            if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
-            OnBoostSpeed?.Invoke(scale, effectDuration);
         }
 
         private bool CanBoost()
         {
-            return _playerMovement != null && _playerMovement.LaneChangeCount >= REQUIRED_LANE_CHANGES;
+            return playerMovement != null && playerMovement.LaneChangeCount >= REQUIRED_LANE_CHANGES;
         }
     }
-}

@@ -3,11 +3,9 @@ using System;
 using Codebase.NPC;
 using Codebase.Components.Ui;
 using Codebase.Services;
-using Codebase.Services.Time;
-using UnityEngine.UIElements;
+using Codebase.Components.Level;
+using Codebase.Components.Player;
 
-namespace Codebase.Components.Player 
-{
     public class PlayerCollisionHandler : MonoBehaviour
     {
         [Header("Layers")]
@@ -30,14 +28,15 @@ namespace Codebase.Components.Player
         [SerializeField] private GameObject magnet;
         [SerializeField] private SpeedModifier speedModifier;
         [SerializeField] private RandomActivator randomActivator;
+        [SerializeField] private Generator generator;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
         public event Action<float, float> OnNitro;
+        public event Action OnNitroActivated;
 
-        
-        private bool isAlive = true; // Исправлено: игрок жив по умолчанию
+        private bool isAlive = true;
         public bool IsAlive => isAlive;
 
         private bool isSkillActive;
@@ -56,6 +55,8 @@ namespace Codebase.Components.Player
         private float magnetDuration;
         private float nitroDuration;
 
+        public bool IsNitroActive => isNitroActive;
+
         public enum Lane
         {
             Lane1, // x = -6
@@ -71,8 +72,6 @@ namespace Codebase.Components.Player
             RefreshDurations();
         }
 
-       
-
         private void ValidateDependencies()
         {
             if (SkillProgressService.Instance == null)
@@ -81,7 +80,8 @@ namespace Codebase.Components.Player
                 enabled = false;
                 return;
             }
-            if (speedModifier == null || particleSystemSkillsArmor == null || particleSystemSkillsMagnute == null || particleSystemSkillsNitro == null || magnet == null)
+            if (speedModifier == null || particleSystemSkillsArmor == null || particleSystemSkillsMagnute == null ||
+                particleSystemSkillsNitro == null || magnet == null || generator == null)
             {
                 Debug.LogError("Missing required references in PlayerCollisionHandler");
                 enabled = false;
@@ -107,7 +107,7 @@ namespace Codebase.Components.Player
                 magnetTimeLeft -= Time.deltaTime;
                 if (magnetTimeLeft <= 0f)
                 {
-                    magnetTimeLeft = 0f; // Исправлено: не сбрасываем на magnetDuration
+                    magnetTimeLeft = 0f;
                     isMagnetActive = false;
                     particleSystemSkillsMagnute.SetActive(false);
                     magnet.SetActive(false);
@@ -117,14 +117,22 @@ namespace Codebase.Components.Player
             if (isNitroActive)
             {
                 nitroTimeLeft -= Time.deltaTime;
+                Debug.Log($"Nitro active, time left: {nitroTimeLeft}");
                 if (nitroTimeLeft <= 0f)
                 {
                     nitroTimeLeft = 0f;
                     isNitroActive = false;
                     hasNitroImmunity = false;
-                    speedModifier.enabled = true;
-                    Time.timeScale = 1f;
                     particleSystemSkillsNitro.SetActive(false);
+                    if (generator != null)
+                    {
+                        generator.DeactivateNitro();
+                        Debug.Log("Nitro deactivated, resetting speed multiplier");
+                    }
+                    else
+                    {
+                        Debug.LogError("Generator is null when deactivating Nitro!");
+                    }
                 }
             }
 
@@ -143,7 +151,7 @@ namespace Codebase.Components.Player
         {
             skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
             magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
-            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 2f);
+            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 6f);
 
             Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
@@ -197,7 +205,7 @@ namespace Codebase.Components.Player
                 Debug.Log("Police car trigger activated, spawning on lane: " + laneTrigger.SelectedLane);
             }
 
-            if (isAlive) // Исправлено: проверяем триггеры, если игрок жив
+            if (isAlive)
             {
                 if ((enemyLayer.value & otherLayerMask) != 0)
                 {
@@ -215,7 +223,7 @@ namespace Codebase.Components.Player
                     else
                     {
                         HandleEnemyCollision();
-                        isAlive = false; // Исправлено: игрок умирает
+                        isAlive = false;
                     }
                 }
                 else if ((coinLayer.value & otherLayerMask) != 0)
@@ -242,9 +250,7 @@ namespace Codebase.Components.Player
                 }
                 else if ((FinishTriggerLayer.value & otherLayerMask) != 0)
                 {
-                    //Destroy(other.gameObject);
-                   // ActivateNitro();
-
+                    // Логика для финиша
                 }
             }
         }
@@ -297,7 +303,7 @@ namespace Codebase.Components.Player
         public void ActivateMagnet()
         {
             RefreshDurations();
-            magnetTimeLeft = magnetDuration; // Исправлено: устанавливаем изначально
+            magnetTimeLeft = magnetDuration;
             if (!isMagnetActive)
             {
                 isMagnetActive = true;
@@ -311,14 +317,19 @@ namespace Codebase.Components.Player
             RefreshDurations();
             nitroTimeLeft = nitroDuration;
             hasNitroImmunity = true;
-            speedModifier.enabled = false;
+            isNitroActive = true;
 
-            if (!isNitroActive)
+            if (generator != null)
             {
-                isNitroActive = true;
-                particleSystemSkillsNitro.SetActive(true);
-                OnNitro?.Invoke(4, nitroDuration);
+                generator.SetSpeedMultiplier(2.5f);
+                Debug.Log($"Activating Nitro, multiplier: 2.5, duration: {nitroDuration}");
             }
+            else
+            {
+                Debug.LogError("Generator is null in ActivateNitro!");
+            }
+            particleSystemSkillsNitro.SetActive(true);
+            OnNitro?.Invoke(2.5f, nitroDuration);
+            OnNitroActivated?.Invoke();
         }
     }
-}

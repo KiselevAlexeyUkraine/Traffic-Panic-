@@ -1,37 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Codebase.Services.Time;
 using Codebase.Components.Player;
+
 
 namespace Codebase.Components.Level
 {
     public class Generator : MonoBehaviour
     {
         [SerializeField] private List<Level> _levels;
-        [Min(0)] [SerializeField] private int _levelsCount;
-        [SerializeField] private float _zBound;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _acceleration;
-        [SerializeField] private PlayerMovement _playerMovement; // Ссылка на PlayerMovement
-        [SerializeField] private SpeedModifier _speedModifier; // Ссылка на SpeedModifier
-        [SerializeField] public bool IsFirstLevel = true; // Флаг первого уровня
+        [Min(0)]
+        [SerializeField] private int _levelsCount = 3;
+        [SerializeField] private float _zBound = -10f;
+        [SerializeField] private float _speed = 15f;
+        [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private SpeedModifier _speedModifier;
+        [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
+        [SerializeField] public bool IsFirstLevel = true;
 
-        private float _initialBaseSpeed;
-        private float _speedMultiplier;
-        private float _targetMultiplier;
+        private const int REQUIRED_LANE_CHANGES = 3;
+        private float _baseSpeed;
+        private float _initialBaseSpeed = 15f;
+        private float _speedMultiplier = 1f;
+        private float _targetMultiplier = 1f;
+        private float _boostTimer;
+        private bool _isNitroActive;
         private LinkedList<Level> _handledLevels = new();
         private int _levelIndex;
-        private float _boostTimer;
+        public bool _conditionsMet;
 
         private void Awake()
         {
-            _speed = 15f;
+            _baseSpeed = _initialBaseSpeed;
+
             if (IsFirstLevel)
             {
-                // Первый уровень: спавним _levelsCount копий _levels[0]
+                if (_levels == null || _levels.Count == 0)
+                {
+                    Debug.LogError("Levels list is empty or not assigned in Generator!");
+                    return;
+                }
+
                 for (int i = 0; i < _levelsCount; i++)
                 {
-                    Level newLevel = Instantiate(_levels[0], transform); // Используем только _levels[0]
+                    Level newLevel = Instantiate(_levels[0], transform);
                     if (i == 0)
                     {
                         newLevel.transform.position = transform.position;
@@ -44,7 +55,6 @@ namespace Codebase.Components.Level
                     _handledLevels.AddLast(newLevel);
                 }
 
-                // Подписываемся на события для проверки условий
                 if (_playerMovement != null)
                 {
                     _playerMovement.OnLaneChanged += CheckConditions;
@@ -57,17 +67,23 @@ namespace Codebase.Components.Level
                 if (_speedModifier != null)
                 {
                     _speedModifier.OnBoostUsed += CheckConditions;
+                    _speedModifier.OnBoostSpeed += HandleBoost;
                 }
                 else
                 {
                     Debug.LogError("SpeedModifier is not assigned in Generator!");
                 }
 
-                CheckConditions(); // Проверяем условия на старте
+                CheckConditions();
             }
             else
             {
-                // Не первый уровень: стандартная генерация
+                if (_levels == null || _levels.Count == 0)
+                {
+                    Debug.LogError("Levels list is empty or not assigned in Generator!");
+                    return;
+                }
+
                 for (int i = 0; i < _levelsCount; i++)
                 {
                     Level newLevel = Instantiate(GetNextLevel(), transform);
@@ -85,24 +101,27 @@ namespace Codebase.Components.Level
             }
         }
 
+        private void OnEnable()
+        {
+            _baseSpeed = _initialBaseSpeed;
+            ResetSpeedState();
+        }
+
         private void OnDestroy()
         {
             if (!IsFirstLevel) return;
 
-            // Отписываемся от событий только для первого уровня
             if (_playerMovement != null)
             {
                 _playerMovement.OnLaneChanged -= CheckConditions;
             }
+
             if (_speedModifier != null)
             {
                 _speedModifier.OnBoostUsed -= CheckConditions;
+                _speedModifier.OnBoostSpeed -= HandleBoost;
             }
-        }
 
-        private void OnEnable()
-        {
-            _baseSpeed = _initialBaseSpeed;
             ResetSpeedState();
         }
 
@@ -111,6 +130,15 @@ namespace Codebase.Components.Level
             _speedMultiplier = 1f;
             _targetMultiplier = 1f;
             _boostTimer = 0f;
+            _isNitroActive = false;
+        }
+
+        public void DeactivateNitro()
+        {
+            _isNitroActive = false;
+            _targetMultiplier = 1f;
+            _boostTimer = 0f;
+            Debug.Log("DeactivateNitro called, resetting isNitroActive and multiplier");
         }
 
         private void Update()
@@ -118,16 +146,22 @@ namespace Codebase.Components.Level
             if (_boostTimer > 0f)
             {
                 _boostTimer -= Time.deltaTime;
-                if (_boostTimer <= 0f)
+                Debug.Log($"Boost timer: {_boostTimer}, isNitroActive: {_isNitroActive}");
+                if (_boostTimer <= 0f && !_isNitroActive)
+                {
                     ResetSpeedMultiplier();
+                    Debug.Log("Boost timer expired, resetting multiplier");
+                }
             }
 
-            _speedMultiplier = Mathf.Lerp(_speedMultiplier, _targetMultiplier, Time.deltaTime);
+            _speedMultiplier = _targetMultiplier; // Мгновенное изменение скорости
             float speed = _baseSpeed * _speedMultiplier;
-
+            Debug.Log($"Generator Update: speedMultiplier={_speedMultiplier}, targetMultiplier={_targetMultiplier}, speed={speed}");
 
             foreach (Level level in _handledLevels)
                 level.Move(Vector3.back, speed, 0f);
+
+            if (_handledLevels.Count == 0) return;
 
             Level firstLevel = _handledLevels.First.Value;
             Vector3 firstLevelCenter = firstLevel.transform.TransformPoint(0f, 0f, firstLevel.Center);
@@ -140,21 +174,22 @@ namespace Codebase.Components.Level
                 _handledLevels.RemoveFirst();
 
                 Level newLevel = Instantiate(GetNextLevel(), transform);
-                newLevel.MoveToEdge(_handledLevels.Last.Value, newLevel);
+                newLevel.MoveToEdge(lastLevel, newLevel);
                 _handledLevels.AddLast(newLevel);
             }
         }
 
         public void SetSpeedMultiplier(float multiplier)
         {
-            _targetMultiplier = multiplier;
+            _targetMultiplier = Mathf.Max(_targetMultiplier, multiplier);
+            _isNitroActive = multiplier >= 2.5f;
+            Debug.Log($"SetSpeedMultiplier called, new target: {_targetMultiplier}, isNitroActive: {_isNitroActive}");
         }
 
         private void CheckConditions()
         {
             if (!IsFirstLevel) return;
 
-            // Проверяем условия: 3 перестроения и 1 ускорение
             if (_playerMovement != null && _speedModifier != null &&
                 _playerMovement.LaneChangeCount >= REQUIRED_LANE_CHANGES && _speedModifier.HasBoosted)
             {
@@ -165,33 +200,44 @@ namespace Codebase.Components.Level
             {
                 Debug.Log($"Conditions not met. LaneChanges: {_playerMovement?.LaneChangeCount}/{REQUIRED_LANE_CHANGES}, Boosted: {_speedModifier?.HasBoosted}");
             }
+        }
+
         public void ResetSpeedMultiplier()
         {
+            if (_isNitroActive)
+            {
+                Debug.Log("Ignoring ResetSpeedMultiplier: Nitro is active");
+                return;
+            }
             _targetMultiplier = 1f;
+            Debug.Log("ResetSpeedMultiplier applied, target: 1");
         }
 
         private void HandleBoost(float multiplier, float duration)
         {
+            Debug.Log($"HandleBoost called with multiplier: {multiplier}, duration: {duration}");
             SetSpeedMultiplier(multiplier);
-            _boostTimer = duration;
+            if (multiplier >= 2.5f) // Для Nitro устанавливаем таймер явно
+            {
+                _boostTimer = duration;
+            }
+            else
+            {
+                _boostTimer = Mathf.Max(_boostTimer, duration);
+            }
         }
 
         private Level GetNextLevel()
         {
+            if (_levels == null || _levels.Count == 0)
+            {
+                Debug.LogError("No levels available in GetNextLevel!");
+                return null;
+            }
+
             Level level = _levels[_levelIndex];
             _levelIndex = (_levelIndex + 1) % _levels.Count;
             return level;
-        }
-
-        private void OnDestroy()
-        {
-            if (_speedModifier != null)
-                _speedModifier.OnBoostSpeed -= HandleBoost;
-            if (_playerCollisionHandler != null)
-                _playerCollisionHandler.OnNitro -= HandleBoost;
-
-            _baseSpeed = _initialBaseSpeed;
-            ResetSpeedState();
         }
     }
 }

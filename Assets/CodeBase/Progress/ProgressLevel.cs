@@ -1,29 +1,30 @@
 using UnityEngine;
 using System;
 using Codebase.Components.Level;
-
 namespace Codebase.Progress
 {
     public class ProgressLevel : MonoBehaviour
     {
-        [SerializeField] private float duration = 60f;
+        [SerializeField] private float duration = 60f;[SerializeField] 
+        private Generator generator; // Reference to the Generator component
 
         public float Progress { get; private set; }
         public event Action OnProgressComplete;
 
+        private float _elapsed;
         private float _zStart;
         private bool _isRunning;
 
         private void OnEnable()
         {
-            OnProgressCompleteStatic = OnProgressComplete;
             _elapsed = 0f;
             _isRunning = true;
             Progress = 0f;
+            _zStart = transform.position.z; // Initialize _zStart, though not used in time-based progress
 
             if (generator == null)
             {
-                Debug.LogError("Generator is not assigned in ProgressTimer!");
+                Debug.LogError("Generator is not assigned in ProgressLevel!");
             }
         }
 
@@ -32,23 +33,11 @@ namespace Codebase.Progress
             if (!_isRunning || generator == null) return;
 
             // ѕрогресс увеличиваетс€, если IsFirstLevel == false или услови€ выполнены
-            if (!generator.IsFirstLevel || generator.ConditionsMet)
+            if (!generator.IsFirstLevel || generator._conditionsMet)
             {
                 _elapsed += Time.deltaTime;
                 Progress = Mathf.Clamp01(_elapsed / duration);
-            float currentZ = transform.position.z;
-            float distanceCovered = _zStart - currentZ;
-            Progress = Mathf.Clamp01(distanceCovered / _zStart);
 
-            if (currentZ <= 0f)
-            {
-                _isRunning = false;
-                Progress = 1f;
-                OnProgressComplete?.Invoke();
-            }
-        }
-    }
-}
                 if (Progress >= 1f)
                 {
                     _isRunning = false;
@@ -57,4 +46,5 @@ namespace Codebase.Progress
             }
         }
     }
+
 }

@@ -466,7 +466,7 @@ Transform:
   m_GameObject: {fileID: 3473668033963271087}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000046599645, y: 0.06999999, z: 6}
+  m_LocalPosition: {x: 0.000046599645, y: 0.06999999, z: 5.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10698,7 +10698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4675491012873287, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -4.21
       objectReference: {fileID: 0}
     - target: {fileID: 4675491012873287, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10706,15 +10706,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4675491012873287, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2098553
+      value: 0.20985529
       objectReference: {fileID: 0}
     - target: {fileID: 4675491012873287, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000032380104
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4675491012873287, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000006949894
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 22583138989570119, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: flyHeight
@@ -10735,6 +10735,18 @@ PrefabInstance:
     - target: {fileID: 258599574117937805, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 599435275980107146, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: ReactionSettings.m_NoiseOffsets.x
+      value: 570.4839
+      objectReference: {fileID: 0}
+    - target: {fileID: 599435275980107146, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: ReactionSettings.m_NoiseOffsets.y
+      value: -961.5298
+      objectReference: {fileID: 0}
+    - target: {fileID: 599435275980107146, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: ReactionSettings.m_NoiseOffsets.z
+      value: 807.42834
       objectReference: {fileID: 0}
     - target: {fileID: 1027306230754046651, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10974,7 +10986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801153924245389088, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -4.21
       objectReference: {fileID: 0}
     - target: {fileID: 5801153924245389088, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10982,15 +10994,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801153924245389088, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2098553
+      value: 0.20985529
       objectReference: {fileID: 0}
     - target: {fileID: 5801153924245389088, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000003238011
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5801153924245389088, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000069498944
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6395361749243025757, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_ClearFlags
@@ -11081,6 +11093,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8855514692188576280}
     - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 6576362369485175023}
+    - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: returnDuration
       value: 0.5
       objectReference: {fileID: 0}
@@ -11092,6 +11108,10 @@ PrefabInstance:
       propertyPath: abilityUnlockDelay
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: playerCollisionHandler
+      value: 
+      objectReference: {fileID: 1178712081515362265}
     - target: {fileID: 8622376875796717319, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -11408,6 +11428,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1f1e73934b852a3429c12aeaae5ebf20, type: 3}
       propertyPath: m_Name
       value: TAKSI
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1f1e73934b852a3429c12aeaae5ebf20, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

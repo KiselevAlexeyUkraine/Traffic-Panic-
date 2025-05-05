@@ -1673,6 +1673,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoliceCarTrigger
       objectReference: {fileID: 0}
+    - target: {fileID: 4519247769490307167, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7647334388512570629, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
       propertyPath: selectedLane
       value: 0
@@ -2068,6 +2072,10 @@ PrefabInstance:
     - target: {fileID: 4519247769490307167, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
       propertyPath: m_Name
       value: PoliceCarTrigger (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4519247769490307167, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7647334388512570629, guid: e11cb8255bfd91440b9ad155b619223a, type: 3}
       propertyPath: selectedLane

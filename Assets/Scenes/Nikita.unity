@@ -918,7 +918,6 @@ MonoBehaviour:
   _pageSwitcher: {fileID: 864329332}
   _playerMovement: {fileID: 66040463}
   _playerCollisionHandler: {fileID: 712714035}
-  _progressTimer: {fileID: 1305627482}
   _speedModifier: {fileID: 66040462}
   _pauseManager: {fileID: 1529610741}
   _playerMagnetCollector: {fileID: 66040461}
@@ -951,7 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c654225ab1130e469680b14d8f04bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 150
+  duration: 120
   generator: {fileID: 1746278179}
 --- !u!4 &1305627483
 Transform:
@@ -1245,16 +1244,18 @@ MonoBehaviour:
   - {fileID: 5385966855428111777, guid: f67aee22ebfbfb246a18461f1d0f77ea, type: 3}
   - {fileID: 5385966855428111777, guid: ae258f4fe3e5e004bb678e774551fd15, type: 3}
   - {fileID: 5385966855428111777, guid: ce18b1e6c9018ca4b90a96869956d2c1, type: 3}
+  - {fileID: 5385966855428111777, guid: 46650047ed6088b4cb75911cff730268, type: 3}
   - {fileID: 5385966855428111777, guid: f5c57e9091ac2f0478379c1f07200478, type: 3}
   - {fileID: 5385966855428111777, guid: 8c273415c92256449aa47a65e741930e, type: 3}
   - {fileID: 5385966855428111777, guid: 1aeb58e6fd99f324eb28e624b31b9c6a, type: 3}
   _levelsCount: 3
   _zBound: -5
   _speed: 15
-  _acceleration: 0
   _playerMovement: {fileID: 66040463}
   _speedModifier: {fileID: 66040462}
+  _playerCollisionHandler: {fileID: 712714035}
   IsFirstLevel: 1
+  _conditionsMet: 0
 --- !u!4 &1746278180
 Transform:
   m_ObjectHideFlags: 0
@@ -1279,13 +1280,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1178712081515362265, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
+      propertyPath: generator
+      value: 
+      objectReference: {fileID: 1746278179}
+    - target: {fileID: 1178712081515362265, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
       propertyPath: randomActivator
       value: 
       objectReference: {fileID: 190719531}
     - target: {fileID: 1271897448549364651, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
-      propertyPath: _playerMovement
+      propertyPath: generator
       value: 
-      objectReference: {fileID: 66040463}
+      objectReference: {fileID: 1746278179}
+    - target: {fileID: 1271897448549364651, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
+      propertyPath: isFirstLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2592659118311662921, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
