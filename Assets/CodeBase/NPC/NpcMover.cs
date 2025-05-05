@@ -8,12 +8,14 @@ namespace Codebase.NPC
         {
             Right,
             Left,
-            Stay,
-            Random
+            Stay
         }
 
         [SerializeField] private float moveDuration = 1.2f;
         [SerializeField] private MoveDirection direction = MoveDirection.Stay;
+        [SerializeField] private float minSpeedZ = 3f; // Минимальная скорость по Z
+        [SerializeField] private float maxSpeedZ = 7f; // Максимальная скорость по Z
+        [SerializeField] private float speedChangeInterval = 2f; // Интервал смены скорости (2 секунды)
         [SerializeField] private float minSpeedZ = 3f;
         [SerializeField] private float maxSpeedZ = 7f;
         [SerializeField] private float speedChangeInterval = 2f;
@@ -26,13 +28,18 @@ namespace Codebase.NPC
         private Vector3 _targetLocalPosition;
         private float _moveTimer;
         private bool _isMoving;
-        private float _currentSpeedZ;
-        private float _speedChangeTimer;
-        private bool _speedChangeEnabled;
+        private float _currentSpeedZ; // Текущая скорость по Z
+        private float _speedChangeTimer; // Таймер для смены скорости
+        private bool _speedChangeEnabled; // Флаг, разрешающий смену скорости
 
         private void Start()
         {
             _targetLocalPosition = transform.localPosition;
+            // Устанавливаем начальную скорость
+            _currentSpeedZ = 0f; // Скорость изначально 0, пока не сработал триггер
+            _speedChangeTimer = speedChangeInterval;
+            _speedChangeEnabled = false; // Изначально смена скорости отключена
+        }
             _currentSpeedZ = 0f;
             _speedChangeTimer = speedChangeInterval;
             _speedChangeEnabled = direction != MoveDirection.Random;
@@ -50,18 +57,34 @@ namespace Codebase.NPC
                 _moveTimer += Time.deltaTime;
                 float t = Mathf.Clamp01(_moveTimer / moveDuration);
                 Vector3 lerpedPosition = Vector3.Lerp(_startPosition, _targetLocalPosition, t);
-                transform.localPosition = new Vector3(lerpedPosition.x, lerpedPosition.y, _startPosition.z);
+                // Обновляем только X и Y, сохраняя Z для непрерывного движения
+                transform.localPosition = new Vector3(lerpedPosition.x, lerpedPosition.y, transform.localPosition.z);
 
                 if (t >= 1f)
                     _isMoving = false;
             }
 
-            if (_speedChangeEnabled && _currentSpeedZ != 0f)
+            // Непрерывное движение по оси Z
+            if (_currentSpeedZ != 0f)
+            {
+                Vector3 currentPosition = transform.localPosition;
+                // Двигаем по Z с текущей скоростью
+                currentPosition.z += _currentSpeedZ * Time.deltaTime;
+                transform.localPosition = currentPosition;
+            }
+
+            // Обновляем таймер смены скорости, только если смена скорости разрешена
+            if (_speedChangeEnabled)
             {
                 _speedChangeTimer -= Time.deltaTime;
                 if (_speedChangeTimer <= 0f)
                 {
+                    // Меняем скорость в пределах заданного диапазона
                     _currentSpeedZ = Random.Range(minSpeedZ, maxSpeedZ);
+                    _speedChangeTimer = speedChangeInterval; // Сбрасываем таймер
+                }
+            }
+        }
                     _speedChangeTimer = speedChangeInterval;
                 }
 
@@ -76,11 +99,10 @@ namespace Codebase.NPC
             if (_isMoving) return;
 
             float currentX = Mathf.Round(transform.localPosition.x);
-            int currentIndex = GetClosestIndex(currentX);
+            int currentIndex = System.Array.IndexOf(_positionsX, currentX);
             if (currentIndex == -1) return;
 
             float? nextX = null;
-            MoveDirection actualDirection = direction;
 
             switch (direction)
             {
@@ -129,7 +151,6 @@ namespace Codebase.NPC
             _targetLocalPosition = new Vector3(nextX.Value, _startPosition.y, _startPosition.z);
             _moveTimer = 0f;
             _isMoving = true;
-        }
 
         private int GetClosestIndex(float value)
         {

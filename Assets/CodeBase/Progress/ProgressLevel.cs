@@ -4,15 +4,14 @@ using Codebase.Components.Level;
 
 namespace Codebase.Progress
 {
-    public class ProgressTimer : MonoBehaviour
+    public class ProgressLevel : MonoBehaviour
     {
         [SerializeField] private float duration = 60f;
-        [SerializeField] private Generator generator; // —сылка на Generator
 
         public float Progress { get; private set; }
         public event Action OnProgressComplete;
-        public static Action OnProgressCompleteStatic;
-        private float _elapsed;
+
+        private float _zStart;
         private bool _isRunning;
 
         private void OnEnable()
@@ -20,6 +19,7 @@ namespace Codebase.Progress
             OnProgressCompleteStatic = OnProgressComplete;
             _elapsed = 0f;
             _isRunning = true;
+            Progress = 0f;
 
             if (generator == null)
             {
@@ -36,7 +36,19 @@ namespace Codebase.Progress
             {
                 _elapsed += Time.deltaTime;
                 Progress = Mathf.Clamp01(_elapsed / duration);
+            float currentZ = transform.position.z;
+            float distanceCovered = _zStart - currentZ;
+            Progress = Mathf.Clamp01(distanceCovered / _zStart);
 
+            if (currentZ <= 0f)
+            {
+                _isRunning = false;
+                Progress = 1f;
+                OnProgressComplete?.Invoke();
+            }
+        }
+    }
+}
                 if (Progress >= 1f)
                 {
                     _isRunning = false;

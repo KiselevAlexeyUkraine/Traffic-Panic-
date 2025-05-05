@@ -1,7 +1,9 @@
+// SpeedModifier.cs
 using UnityEngine;
 using Codebase.Services.Inputs;
 using Zenject;
 using Codebase.Components.Player;
+using Codebase.Components.Level;
 using System;
 
 namespace Codebase.Services.Time
@@ -11,7 +13,7 @@ namespace Codebase.Services.Time
         [SerializeField] private float boostScale = 2f;
         [SerializeField] private float brakeScale = 0.5f;
         [SerializeField] private float effectDuration = 2f;
-        [SerializeField] private float returnDuration = 1f;
+        [SerializeField] private float abilityUnlockDelay = 10f;
         [SerializeField] private Animator cameraAnimator;
         [SerializeField] private CameraShaker cameraShaker;
         [SerializeField] private float shakeInterval = 0.5f;
@@ -21,10 +23,11 @@ namespace Codebase.Services.Time
        public Action OnBoostUsed;
         public bool HasBoosted { get; private set; }
 
+        public event System.Action<float, float> OnBoostSpeed;
+
         private IInput _playerInput;
         private float _timer;
         private bool _effectActive;
-        private bool _isBoosting;
         private float _shakeTimer;
         private float _startTimer;
         private bool _abilitiesUnlocked;
@@ -65,7 +68,7 @@ namespace Codebase.Services.Time
                 // Проверяем, выполнены ли 3 перестроения перед ускорением
                 if (_playerInput.Boost && CanBoost())
                 {
-                    if (!_effectActive || UnityEngine.Time.timeScale != boostScale)
+                    if (!_effectActive)
                     {
                         StartTimeEffect(boostScale);
                         if (cameraShaker != null) _shakeTimer = 0f;
@@ -75,6 +78,7 @@ namespace Codebase.Services.Time
                             OnBoostUsed?.Invoke();
                             Debug.Log("Boost used!");
                         }
+                        TriggerBoost(boostScale);
                     }
                     else
                     {
@@ -96,6 +100,7 @@ namespace Codebase.Services.Time
                     StartTimeEffect(brakeScale);
                     _isBoosting = false;
                     _isReturning = false;
+                    TriggerBoost(brakeScale);
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
                 }
             }
@@ -120,18 +125,14 @@ namespace Codebase.Services.Time
                     UnityEngine.Time.timeScale = 1f;
                     _isReturning = false;
                     _effectActive = false;
-
-                    if (!_playerInput.Boost)
-                    {
-                        _isBoosting = false;
-                        if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
-                    }
+                    if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
+                    OnBoostSpeed?.Invoke(1f, 0f); // Reset multiplier
                 }
             }
 
+            if (!_effectActive && !_playerInput.Boost)
             if (!_effectActive && !_isReturning && !_playerInput.Boost)
             {
-                _isBoosting = false;
                 if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
             }
         }
@@ -188,6 +189,7 @@ namespace Codebase.Services.Time
             _isBoosting = true;
             _isReturning = false;
             if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
+            OnBoostSpeed?.Invoke(scale, effectDuration);
         }
 
         private bool CanBoost()

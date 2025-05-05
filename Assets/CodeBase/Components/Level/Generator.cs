@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Codebase.Components.Player;
 using Codebase.Services.Time;
+using Codebase.Components.Player;
 
 namespace Codebase.Components.Level
 {
@@ -16,14 +16,14 @@ namespace Codebase.Components.Level
         [SerializeField] private SpeedModifier _speedModifier; // Ссылка на SpeedModifier
         [SerializeField] public bool IsFirstLevel = true; // Флаг первого уровня
 
+        private float _initialBaseSpeed;
+        private float _speedMultiplier;
+        private float _targetMultiplier;
         private LinkedList<Level> _handledLevels = new();
-        private int _levelIndex = 0;
-        private bool _conditionsMet = false; // Флаг выполнения условий
-        private const int REQUIRED_LANE_CHANGES = 3; // Требуемое количество перестроений
+        private int _levelIndex;
+        private float _boostTimer;
 
-        public bool ConditionsMet => _conditionsMet; // Публичное свойство для ProgressTimer
-
-        private void Start()
+        private void Awake()
         {
             _speed = 15f;
             if (IsFirstLevel)
@@ -100,12 +100,34 @@ namespace Codebase.Components.Level
             }
         }
 
+        private void OnEnable()
+        {
+            _baseSpeed = _initialBaseSpeed;
+            ResetSpeedState();
+        }
+
+        private void ResetSpeedState()
+        {
+            _speedMultiplier = 1f;
+            _targetMultiplier = 1f;
+            _boostTimer = 0f;
+        }
+
         private void Update()
         {
-            foreach (Level level in _handledLevels)
+            if (_boostTimer > 0f)
             {
-                level.Move(Vector3.back, _speed, _acceleration);
+                _boostTimer -= Time.deltaTime;
+                if (_boostTimer <= 0f)
+                    ResetSpeedMultiplier();
             }
+
+            _speedMultiplier = Mathf.Lerp(_speedMultiplier, _targetMultiplier, Time.deltaTime);
+            float speed = _baseSpeed * _speedMultiplier;
+
+
+            foreach (Level level in _handledLevels)
+                level.Move(Vector3.back, speed, 0f);
 
             Level firstLevel = _handledLevels.First.Value;
             Vector3 firstLevelCenter = firstLevel.transform.TransformPoint(0f, 0f, firstLevel.Center);
@@ -117,23 +139,15 @@ namespace Codebase.Components.Level
                 Destroy(firstLevel.gameObject);
                 _handledLevels.RemoveFirst();
 
-                Level newLevel;
-                if (IsFirstLevel && !_conditionsMet)
-                {
-                    // Первый уровень, условия не выполнены: спавним копию _levels[0]
-                    newLevel = Instantiate(_levels[0], transform);
-                    Debug.Log("Respawning first segment (conditions not met).");
-                }
-                else
-                {
-                    // Не первый уровень или условия выполнены: стандартная генерация
-                    newLevel = Instantiate(GetNextLevel(), transform);
-                    Debug.Log("Spawning next segment.");
-                }
-
-                newLevel.MoveToEdge(lastLevel, newLevel);
+                Level newLevel = Instantiate(GetNextLevel(), transform);
+                newLevel.MoveToEdge(_handledLevels.Last.Value, newLevel);
                 _handledLevels.AddLast(newLevel);
             }
+        }
+
+        public void SetSpeedMultiplier(float multiplier)
+        {
+            _targetMultiplier = multiplier;
         }
 
         private void CheckConditions()
@@ -151,6 +165,15 @@ namespace Codebase.Components.Level
             {
                 Debug.Log($"Conditions not met. LaneChanges: {_playerMovement?.LaneChangeCount}/{REQUIRED_LANE_CHANGES}, Boosted: {_speedModifier?.HasBoosted}");
             }
+        public void ResetSpeedMultiplier()
+        {
+            _targetMultiplier = 1f;
+        }
+
+        private void HandleBoost(float multiplier, float duration)
+        {
+            SetSpeedMultiplier(multiplier);
+            _boostTimer = duration;
         }
 
         private Level GetNextLevel()
@@ -160,23 +183,15 @@ namespace Codebase.Components.Level
             return level;
         }
 
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
+        private void OnDestroy()
         {
-            foreach (Level level in _handledLevels)
-            {
-                Vector3 center = level.transform.TransformPoint(new Vector3(0f, 0f, level.Center));
-                Vector3 edge = center + new Vector3(0f, 0f, level.Extents);
+            if (_speedModifier != null)
+                _speedModifier.OnBoostSpeed -= HandleBoost;
+            if (_playerCollisionHandler != null)
+                _playerCollisionHandler.OnNitro -= HandleBoost;
 
-                Gizmos.color = Color.white;
-                Gizmos.DrawSphere(center, 0.2f);
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(edge, 0.3f);
-            }
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(transform.position + Vector3.forward * _zBound, 0.2f);
+            _baseSpeed = _initialBaseSpeed;
+            ResetSpeedState();
         }
-#endif
     }
 }

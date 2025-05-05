@@ -4,6 +4,7 @@ using Codebase.NPC;
 using Codebase.Components.Ui;
 using Codebase.Services;
 using Codebase.Services.Time;
+using UnityEngine.UIElements;
 
 namespace Codebase.Components.Player 
 {
@@ -33,6 +34,7 @@ namespace Codebase.Components.Player
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
+        public event Action<float, float> OnNitro;
 
         
         private bool isAlive = true; // Исправлено: игрок жив по умолчанию
@@ -139,9 +141,9 @@ namespace Codebase.Components.Player
 
         private void RefreshDurations()
         {
-            skillDuration = 30f;//SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
-            magnetDuration = 15f;//SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
-            nitroDuration = 8f; //SkillProgressService.Instance.GetSkillDuration("Nitro", 8f);
+            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
+            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
+            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 2f);
 
             Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
@@ -315,7 +317,7 @@ namespace Codebase.Components.Player
             {
                 isNitroActive = true;
                 particleSystemSkillsNitro.SetActive(true);
-                Time.timeScale = 2.5f;
+                OnNitro?.Invoke(4, nitroDuration);
             }
         }
     }

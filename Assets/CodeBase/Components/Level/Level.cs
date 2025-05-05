@@ -6,23 +6,31 @@ namespace Codebase.Components.Level
     {
         [field: SerializeField]
         public float Extents { get; private set; }
+
         [field: SerializeField]
         public float Center { get; private set; }
+
         [SerializeField] Canvas canvas;
         [SerializeField] Canvas canvas2;
+
         private void Awake()
         {
-            if(canvas != null) canvas.worldCamera = Camera.main;
+            if (canvas != null) canvas.worldCamera = Camera.main;
             if (canvas2 != null) canvas2.worldCamera = Camera.main;
+
             Tile[] tiles = GetComponentsInChildren<Tile>();
+
+            float totalExtents = 0f;
+            float totalCenter = 0f;
 
             foreach (Tile tile in tiles)
             {
-                Extents += tile.GetBounds().extents.z;
-                Center += tile.GetBounds().center.z;
+                totalExtents += tile.GetBounds().extents.z;
+                totalCenter += tile.GetBounds().center.z;
             }
 
-            Center /= tiles.Length;
+            Extents = Mathf.Round(totalExtents); // округление без дробей
+            Center = totalCenter / tiles.Length;
         }
 
         public void Move(Vector3 direction, float speed, float acceleration)

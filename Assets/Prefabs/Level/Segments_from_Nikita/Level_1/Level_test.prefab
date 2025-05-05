@@ -677,10 +677,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3054054549789145585, guid: dbd530783244db244a0493600e7ea363, type: 3}
-      propertyPath: moveDuration
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4511800614123712452, guid: dbd530783244db244a0493600e7ea363, type: 3}
       propertyPath: m_Name
       value: EnemyDinamic_1
