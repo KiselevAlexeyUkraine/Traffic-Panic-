@@ -376,6 +376,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5091495063853408400, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: Lens.FarClipPlane
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091495063853408400, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1023478251}
@@ -444,6 +448,10 @@ PrefabInstance:
       value: 60.000004
       objectReference: {fileID: 0}
     - target: {fileID: 6395361749243025757, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: far clip plane
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395361749243025757, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: m_BackGroundColor.a
       value: 0
       objectReference: {fileID: 0}
@@ -509,7 +517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: boostScale
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: cameraShaker
@@ -788,6 +796,7 @@ GameObject:
   m_Component:
   - component: {fileID: 705507995}
   - component: {fileID: 705507994}
+  - component: {fileID: 705507996}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -812,7 +821,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -845,7 +854,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -875,6 +884,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &705507996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705507993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!114 &712714035 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8635362920701190219, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
@@ -10888,13 +10920,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6828350269043569730, guid: 626d8c2d92ba0e54aa0b520935029573, type: 3}
-      propertyPath: _baseSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6828350269043569730, guid: 626d8c2d92ba0e54aa0b520935029573, type: 3}
       propertyPath: _speedModifier
       value: 
       objectReference: {fileID: 66040462}
+    - target: {fileID: 6828350269043569730, guid: 626d8c2d92ba0e54aa0b520935029573, type: 3}
+      propertyPath: _playerCollisionHandler
+      value: 
+      objectReference: {fileID: 712714035}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11024,7 +11056,6 @@ MonoBehaviour:
   _pageSwitcher: {fileID: 864329332}
   _playerMovement: {fileID: 66040463}
   _playerCollisionHandler: {fileID: 712714035}
-  _progressTimer: {fileID: 0}
   _speedModifier: {fileID: 66040462}
   _pauseManager: {fileID: 1529610741}
   _playerMagnetCollector: {fileID: 66040461}
@@ -11293,8 +11324,8 @@ MonoBehaviour:
   _levelsCount: 3
   _zBound: -20
   _baseSpeed: 15
-  _acceleration: 0.05
   _speedModifier: {fileID: 66040462}
+  _playerCollisionHandler: {fileID: 712714035}
 --- !u!4 &1746278180
 Transform:
   m_ObjectHideFlags: 0
@@ -11416,9 +11447,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 705507995}
-  - {fileID: 1746278180}
   - {fileID: 66040459}
   - {fileID: 922830429}
   - {fileID: 1238460125}
   - {fileID: 864329331}
+  - {fileID: 1746278180}
   - {fileID: 946358366}

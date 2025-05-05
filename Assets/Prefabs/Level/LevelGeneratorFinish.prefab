@@ -48,5 +48,6 @@ MonoBehaviour:
   - {fileID: 8589166553847547087, guid: c3fba3a6f09db584aa89a2755750b297, type: 3}
   _levelsCount: 1
   _zBound: -20
-  _speed: 20
-  _acceleration: 0.05
+  _baseSpeed: 15
+  _speedModifier: {fileID: 0}
+  _playerCollisionHandler: {fileID: 0}

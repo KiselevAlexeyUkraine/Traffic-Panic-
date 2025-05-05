@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private CursorToggle _cursorToggle;
     [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
-    [SerializeField] private ProgressLevel _progressTimer;
+    private ProgressLevel _progressTimer;
     [SerializeField] private SpeedModifier _speedModifier;
     [SerializeField] private PauseManager _pauseManager;
     public static LevelManager l;

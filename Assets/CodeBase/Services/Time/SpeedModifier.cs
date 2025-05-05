@@ -22,7 +22,6 @@ namespace Codebase.Services.Time
         private IInput _playerInput;
         private float _timer;
         private bool _effectActive;
-        private bool _isBoosting;
         private float _shakeTimer;
         private float _startTimer;
         private bool _abilitiesUnlocked;
@@ -58,7 +57,6 @@ namespace Codebase.Services.Time
                         _timer = effectDuration;
                     }
 
-                    _isBoosting = true;
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
 
                     _shakeTimer -= UnityEngine.Time.unscaledDeltaTime;
@@ -71,7 +69,6 @@ namespace Codebase.Services.Time
                 else if (_playerInput.Drag)
                 {
                     TriggerBoost(brakeScale);
-                    _isBoosting = false;
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
                 }
             }
@@ -82,7 +79,6 @@ namespace Codebase.Services.Time
                 if (_timer <= 0f)
                 {
                     _effectActive = false;
-                    _isBoosting = false;
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
                     OnBoostSpeed?.Invoke(1f, 0f); // Reset multiplier
                 }
@@ -90,7 +86,6 @@ namespace Codebase.Services.Time
 
             if (!_effectActive && !_playerInput.Boost)
             {
-                _isBoosting = false;
                 if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
             }
         }
@@ -106,7 +101,7 @@ namespace Codebase.Services.Time
             _timer = effectDuration;
             _effectActive = true;
             _shakeTimer = 0f;
-            _isBoosting = true;
+
             if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
             OnBoostSpeed?.Invoke(scale, effectDuration);
         }

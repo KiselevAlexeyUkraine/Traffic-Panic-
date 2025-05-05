@@ -1,7 +1,7 @@
-// Generator.cs
 using System.Collections.Generic;
 using UnityEngine;
-using Codebase.Services.Time; // подключение SpeedModifier
+using Codebase.Services.Time;
+using Codebase.Components.Player;
 
 namespace Codebase.Components.Level
 {
@@ -11,18 +11,26 @@ namespace Codebase.Components.Level
         [Min(0)][SerializeField] private int _levelsCount;
         [SerializeField] private float _zBound;
         [SerializeField] private float _baseSpeed;
-        [SerializeField] private float _acceleration;
-        [SerializeField] private SpeedModifier _speedModifier; // ссылка на SpeedModifier
+        [SerializeField] private SpeedModifier _speedModifier;
+        [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
 
-        private float _speedMultiplier = 1f;
-        private float _targetMultiplier = 1f;
-        private float _initialSpeed;
+        private float _initialBaseSpeed;
+        private float _speedMultiplier;
+        private float _targetMultiplier;
         private LinkedList<Level> _handledLevels = new();
-        private int _levelIndex = 0;
+        private int _levelIndex;
+        private float _boostTimer;
 
         private void Awake()
         {
-            _initialSpeed = _baseSpeed;
+            _initialBaseSpeed = _baseSpeed;
+            ResetSpeedState();
+
+            if (_speedModifier != null)
+                _speedModifier.OnBoostSpeed += HandleBoost;
+
+            if (_playerCollisionHandler != null)
+                _playerCollisionHandler.OnNitro += HandleBoost;
 
             for (int i = 0; i < _levelsCount; i++)
             {
@@ -39,36 +47,32 @@ namespace Codebase.Components.Level
 
         private void OnEnable()
         {
-            if (_speedModifier != null)
-                _speedModifier.OnBoostSpeed += HandleBoostSpeed;
+            _baseSpeed = _initialBaseSpeed;
+            ResetSpeedState();
         }
 
-        private void OnDisable()
+        private void ResetSpeedState()
         {
-            if (_speedModifier != null)
-                _speedModifier.OnBoostSpeed -= HandleBoostSpeed;
-        }
-
-        private void HandleBoostSpeed(float multiplier, float duration)
-        {
-            StopAllCoroutines();
-            StartCoroutine(ApplySpeedBoost(multiplier, duration));
-        }
-
-        private System.Collections.IEnumerator ApplySpeedBoost(float multiplier, float duration)
-        {
-            SetSpeedMultiplier(multiplier);
-            yield return new WaitForSeconds(duration);
-            ResetSpeedMultiplier();
+            _speedMultiplier = 1f;
+            _targetMultiplier = 1f;
+            _boostTimer = 0f;
         }
 
         private void Update()
         {
+            if (_boostTimer > 0f)
+            {
+                _boostTimer -= Time.deltaTime;
+                if (_boostTimer <= 0f)
+                    ResetSpeedMultiplier();
+            }
+
             _speedMultiplier = Mathf.Lerp(_speedMultiplier, _targetMultiplier, Time.deltaTime);
             float speed = _baseSpeed * _speedMultiplier;
 
+
             foreach (Level level in _handledLevels)
-                level.Move(Vector3.back, speed, _acceleration);
+                level.Move(Vector3.back, speed, 0f);
 
             Level firstLevel = _handledLevels.First.Value;
             Vector3 firstLevelCenter = firstLevel.transform.TransformPoint(0f, 0f, firstLevel.Center);
@@ -95,11 +99,28 @@ namespace Codebase.Components.Level
             _targetMultiplier = 1f;
         }
 
+        private void HandleBoost(float multiplier, float duration)
+        {
+            SetSpeedMultiplier(multiplier);
+            _boostTimer = duration;
+        }
+
         private Level GetNextLevel()
         {
             Level level = _levels[_levelIndex];
             _levelIndex = (_levelIndex + 1) % _levels.Count;
             return level;
+        }
+
+        private void OnDestroy()
+        {
+            if (_speedModifier != null)
+                _speedModifier.OnBoostSpeed -= HandleBoost;
+            if (_playerCollisionHandler != null)
+                _playerCollisionHandler.OnNitro -= HandleBoost;
+
+            _baseSpeed = _initialBaseSpeed;
+            ResetSpeedState();
         }
     }
 }
