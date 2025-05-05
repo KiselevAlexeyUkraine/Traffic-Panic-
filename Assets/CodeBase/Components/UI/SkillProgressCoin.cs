@@ -42,7 +42,7 @@ namespace Codebase.Components.Ui
         {
             if (_skillReady && _playerInput.Action && _collisionHandler.IsAlive == false)
             {
-                var skillKey = SkillSelectorPersistent.Instance.SelectedSkill.ToString();
+                var skillKey = "Nitro";//SkillSelectorPersistent.Instance.SelectedSkill.ToString();
                 _collisionHandler.TriggerSkillByKey(skillKey);
                 ResetProgress();
             }

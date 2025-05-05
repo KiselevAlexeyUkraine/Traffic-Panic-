@@ -1,25 +1,21 @@
 using UnityEngine;
-using Codebase.Interfaces;
 
 namespace Codebase.NPC
 {
-    public class NpcMover : MonoBehaviour, IWetMove
+    public class NpcMover : MonoBehaviour
     {
         public enum MoveDirection
         {
             Right,
             Left,
-            Stay,
-            Random
+            Stay
         }
 
         [SerializeField] private float moveDuration = 1.2f;
         [SerializeField] private MoveDirection direction = MoveDirection.Stay;
-        [SerializeField] private float minSpeedZ = 3f;
-        [SerializeField] private float maxSpeedZ = 7f;
-        [SerializeField] private float speedChangeInterval = 2f;
-        [SerializeField] private float carSpeedX = 5f;
-        [SerializeField] private Animator animator;
+        [SerializeField] private float minSpeedZ = 3f; // Минимальная скорость по Z
+        [SerializeField] private float maxSpeedZ = 7f; // Максимальная скорость по Z
+        [SerializeField] private float speedChangeInterval = 2f; // Интервал смены скорости (2 секунды)
 
         private readonly float[] _positionsX = { -6f, -3f, 0f, 3f, 6f };
 
@@ -27,65 +23,53 @@ namespace Codebase.NPC
         private Vector3 _targetLocalPosition;
         private float _moveTimer;
         private bool _isMoving;
-        private float _currentSpeedZ;
-        private float _speedChangeTimer;
-        private bool _speedChangeEnabled;
-        private float _baseMinSpeedZ;
-        private float _baseMaxSpeedZ;
+        private float _currentSpeedZ; // Текущая скорость по Z
+        private float _speedChangeTimer; // Таймер для смены скорости
+        private bool _speedChangeEnabled; // Флаг, разрешающий смену скорости
 
         private void Start()
         {
             _targetLocalPosition = transform.localPosition;
-            _baseMinSpeedZ = minSpeedZ;
-            _baseMaxSpeedZ = maxSpeedZ;
-
-            _currentSpeedZ = 0f;
+            // Устанавливаем начальную скорость
+            _currentSpeedZ = 0f; // Скорость изначально 0, пока не сработал триггер
             _speedChangeTimer = speedChangeInterval;
-            _speedChangeEnabled = direction != MoveDirection.Random;
-
-            if (_speedChangeEnabled)
-            {
-                _currentSpeedZ = Random.Range(minSpeedZ, maxSpeedZ);
-            }
-        }
-
-        public void SetSpeedMultiplier(float multiplier)
-        {
-            minSpeedZ = _baseMinSpeedZ * multiplier;
-            maxSpeedZ = _baseMaxSpeedZ * multiplier;
-        }
-
-        public void ResetSpeedMultiplier()
-        {
-            minSpeedZ = _baseMinSpeedZ;
-            maxSpeedZ = _baseMaxSpeedZ;
+            _speedChangeEnabled = false; // Изначально смена скорости отключена
         }
 
         private void Update()
         {
+            // Движение по оси X (существующая логика)
             if (_isMoving)
             {
                 _moveTimer += Time.deltaTime;
                 float t = Mathf.Clamp01(_moveTimer / moveDuration);
                 Vector3 lerpedPosition = Vector3.Lerp(_startPosition, _targetLocalPosition, t);
-                transform.localPosition = new Vector3(lerpedPosition.x, lerpedPosition.y, _startPosition.z);
+                // Обновляем только X и Y, сохраняя Z для непрерывного движения
+                transform.localPosition = new Vector3(lerpedPosition.x, lerpedPosition.y, transform.localPosition.z);
 
                 if (t >= 1f)
                     _isMoving = false;
             }
 
-            if (_speedChangeEnabled && _currentSpeedZ != 0f)
+            // Непрерывное движение по оси Z
+            if (_currentSpeedZ != 0f)
+            {
+                Vector3 currentPosition = transform.localPosition;
+                // Двигаем по Z с текущей скоростью
+                currentPosition.z += _currentSpeedZ * Time.deltaTime;
+                transform.localPosition = currentPosition;
+            }
+
+            // Обновляем таймер смены скорости, только если смена скорости разрешена
+            if (_speedChangeEnabled)
             {
                 _speedChangeTimer -= Time.deltaTime;
                 if (_speedChangeTimer <= 0f)
                 {
+                    // Меняем скорость в пределах заданного диапазона
                     _currentSpeedZ = Random.Range(minSpeedZ, maxSpeedZ);
-                    _speedChangeTimer = speedChangeInterval;
+                    _speedChangeTimer = speedChangeInterval; // Сбрасываем таймер
                 }
-
-                Vector3 currentPosition = transform.localPosition;
-                currentPosition.z += _currentSpeedZ * Time.deltaTime;
-                transform.localPosition = currentPosition;
             }
         }
 
@@ -94,11 +78,10 @@ namespace Codebase.NPC
             if (_isMoving) return;
 
             float currentX = Mathf.Round(transform.localPosition.x);
-            int currentIndex = GetClosestIndex(currentX);
+            int currentIndex = System.Array.IndexOf(_positionsX, currentX);
             if (currentIndex == -1) return;
 
             float? nextX = null;
-            MoveDirection actualDirection = direction;
 
             switch (direction)
             {
@@ -112,51 +95,24 @@ namespace Codebase.NPC
                         nextX = _positionsX[currentIndex - 1];
                     break;
 
-                case MoveDirection.Random:
-                    int dir = Random.Range(0, 2);
-                    if (dir == 0 && currentIndex > 0)
-                    {
-                        nextX = _positionsX[currentIndex - 1];
-                        actualDirection = MoveDirection.Left;
-                    }
-                    else if (dir == 1 && currentIndex < _positionsX.Length - 1)
-                    {
-                        nextX = _positionsX[currentIndex + 1];
-                        actualDirection = MoveDirection.Right;
-                    }
-                    break;
-
                 case MoveDirection.Stay:
                     return;
             }
 
-            if (nextX == null) return;
-
-            if (actualDirection == MoveDirection.Right)
-                animator.Play("Right");
-            else if (actualDirection == MoveDirection.Left)
-                animator.Play("Left");
+            if (nextX == null) return; // Нет доступной позиции в выбранном направлении
 
             _startPosition = transform.localPosition;
             _targetLocalPosition = new Vector3(nextX.Value, _startPosition.y, _startPosition.z);
             _moveTimer = 0f;
             _isMoving = true;
-        }
 
-        private int GetClosestIndex(float value)
-        {
-            float minDiff = float.MaxValue;
-            int closestIndex = -1;
-            for (int i = 0; i < _positionsX.Length; i++)
+            // Активируем смену скорости, если это первый вызов TriggerMove
+            if (!_speedChangeEnabled)
             {
-                float diff = Mathf.Abs(_positionsX[i] - value);
-                if (diff < minDiff)
-                {
-                    minDiff = diff;
-                    closestIndex = i;
-                }
+                _speedChangeEnabled = true;
+                _currentSpeedZ = Random.Range(minSpeedZ, maxSpeedZ); // Устанавливаем начальную скорость
+                _speedChangeTimer = speedChangeInterval; // Сбрасываем таймер
             }
-            return closestIndex;
         }
     }
 }

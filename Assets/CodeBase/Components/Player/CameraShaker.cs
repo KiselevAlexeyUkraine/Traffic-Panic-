@@ -20,7 +20,7 @@ namespace Codebase.Components.Player
                 _playerCollisionHandler.OnPlayerDeath -= Shake;
         }
 
-        private void Shake()
+        public void Shake()
         {
             _impulseSource.GenerateImpulse(Vector3.forward);
         }

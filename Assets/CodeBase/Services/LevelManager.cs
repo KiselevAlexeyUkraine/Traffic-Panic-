@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private ProgressTimer _progressTimer;
     [SerializeField] private SpeedModifier _speedModifier;
     [SerializeField] private PauseManager _pauseManager;
+    public static LevelManager l;
     [SerializeField] private PlayerMagnetCollector _playerMagnetCollector;
 
     [Inject]
@@ -26,6 +27,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnEnable()
     {
+        l = this;
         _playerCollisionHandler.OnPlayerDeath += HandlePlayerDeath;
         _progressTimer.OnProgressComplete += EndLevelVictory;
     }
@@ -36,7 +38,7 @@ public class LevelManager : MonoBehaviour
         _progressTimer.OnProgressComplete -= EndLevelVictory;
     }
 
-    private void HandlePlayerDeath()
+    public void HandlePlayerDeath()
     {
         Debug.Log("Игрок погиб. Завершаем уровень...");
         _playerMovement.enabled = false;

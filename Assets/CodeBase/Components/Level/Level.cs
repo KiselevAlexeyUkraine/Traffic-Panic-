@@ -8,9 +8,12 @@ namespace Codebase.Components.Level
         public float Extents { get; private set; }
         [field: SerializeField]
         public float Center { get; private set; }
-
+        [SerializeField] Canvas canvas;
+        [SerializeField] Canvas canvas2;
         private void Awake()
         {
+            if(canvas != null) canvas.worldCamera = Camera.main;
+            if (canvas2 != null) canvas2.worldCamera = Camera.main;
             Tile[] tiles = GetComponentsInChildren<Tile>();
 
             foreach (Tile tile in tiles)

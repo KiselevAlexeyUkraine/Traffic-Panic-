@@ -28,11 +28,11 @@ namespace Codebase.Components.Player
         [SerializeField] private GameObject particleSystemSkillsNitro;
         [SerializeField] private GameObject magnet;
         [SerializeField] private SpeedModifier speedModifier;
+        [SerializeField] private RandomActivator randomActivator;
 
         public event Action OnPlayerDeath;
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
-        public event Action OnActivateRandomObject;
 
         private bool isAlive = false;
         public bool IsAlive => isAlive;
@@ -50,19 +50,26 @@ namespace Codebase.Components.Player
         private float jumpCooldownLeft;
 
         private float skillDuration;
+        private float remainingSkillTime;
+        private float remainingMagnetTime;
+        //private float skillDuration;
         private float magnetDuration;
         private float nitroDuration;
 
-        private void Awake()
+        public enum Lane
+        {
+            Lane1, // x = -6
+            Lane2, // x = -4
+            Lane3, // x = 0
+            Lane4, // x = 4
+            Lane5  // x = 6
+        }
+        private void Start()
         {
             if (SkillProgressService.Instance == null)
             {
                 Debug.LogError("SkillProgressService not initialized");
             }
-        }
-
-        private void Start()
-        {
             Invoke(nameof(RefreshDurations), 0.1f);
         }
 
@@ -119,9 +126,9 @@ namespace Codebase.Components.Player
 
         private void RefreshDurations()
         {
-            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 2f);
-            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 4f);
-            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 3f);
+            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
+            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
+            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 8f);
 
             Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
@@ -156,6 +163,18 @@ namespace Codebase.Components.Player
                 NpcMover npcMover = other.GetComponent<NpcMover>();
                 npcMover?.TriggerMove();
             }
+            else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
+            {
+                LaneTrigger laneTrigger = other.GetComponent<LaneTrigger>();
+                if (randomActivator != null)
+                {
+                    randomActivator.ActivateOnLane(laneTrigger.SelectedLane);
+                }
+                else
+                {
+                    Debug.LogWarning("LaneTrigger or RandomActivator is missing on police car trigger.");
+                }
+            }
 
             if (!isAlive)
             {
@@ -186,10 +205,6 @@ namespace Codebase.Components.Player
                 {
                     TrySpringboard();
                 }
-                else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
-                {
-                    ActivateRandomObject();
-                }
                 else if ((armorTriggerLayer.value & otherLayerMask) != 0)
                 {
                     Destroy(other.gameObject);
@@ -209,6 +224,7 @@ namespace Codebase.Components.Player
 
         private void HandleEnemyCollision()
         {
+            LevelManager.l.HandlePlayerDeath();
             OnPlayerDeath?.Invoke();
         }
 
@@ -235,10 +251,11 @@ namespace Codebase.Components.Player
 
         private void ActivateRandomObject()
         {
-            OnActivateRandomObject?.Invoke();
+           // OnActivateRandomObject?.Invoke();
         }
 
-        public void ActivateSkill()
+       // public void ActivateSkill()
+        private void ActivateSkill()
         {
             RefreshDurations();
             skillTimeLeft = skillDuration;
@@ -281,7 +298,7 @@ namespace Codebase.Components.Player
             {
                 isNitroActive = true;
                 particleSystemSkillsNitro.SetActive(true);
-                Time.timeScale = 3f;
+                Time.timeScale = 2.5f;
             }
         }
     }

@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Complite/Bootstrap.unity
     guid: 63ed05ba13717f3499464b625df1d7b0
   - enabled: 1
     path: Assets/Scenes/Complite/Menu.unity
     guid: e360884b3fe7dd94eb4c528d53e0fa11
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/AleksKisliy.unity
     guid: 5ae1e39d375c4a14fbe7d749d184b3d0
   - enabled: 1
@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AleksKisliy 2.unity
     guid: ab15b8757ad93f1468880bb38568779d
+  - enabled: 1
+    path: Assets/Scenes/Nikita.unity
+    guid: 572c9b7067382fe45adbd921a985b772
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -5,39 +5,40 @@ namespace Codebase.Components.Player
 {
     public class RandomActivator : MonoBehaviour
     {
-        [SerializeField] private GameObject[] objects;
+        [SerializeField] private GameObject[] objects; // Один объект на каждую полосу
         [SerializeField] private float deactivateDelay = 5f;
-        [SerializeField] private PlayerCollisionHandler playerCollisionHandler;
 
         private GameObject activeObject;
 
-        private void Start()
+        public void ActivateOnLane(Lane lane)
         {
-            if (playerCollisionHandler != null)
-                playerCollisionHandler.OnActivateRandomObject += ActivateRandomObject;
-        }
-
-        private void OnDestroy()
-        {
-            if (playerCollisionHandler != null)
-                playerCollisionHandler.OnActivateRandomObject -= ActivateRandomObject;
-        }
-
-        private void ActivateRandomObject()
-        {
-            if (objects == null || objects.Length == 0)
+            if (objects == null || objects.Length == 0 || objects.Length < 5)
+            {
+                Debug.LogWarning("Objects array is invalid or does not contain enough objects for all lanes.");
                 return;
+            }
 
             if (activeObject != null)
                 activeObject.SetActive(false);
 
-            int randomIndex = Random.Range(0, objects.Length);
-            activeObject = objects[randomIndex];
-
-            if (activeObject != null)
+            int laneIndex = (int)lane;
+            if (laneIndex >= 0 && laneIndex < objects.Length)
             {
-                activeObject.SetActive(true);
-                StartCoroutine(DeactivateAfterDelay(activeObject));
+                activeObject = objects[laneIndex];
+
+                if (activeObject != null)
+                {
+                    activeObject.SetActive(true);
+                    StartCoroutine(DeactivateAfterDelay(activeObject));
+                }
+                else
+                {
+                    Debug.LogWarning($"No object assigned for lane {lane}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid lane index: {laneIndex}");
             }
         }
 
