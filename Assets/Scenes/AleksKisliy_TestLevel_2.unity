@@ -509,7 +509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: boostScale
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8515171417779921977, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: cameraShaker
@@ -10887,6 +10887,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6828350269043569730, guid: 626d8c2d92ba0e54aa0b520935029573, type: 3}
+      propertyPath: _baseSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6828350269043569730, guid: 626d8c2d92ba0e54aa0b520935029573, type: 3}
+      propertyPath: _speedModifier
+      value: 
+      objectReference: {fileID: 66040462}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11284,8 +11292,9 @@ MonoBehaviour:
   - {fileID: 5385966855428111777, guid: 1aeb58e6fd99f324eb28e624b31b9c6a, type: 3}
   _levelsCount: 3
   _zBound: -20
-  _speed: 20
+  _baseSpeed: 15
   _acceleration: 0.05
+  _speedModifier: {fileID: 66040462}
 --- !u!4 &1746278180
 Transform:
   m_ObjectHideFlags: 0
