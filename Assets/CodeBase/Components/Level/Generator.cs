@@ -1,4 +1,3 @@
-// File: Generator.cs
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,10 +27,6 @@ namespace Codebase.Components.Level
         {
             _initialSpeed = _speed;
             _initialAcceleration = _acceleration;
-        }
-
-        private void Start()
-        {
             _speed = _initialSpeed;
             _acceleration = _initialAcceleration;
 
@@ -52,6 +47,7 @@ namespace Codebase.Components.Level
                 _handledLevels.AddLast(newLevel);
             }
         }
+
 
         private void Update()
         {

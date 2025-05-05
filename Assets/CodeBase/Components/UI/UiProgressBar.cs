@@ -7,10 +7,21 @@ namespace Codebase.Components.Ui
     public class UiProgressBar : MonoBehaviour
     {
         [SerializeField] private Image _fillImage;
-        [SerializeField] private ProgressTimer _timer;
+
+        private ProgressLevel _timer;
+
 
         private void Start()
         {
+            if (_timer == null)
+                _timer = FindFirstObjectByType<ProgressLevel>();
+
+            if (_timer == null)
+            {
+                Debug.LogError("ProgressLevel не найден на сцене.");
+                enabled = false;
+                return;
+            }
             InvokeRepeating(nameof(UpdateFillAmount), 0f, 1f);
         }
 
@@ -21,8 +32,11 @@ namespace Codebase.Components.Ui
 
         private void UpdateFillAmount()
         {
-            _fillImage.fillAmount = _timer.Progress;
-            Debug.Log("Прогресс бар обновлён");
+            if (_fillImage != null)
+            {
+                _fillImage.fillAmount = _timer.Progress;
+                Debug.Log("Прогресс бар обновлён");
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private CursorToggle _cursorToggle;
     [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
-    [SerializeField] private ProgressTimer _progressTimer;
+    [SerializeField] private ProgressLevel _progressTimer;
     [SerializeField] private SpeedModifier _speedModifier;
     [SerializeField] private PauseManager _pauseManager;
     public static LevelManager l;
@@ -25,11 +25,25 @@ public class LevelManager : MonoBehaviour
         _cursorToggle = cursorToggle;
     }
 
+    private void Start()
+    {
+        if (_progressTimer == null)
+            _progressTimer = FindFirstObjectByType<ProgressLevel>();
+
+        if (_progressTimer == null)
+        {
+            Debug.LogError("ProgressLevel не найден на сцене.");
+            enabled = false;
+            return;
+        }
+        _progressTimer.OnProgressComplete += EndLevelVictory;
+    }
+
     private void OnEnable()
     {
         l = this;
         _playerCollisionHandler.OnPlayerDeath += HandlePlayerDeath;
-        _progressTimer.OnProgressComplete += EndLevelVictory;
+
     }
 
     private void OnDisable()
