@@ -6,7 +6,7 @@ namespace Codebase.Services
     {
         public enum SkillType
         {
-            None,
+           
             Armor,
             Magnet,
             Nitro
@@ -14,7 +14,7 @@ namespace Codebase.Services
 
         public static SkillSelectorPersistent Instance { get; private set; }
 
-        public SkillType SelectedSkill { get; private set; } = SkillType.None;
+        public SkillType SelectedSkill { get; private set; } = SkillType.Nitro;
 
         private void Awake()
         {

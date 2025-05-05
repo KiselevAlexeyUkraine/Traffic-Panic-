@@ -26,6 +26,7 @@ namespace Codebase.Components.Ui
         private void SelectLevel(int sceneIndex)
         {
             _selectedLevel = sceneIndex;
+          
             PlayerPrefs.SetInt(SelectedLevelKey, _selectedLevel);
             PlayerPrefs.Save();
             Debug.Log("Level Selected: " + _selectedLevel);

@@ -6397,13 +6397,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6815e268cbff68459364f207d1a3640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxXPosition: 4
-  _minXPosition: -4
   _moveSpeed: 15
   _smoothness: 0.1
   _distanceOveraging: 2
   _snapSpeedMultiplier: 2
   _snapDistanceThreshold: 0.5
+  _lanes:
+  - -6
+  - -3
+  - 0
+  - 3
+  - 6
 --- !u!114 &8635362920701190219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6445,6 +6449,7 @@ MonoBehaviour:
   particleSystemSkillsMagnute: {fileID: 0}
   particleSystemSkillsNitro: {fileID: 0}
   magnet: {fileID: 0}
+  speedModifier: {fileID: 0}
   randomActivator: {fileID: 0}
 --- !u!114 &5426495391346480029
 MonoBehaviour:

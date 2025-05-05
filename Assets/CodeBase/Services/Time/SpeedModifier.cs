@@ -2,6 +2,7 @@ using UnityEngine;
 using Codebase.Services.Inputs;
 using Zenject;
 using Codebase.Components.Player;
+using System;
 
 namespace Codebase.Services.Time
 {
@@ -10,12 +11,16 @@ namespace Codebase.Services.Time
         [SerializeField] private float boostScale = 2f;
         [SerializeField] private float brakeScale = 0.5f;
         [SerializeField] private float effectDuration = 2f;
-        [SerializeField] private float returnDuration = 1f; // Длительность возврата к нормальной скорости
+        [SerializeField] private float returnDuration = 1f;
         [SerializeField] private Animator cameraAnimator;
         [SerializeField] private CameraShaker cameraShaker;
         [SerializeField] private float shakeInterval = 0.5f;
         [SerializeField] private float abilityUnlockDelay = 10f;
-       
+        [SerializeField] private PlayerMovement _playerMovement; // Ссылка на PlayerMovement
+        [SerializeField] private bool IsFirstLevel;
+       public Action OnBoostUsed;
+        public bool HasBoosted { get; private set; }
+
         private IInput _playerInput;
         private float _timer;
         private bool _effectActive;
@@ -23,10 +28,11 @@ namespace Codebase.Services.Time
         private float _shakeTimer;
         private float _startTimer;
         private bool _abilitiesUnlocked;
-        private bool _isReturning; // Флаг для состояния возврата
-        private float _returnTimer; // Таймер для возврата
-        private float _targetTimeScale; // Целевая скорость времени для интерполяции
-        private float _startTimeScale; // Начальная скорость времени для интерполяции
+        private bool _isReturning;
+        private float _returnTimer;
+        private float _targetTimeScale;
+        private float _startTimeScale;
+        private const int REQUIRED_LANE_CHANGES = 3; // Требуемое количество перестроений
 
         [Inject]
         private void Construct(DesktopInput desktopInput)
@@ -34,9 +40,16 @@ namespace Codebase.Services.Time
             _playerInput = desktopInput;
         }
 
+        private void Awake()
+        {
+            if (_playerMovement == null)
+            {
+                Debug.LogError("PlayerMovement is not assigned in SpeedModifier!");
+            }
+        }
+
         private void Update()
         {
-            // Обновляем таймер разблокировки способностей
             if (!_abilitiesUnlocked)
             {
                 _startTimer += UnityEngine.Time.unscaledDeltaTime;
@@ -47,22 +60,28 @@ namespace Codebase.Services.Time
                 }
             }
 
-            // Обрабатываем ввод, если способности разблокированы
             if (_abilitiesUnlocked)
             {
-                if (_playerInput.Boost)
+                // Проверяем, выполнены ли 3 перестроения перед ускорением
+                if (_playerInput.Boost && CanBoost())
                 {
                     if (!_effectActive || UnityEngine.Time.timeScale != boostScale)
                     {
                         StartTimeEffect(boostScale);
                         if (cameraShaker != null) _shakeTimer = 0f;
+                        if (!HasBoosted)
+                        {
+                            HasBoosted = true;
+                            OnBoostUsed?.Invoke();
+                            Debug.Log("Boost used!");
+                        }
                     }
                     else
                     {
                         _timer = effectDuration;
                     }
                     _isBoosting = true;
-                    _isReturning = false; // Отключаем возврат при активном ускорении
+                    _isReturning = false;
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
 
                     _shakeTimer -= UnityEngine.Time.unscaledDeltaTime;
@@ -76,12 +95,11 @@ namespace Codebase.Services.Time
                 {
                     StartTimeEffect(brakeScale);
                     _isBoosting = false;
-                    _isReturning = false; // Отключаем возврат при активном замедлении
+                    _isReturning = false;
                     if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", false);
                 }
             }
 
-            // Обновляем таймер эффекта
             if (_effectActive)
             {
                 _timer -= UnityEngine.Time.unscaledDeltaTime;
@@ -91,7 +109,6 @@ namespace Codebase.Services.Time
                 }
             }
 
-            // Обрабатываем плавный возврат к нормальной скорости
             if (_isReturning)
             {
                 _returnTimer += UnityEngine.Time.unscaledDeltaTime;
@@ -112,7 +129,6 @@ namespace Codebase.Services.Time
                 }
             }
 
-            // Сбрасываем состояние камеры, если эффект не активен и нет ускорения
             if (!_effectActive && !_isReturning && !_playerInput.Boost)
             {
                 _isBoosting = false;
@@ -125,7 +141,7 @@ namespace Codebase.Services.Time
             UnityEngine.Time.timeScale = scale;
             _timer = effectDuration;
             _effectActive = true;
-            _isReturning = false; // Отключаем возврат при старте нового эффекта
+            _isReturning = false;
         }
 
         private void StartReturnToNormalSpeed()
@@ -144,10 +160,26 @@ namespace Codebase.Services.Time
                 return;
             }
 
+            // Проверяем, выполнены ли 3 перестроения
+            if (IsFirstLevel)
+            {
+                if (!CanBoost())
+                {
+                    Debug.Log("Cannot boost: Complete 3 lane changes first!");
+                    return;
+                }
+            }
+
             if (!_effectActive || UnityEngine.Time.timeScale != scale)
             {
                 StartTimeEffect(scale);
                 _shakeTimer = 0f;
+                if (!HasBoosted)
+                {
+                    HasBoosted = true;
+                    OnBoostUsed?.Invoke();
+                    Debug.Log("Boost used!");
+                }
             }
             else
             {
@@ -156,6 +188,11 @@ namespace Codebase.Services.Time
             _isBoosting = true;
             _isReturning = false;
             if (cameraAnimator != null) cameraAnimator.SetBool("IsBoosting", true);
+        }
+
+        private bool CanBoost()
+        {
+            return _playerMovement != null && _playerMovement.LaneChangeCount >= REQUIRED_LANE_CHANGES;
         }
     }
 }

@@ -5,7 +5,7 @@ using Codebase.Components.Ui;
 using Codebase.Services;
 using Codebase.Services.Time;
 
-namespace Codebase.Components.Player
+namespace Codebase.Components.Player 
 {
     public class PlayerCollisionHandler : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace Codebase.Components.Player
         [SerializeField] private LayerMask armorTriggerLayer;
         [SerializeField] private LayerMask magnetTriggerLayer;
         [SerializeField] private LayerMask nitroTriggerLayer;
-
+        [SerializeField] private LayerMask FinishTriggerLayer;
         [Header("Settings")]
         [SerializeField] private float jumpCooldown = 1f;
 
@@ -34,15 +34,16 @@ namespace Codebase.Components.Player
         public event Action OnPlayerJump;
         public event Action OnCoinCollected;
 
-        private bool isAlive = false;
+        
+        private bool isAlive = true; // Исправлено: игрок жив по умолчанию
         public bool IsAlive => isAlive;
 
-        private bool isSkillActive = false;
-        private bool isMagnetActive = false;
-        private bool isNitroActive = false;
+        private bool isSkillActive;
+        private bool isMagnetActive;
+        private bool isNitroActive;
         private bool canJump = true;
-        private bool hasArmorProtection = false;
-        private bool hasNitroImmunity = false;
+        private bool hasArmorProtection;
+        private bool hasNitroImmunity;
 
         private float skillTimeLeft;
         private float magnetTimeLeft;
@@ -50,9 +51,6 @@ namespace Codebase.Components.Player
         private float jumpCooldownLeft;
 
         private float skillDuration;
-        private float remainingSkillTime;
-        private float remainingMagnetTime;
-        //private float skillDuration;
         private float magnetDuration;
         private float nitroDuration;
 
@@ -64,13 +62,28 @@ namespace Codebase.Components.Player
             Lane4, // x = 4
             Lane5  // x = 6
         }
+
         private void Start()
+        {
+            ValidateDependencies();
+            RefreshDurations();
+        }
+
+       
+
+        private void ValidateDependencies()
         {
             if (SkillProgressService.Instance == null)
             {
                 Debug.LogError("SkillProgressService not initialized");
+                enabled = false;
+                return;
             }
-            Invoke(nameof(RefreshDurations), 0.1f);
+            if (speedModifier == null || particleSystemSkillsArmor == null || particleSystemSkillsMagnute == null || particleSystemSkillsNitro == null || magnet == null)
+            {
+                Debug.LogError("Missing required references in PlayerCollisionHandler");
+                enabled = false;
+            }
         }
 
         private void Update()
@@ -92,7 +105,7 @@ namespace Codebase.Components.Player
                 magnetTimeLeft -= Time.deltaTime;
                 if (magnetTimeLeft <= 0f)
                 {
-                    magnetTimeLeft = 0f;
+                    magnetTimeLeft = 0f; // Исправлено: не сбрасываем на magnetDuration
                     isMagnetActive = false;
                     particleSystemSkillsMagnute.SetActive(false);
                     magnet.SetActive(false);
@@ -126,9 +139,9 @@ namespace Codebase.Components.Player
 
         private void RefreshDurations()
         {
-            skillDuration = SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
-            magnetDuration = SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
-            nitroDuration = SkillProgressService.Instance.GetSkillDuration("Nitro", 8f);
+            skillDuration = 30f;//SkillProgressService.Instance.GetSkillDuration("Armor", 30f);
+            magnetDuration = 15f;//SkillProgressService.Instance.GetSkillDuration("Magnet", 15f);
+            nitroDuration = 8f; //SkillProgressService.Instance.GetSkillDuration("Nitro", 8f);
 
             Debug.Log("[PlayerCollisionHandler] SkillDuration = " + skillDuration);
             Debug.Log("[PlayerCollisionHandler] MagnetDuration = " + magnetDuration);
@@ -156,6 +169,8 @@ namespace Codebase.Components.Player
 
         private void OnTriggerEnter(Collider other)
         {
+            if (other == null) return;
+
             int otherLayerMask = 1 << other.gameObject.layer;
 
             if ((stepTriggerLayer.value & otherLayerMask) != 0)
@@ -166,17 +181,21 @@ namespace Codebase.Components.Player
             else if ((policeCarTriggerLayer.value & otherLayerMask) != 0)
             {
                 LaneTrigger laneTrigger = other.GetComponent<LaneTrigger>();
-                if (randomActivator != null)
+                if (laneTrigger == null)
                 {
-                    randomActivator.ActivateOnLane(laneTrigger.SelectedLane);
+                    Debug.LogError("LaneTrigger component is missing on the police car trigger object.");
+                    return;
                 }
-                else
+                if (randomActivator == null)
                 {
-                    Debug.LogWarning("LaneTrigger or RandomActivator is missing on police car trigger.");
+                    Debug.LogError("RandomActivator is not assigned in PlayerCollisionHandler.");
+                    return;
                 }
+                randomActivator.SpawnOnLane(laneTrigger.SelectedLane);
+                Debug.Log("Police car trigger activated, spawning on lane: " + laneTrigger.SelectedLane);
             }
 
-            if (!isAlive)
+            if (isAlive) // Исправлено: проверяем триггеры, если игрок жив
             {
                 if ((enemyLayer.value & otherLayerMask) != 0)
                 {
@@ -194,7 +213,7 @@ namespace Codebase.Components.Player
                     else
                     {
                         HandleEnemyCollision();
-                        isAlive = true;
+                        isAlive = false; // Исправлено: игрок умирает
                     }
                 }
                 else if ((coinLayer.value & otherLayerMask) != 0)
@@ -219,6 +238,12 @@ namespace Codebase.Components.Player
                     Destroy(other.gameObject);
                     ActivateNitro();
                 }
+                else if ((FinishTriggerLayer.value & otherLayerMask) != 0)
+                {
+                    //Destroy(other.gameObject);
+                   // ActivateNitro();
+
+                }
             }
         }
 
@@ -236,8 +261,7 @@ namespace Codebase.Components.Player
 
         private void TrySpringboard()
         {
-            if (!canJump)
-                return;
+            if (!canJump) return;
 
             Springboard();
             canJump = false;
@@ -249,12 +273,6 @@ namespace Codebase.Components.Player
             OnPlayerJump?.Invoke();
         }
 
-        private void ActivateRandomObject()
-        {
-           // OnActivateRandomObject?.Invoke();
-        }
-
-       // public void ActivateSkill()
         private void ActivateSkill()
         {
             RefreshDurations();
@@ -277,8 +295,7 @@ namespace Codebase.Components.Player
         public void ActivateMagnet()
         {
             RefreshDurations();
-            magnetTimeLeft += magnetDuration;
-
+            magnetTimeLeft = magnetDuration; // Исправлено: устанавливаем изначально
             if (!isMagnetActive)
             {
                 isMagnetActive = true;
@@ -290,7 +307,7 @@ namespace Codebase.Components.Player
         public void ActivateNitro()
         {
             RefreshDurations();
-            nitroTimeLeft += nitroDuration;
+            nitroTimeLeft = nitroDuration;
             hasNitroImmunity = true;
             speedModifier.enabled = false;
 

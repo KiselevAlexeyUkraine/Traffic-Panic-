@@ -16,13 +16,15 @@ namespace Codebase.Components.Player
 
         public Action OnMovingLeft;
         public Action OnMovingRight;
+        public Action OnLaneChanged; // Новое событие для перестроения
+        public int LaneChangeCount { get; private set; } // Счетчик перестроений
 
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _smoothness = 0.1f;
         [SerializeField] private float _distanceOveraging = 3f;
         [SerializeField] private float _snapSpeedMultiplier = 2f;
         [SerializeField] private float _snapDistanceThreshold = 0.5f;
-        [SerializeField] private float[] _lanes = new float[] { -6f, -3f, 0f, 3f, 6f }; // Настраиваемые полосы
+        [SerializeField] private float[] _lanes = new float[] { -6f, -3f, 0f, 3f, 6f };
 
         private const float DISTANCE_THRESHOLD = 0.01f;
 
@@ -36,11 +38,9 @@ namespace Codebase.Components.Player
 
         private void Awake()
         {
-            
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-          
             if (_playerInput == null)
             {
                 Debug.LogError("PlayerInput is not initialized!");
@@ -48,7 +48,6 @@ namespace Codebase.Components.Player
                 return;
             }
 
-            
             if (_lanes == null || _lanes.Length == 0)
             {
                 Debug.LogError("Lanes array is empty or null!");
@@ -74,21 +73,23 @@ namespace Codebase.Components.Player
 
         private void HandleInput()
         {
-            
             if (_playerInput.Left && _currentXPosition > _minXPosition && !(_isMoving && _targetXPosition == _minXPosition))
             {
                 _targetXPosition = SnapToNearestLane(Mathf.Max(_currentXPosition - _distanceOveraging, _minXPosition));
                 _isMoving = true;
                 OnMovingLeft?.Invoke();
-                Debug.Log("Moving left");
+                OnLaneChanged?.Invoke(); // Вызываем событие перестроения
+                LaneChangeCount++; // Увеличиваем счетчик
+                Debug.Log("Moving left, LaneChangeCount: " + LaneChangeCount);
             }
-           
             else if (_playerInput.Right && _currentXPosition < _maxXPosition && !(_isMoving && _targetXPosition == _maxXPosition))
             {
                 _targetXPosition = SnapToNearestLane(Mathf.Min(_currentXPosition + _distanceOveraging, _maxXPosition));
                 _isMoving = true;
                 OnMovingRight?.Invoke();
-                Debug.Log("Moving right");
+                OnLaneChanged?.Invoke(); // Вызываем событие перестроения
+                LaneChangeCount++; // Увеличиваем счетчик
+                Debug.Log("Moving right, LaneChangeCount: " + LaneChangeCount);
             }
         }
 

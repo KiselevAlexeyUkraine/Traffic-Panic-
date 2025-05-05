@@ -1049,7 +1049,6 @@ MonoBehaviour:
   - {fileID: 291814587282675233}
   - {fileID: 1864758090212189167}
   deactivateDelay: 6
-  playerCollisionHandler: {fileID: 0}
 --- !u!1 &5562053310103749684
 GameObject:
   m_ObjectHideFlags: 0

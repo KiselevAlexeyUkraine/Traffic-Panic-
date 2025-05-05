@@ -24,12 +24,12 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-            _back.onClick.AddListener(() =>
+          /*  _back.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
                 PageSwitcher.Open(PageName.Menu).Forget();
             });
-
+          */
             _masterVolume.onValueChanged.AddListener(OnMasterVolumeChanged);
             _soundsVolume.onValueChanged.AddListener(OnSoundsVolumeChanged);
             _musicVolume.onValueChanged.AddListener(OnMusicVolumeChanged);
@@ -39,7 +39,11 @@ namespace Codebase.Components.Ui.Pages.Menu
 
             _isInitialized = true;
         }
-
+        public void Back()
+        {
+            Debug.Log("AAAAA");
+            PageSwitcher.Open(PageName.Menu).Forget();
+        }
         private void LoadSettings()
         {
             _isInitialized = false;

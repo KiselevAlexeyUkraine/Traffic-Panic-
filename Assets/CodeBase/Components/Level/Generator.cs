@@ -1,42 +1,102 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Codebase.Components.Player;
+using Codebase.Services.Time;
 
 namespace Codebase.Components.Level
 {
     public class Generator : MonoBehaviour
     {
-        [SerializeField]
-        private List<Level> _levels;
-        [Min(0)]
-        [SerializeField]
-        private int _levelsCount;
-        [SerializeField]
-        private float _zBound;
-        [SerializeField]
-        private float _speed;
-        [SerializeField]
-        private float _acceleration;
+        [SerializeField] private List<Level> _levels;
+        [Min(0)] [SerializeField] private int _levelsCount;
+        [SerializeField] private float _zBound;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _acceleration;
+        [SerializeField] private PlayerMovement _playerMovement; // Ссылка на PlayerMovement
+        [SerializeField] private SpeedModifier _speedModifier; // Ссылка на SpeedModifier
+        [SerializeField] public bool IsFirstLevel = true; // Флаг первого уровня
 
         private LinkedList<Level> _handledLevels = new();
         private int _levelIndex = 0;
+        private bool _conditionsMet = false; // Флаг выполнения условий
+        private const int REQUIRED_LANE_CHANGES = 3; // Требуемое количество перестроений
+
+        public bool ConditionsMet => _conditionsMet; // Публичное свойство для ProgressTimer
 
         private void Start()
         {
-            for (int i = 0; i < _levelsCount; i++)
+            _speed = 15f;
+            if (IsFirstLevel)
             {
-                Level newLevel = Instantiate(GetNextLevel(), transform);
-
-                if (i == 0)
+                // Первый уровень: спавним _levelsCount копий _levels[0]
+                for (int i = 0; i < _levelsCount; i++)
                 {
-                    newLevel.transform.position = transform.position;
+                    Level newLevel = Instantiate(_levels[0], transform); // Используем только _levels[0]
+                    if (i == 0)
+                    {
+                        newLevel.transform.position = transform.position;
+                    }
+                    else
+                    {
+                        Level lastLevel = _handledLevels.Last.Value;
+                        newLevel.MoveToEdge(lastLevel, newLevel);
+                    }
+                    _handledLevels.AddLast(newLevel);
+                }
+
+                // Подписываемся на события для проверки условий
+                if (_playerMovement != null)
+                {
+                    _playerMovement.OnLaneChanged += CheckConditions;
                 }
                 else
                 {
-                    Level lastLevel = _handledLevels.Last.Value;
-                    newLevel.MoveToEdge(lastLevel, newLevel);
+                    Debug.LogError("PlayerMovement is not assigned in Generator!");
                 }
 
-                _handledLevels.AddLast(newLevel);
+                if (_speedModifier != null)
+                {
+                    _speedModifier.OnBoostUsed += CheckConditions;
+                }
+                else
+                {
+                    Debug.LogError("SpeedModifier is not assigned in Generator!");
+                }
+
+                CheckConditions(); // Проверяем условия на старте
+            }
+            else
+            {
+                // Не первый уровень: стандартная генерация
+                for (int i = 0; i < _levelsCount; i++)
+                {
+                    Level newLevel = Instantiate(GetNextLevel(), transform);
+                    if (i == 0)
+                    {
+                        newLevel.transform.position = transform.position;
+                    }
+                    else
+                    {
+                        Level lastLevel = _handledLevels.Last.Value;
+                        newLevel.MoveToEdge(lastLevel, newLevel);
+                    }
+                    _handledLevels.AddLast(newLevel);
+                }
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (!IsFirstLevel) return;
+
+            // Отписываемся от событий только для первого уровня
+            if (_playerMovement != null)
+            {
+                _playerMovement.OnLaneChanged -= CheckConditions;
+            }
+            if (_speedModifier != null)
+            {
+                _speedModifier.OnBoostUsed -= CheckConditions;
             }
         }
 
@@ -54,14 +114,42 @@ namespace Codebase.Components.Level
             if (firstLevelEdge.z < transform.position.z + _zBound)
             {
                 Level lastLevel = _handledLevels.Last.Value;
-
                 Destroy(firstLevel.gameObject);
                 _handledLevels.RemoveFirst();
 
-                Level newLevel = Instantiate(GetNextLevel(), transform);
-                newLevel.MoveToEdge(lastLevel, newLevel);
+                Level newLevel;
+                if (IsFirstLevel && !_conditionsMet)
+                {
+                    // Первый уровень, условия не выполнены: спавним копию _levels[0]
+                    newLevel = Instantiate(_levels[0], transform);
+                    Debug.Log("Respawning first segment (conditions not met).");
+                }
+                else
+                {
+                    // Не первый уровень или условия выполнены: стандартная генерация
+                    newLevel = Instantiate(GetNextLevel(), transform);
+                    Debug.Log("Spawning next segment.");
+                }
 
+                newLevel.MoveToEdge(lastLevel, newLevel);
                 _handledLevels.AddLast(newLevel);
+            }
+        }
+
+        private void CheckConditions()
+        {
+            if (!IsFirstLevel) return;
+
+            // Проверяем условия: 3 перестроения и 1 ускорение
+            if (_playerMovement != null && _speedModifier != null &&
+                _playerMovement.LaneChangeCount >= REQUIRED_LANE_CHANGES && _speedModifier.HasBoosted)
+            {
+                _conditionsMet = true;
+                Debug.Log("Conditions met! Switching to standard level generation.");
+            }
+            else
+            {
+                Debug.Log($"Conditions not met. LaneChanges: {_playerMovement?.LaneChangeCount}/{REQUIRED_LANE_CHANGES}, Boosted: {_speedModifier?.HasBoosted}");
             }
         }
 

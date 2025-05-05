@@ -983,19 +983,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd3b8bb95e56e5b499b7bb67b7a1d7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objects:
-  - {fileID: 8955425624433617719}
-  - {fileID: 7890127524070148956}
-  - {fileID: 5950275412039311840}
-  - {fileID: 8972613643175239630}
-  - {fileID: 6200574995325225890}
-  CanvasSign:
-  - {fileID: 8567552628592045194}
-  - {fileID: 8079525331781317896}
-  - {fileID: 7016305950976070841}
-  - {fileID: 6962615994623324960}
-  - {fileID: 1891442470574634367}
+  prefab: {fileID: 0}
   deactivateDelay: 5
+  spawnOffset: {x: 0, y: 0, z: 0}
+  laneOffsets:
+  - {x: -6, y: 0, z: 0}
+  - {x: -3, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 3, y: 0, z: 0}
+  - {x: 6, y: 0, z: 0}
 --- !u!1 &4280060134126483683
 GameObject:
   m_ObjectHideFlags: 0

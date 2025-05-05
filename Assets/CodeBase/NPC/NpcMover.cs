@@ -115,9 +115,15 @@ namespace Codebase.NPC
             if (nextX == null) return;
 
             if (actualDirection == MoveDirection.Right)
-                animator.Play("Right");
+            {
+                if (animator != null)
+                    animator.Play("Right");
+            }
             else if (actualDirection == MoveDirection.Left)
-                animator.Play("Left");
+            {
+                if (animator != null)
+                    animator.Play("Left"); 
+            }
 
             _startPosition = transform.localPosition;
             _targetLocalPosition = new Vector3(nextX.Value, _startPosition.y, _startPosition.z);

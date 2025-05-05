@@ -5,51 +5,63 @@ namespace Codebase.Components.Player
 {
     public class RandomActivator : MonoBehaviour
     {
-        [SerializeField] private GameObject[] objects; // Один объект на каждую полосу
-        [SerializeField] private GameObject[] CanvasSign; 
-        [SerializeField] private float deactivateDelay = 5f;
-
-        private GameObject activeObject;
-
-        public void ActivateOnLane(Lane lane)
+        [SerializeField] private GameObject prefab; // Один префаб для всех полос
+        [SerializeField] private float deactivateDelay = 5f; // Задержка до уничтожения
+        [SerializeField] private Vector3 spawnOffset = Vector3.zero; // Смещение позиции спавна
+        //[SerializeField] private float randomOffsetRange = 1f; // Диапазон случайного смещения
+        [SerializeField]
+        private Vector3[] laneOffsets = new Vector3[]
         {
-            if (objects == null || objects.Length == 0 || objects.Length < 5)
+            new Vector3(-6f, 0f, 0f),  // Lane1
+            new Vector3(-3f, 0f, 0f),  // Lane2
+            new Vector3(0f, 0f, 0f),   // Lane3
+            new Vector3(3f, 0f, 0f),   // Lane4
+            new Vector3(6f, 0f, 0f)    // Lane5
+        }; // Смещения для каждой полосы
+
+        private void Awake()
+        {
+            if (prefab == null)
             {
-                Debug.LogWarning("Objects array is invalid or does not contain enough objects for all lanes.");
+                Debug.LogError("Prefab is not assigned!");
+                enabled = false;
+            }
+          
+        }
+
+        public void SpawnOnLane(Lane lane)
+        {
+            if (prefab == null)
+            {
+                Debug.LogWarning("Prefab is not assigned.");
                 return;
             }
 
-            if (activeObject != null)
-                activeObject.SetActive(false);
-
             int laneIndex = (int)lane;
-            if (laneIndex >= 0 && laneIndex < objects.Length)
+            if (laneIndex < 0 || laneIndex >= laneOffsets.Length)
             {
-                activeObject = objects[laneIndex];
+                Debug.LogWarning($"Invalid lane index: {laneIndex}. Using default index 0.");
+                laneIndex = 0;
+            }
 
-                if (activeObject != null)
-                {
-                    CanvasSign[laneIndex].SetActive(true);
-                    activeObject.SetActive(true);
-                    StartCoroutine(DeactivateAfterDelay(activeObject, CanvasSign[laneIndex]));
-                }
-                else
-                {
-                    Debug.LogWarning($"No object assigned for lane {lane}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Invalid lane index: {laneIndex}");
-            }
+            Vector3 spawnPosition = transform.position + spawnOffset + laneOffsets[laneIndex];
+            // spawnPosition.x += Random.Range(-randomOffsetRange, randomOffsetRange); // Случайное смещение
+          
+            GameObject spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+           // Debug.LogError(spawnedObject);
+            StartCoroutine(DeactivateAfterDelay(spawnedObject));
+         
         }
 
-        private IEnumerator DeactivateAfterDelay(GameObject obj, GameObject canvasSign)
+        private IEnumerator DeactivateAfterDelay(GameObject obj)
         {
             yield return new WaitForSeconds(deactivateDelay);
             if (obj != null)
-                obj.SetActive(false);
-            canvasSign.SetActive(false);
+            {
+                Destroy(obj); // Уничтожаем объект вместо деактивации
+            }
         }
+       
+
     }
 }

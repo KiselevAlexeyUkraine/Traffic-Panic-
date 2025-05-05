@@ -9,7 +9,7 @@ namespace Codebase.Components.Player
 
         public event Action OnCoinCollected;
 
-        private void Start()
+        private void Awake()
         {
             gameObject.SetActive(false);
         }

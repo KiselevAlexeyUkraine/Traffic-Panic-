@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   startZ: -45
-  endZ: 50
+  endZ: 80
 --- !u!1 &7416592073650035097
 GameObject:
   m_ObjectHideFlags: 0

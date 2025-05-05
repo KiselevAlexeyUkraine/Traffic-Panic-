@@ -427,6 +427,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3143076670775043721}
+  - component: {fileID: 7074821539101807292}
+  - component: {fileID: 8622376875796717319}
   m_Layer: 3
   m_Name: ArmorParticle System
   m_TagString: Untagged
@@ -25578,13 +25580,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6815e268cbff68459364f207d1a3640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxXPosition: 4
-  _minXPosition: -4
   _moveSpeed: 10
   _smoothness: 0.1
   _distanceOveraging: 3
   _snapSpeedMultiplier: 2
   _snapDistanceThreshold: 0.5
+  _lanes:
+  - -6
+  - -3
+  - 0
+  - 3
+  - 6
 --- !u!114 &8635362920701190219
 MonoBehaviour:
   m_ObjectHideFlags: 0

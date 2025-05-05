@@ -13,7 +13,7 @@ namespace Codebase.Components.Ui
         [SerializeField] private PlayerCollisionHandler _collisionHandler;
         [SerializeField] private PlayerMagnetCollector playerMagnetCollector;
         [SerializeField] private float _progressPerCoin = 0.1f;
-
+        [SerializeField] private GameObject TextReady;
         [Inject]
         private void Construct(DesktopInput desktopInput)
         {
@@ -40,8 +40,10 @@ namespace Codebase.Components.Ui
 
         private void Update()
         {
-            if (_skillReady && _playerInput.Action && _collisionHandler.IsAlive == false)
+            if (_skillReady && _playerInput.Action)
             {
+                TextReady.SetActive(false);
+                Debug.Log("Skill is good!");
                 var skillKey = "Nitro";//SkillSelectorPersistent.Instance.SelectedSkill.ToString();
                 _collisionHandler.TriggerSkillByKey(skillKey);
                 ResetProgress();
@@ -59,6 +61,7 @@ namespace Codebase.Components.Ui
 
             if (Mathf.Approximately(_currentProgress, 1f))
             {
+                TextReady.SetActive(true);
                 _skillReady = true;
             }
         }
@@ -73,6 +76,7 @@ namespace Codebase.Components.Ui
 
         public void ResetProgress()
         {
+            TextReady.SetActive(false);
             _currentProgress = 0f;
             _skillReady = false;
             UpdateProgressImage();

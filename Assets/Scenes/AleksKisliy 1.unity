@@ -412,6 +412,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1325429346 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6638209677884946547, guid: c99c4c2bd5f63064184f440686cab1b4, type: 3}
+  m_PrefabInstance: {fileID: 1492963124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3b8bb95e56e5b499b7bb67b7a1d7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1415828347
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +486,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PoliceCar
       objectReference: {fileID: 0}
+    - target: {fileID: 3879736329121784205, guid: c99c4c2bd5f63064184f440686cab1b4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6638209677884946547, guid: c99c4c2bd5f63064184f440686cab1b4, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4371414488995344345, guid: 75784b973e5a241438e320fc3af254c6, type: 3}
     - target: {fileID: 6638209677884946547, guid: c99c4c2bd5f63064184f440686cab1b4, type: 3}
       propertyPath: playerCollisionHandler
       value: 
@@ -750,6 +769,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
     - target: {fileID: 8635362920701190219, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
+      propertyPath: randomActivator
+      value: 
+      objectReference: {fileID: 1325429346}
+    - target: {fileID: 8635362920701190219, guid: ba143d787b55fd04f87a53857b3f73b6, type: 3}
       propertyPath: skillProgressCoin
       value: 
       objectReference: {fileID: 919168058}
@@ -822,6 +845,22 @@ PrefabInstance:
       propertyPath: playerMagnetCollector
       value: 
       objectReference: {fileID: 1604178336}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 736197278924681883, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3225926385286155171, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
       propertyPath: _magnetCollector
       value: 
@@ -837,6 +876,22 @@ PrefabInstance:
     - target: {fileID: 6848225634740814528, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
       propertyPath: m_Name
       value: GameCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8911650290273881754, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9054203499879858755, guid: 80674a8e4298f0541b911184a34f9d0e, type: 3}
       propertyPath: m_Pivot.x
