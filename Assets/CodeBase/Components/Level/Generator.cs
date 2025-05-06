@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Codebase.Components.Player;
 
-
 namespace Codebase.Components.Level
 {
     public class Generator : MonoBehaviour
@@ -154,7 +153,7 @@ namespace Codebase.Components.Level
                 }
             }
 
-            _speedMultiplier = _targetMultiplier; // Мгновенное изменение скорости
+            _speedMultiplier = _targetMultiplier;
             float speed = _baseSpeed * _speedMultiplier;
             Debug.Log($"Generator Update: speedMultiplier={_speedMultiplier}, targetMultiplier={_targetMultiplier}, speed={speed}");
 
@@ -173,7 +172,15 @@ namespace Codebase.Components.Level
                 Destroy(firstLevel.gameObject);
                 _handledLevels.RemoveFirst();
 
-                Level newLevel = Instantiate(GetNextLevel(), transform);
+                Level newLevel;
+                if (IsFirstLevel && !_conditionsMet)
+                {
+                    newLevel = Instantiate(_levels[0], transform);
+                }
+                else
+                {
+                    newLevel = Instantiate(GetNextLevel(), transform);
+                }
                 newLevel.MoveToEdge(lastLevel, newLevel);
                 _handledLevels.AddLast(newLevel);
             }
@@ -217,7 +224,7 @@ namespace Codebase.Components.Level
         {
             Debug.Log($"HandleBoost called with multiplier: {multiplier}, duration: {duration}");
             SetSpeedMultiplier(multiplier);
-            if (multiplier >= 2.5f) // Для Nitro устанавливаем таймер явно
+            if (multiplier >= 2.5f)
             {
                 _boostTimer = duration;
             }
@@ -238,6 +245,11 @@ namespace Codebase.Components.Level
             Level level = _levels[_levelIndex];
             _levelIndex = (_levelIndex + 1) % _levels.Count;
             return level;
+        }
+
+        public float GetCurrentSpeed()
+        {
+            return _baseSpeed * _speedMultiplier;
         }
     }
 }

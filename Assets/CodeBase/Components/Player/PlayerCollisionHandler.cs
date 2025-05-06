@@ -263,7 +263,7 @@ using Codebase.Components.Player;
 
         private void HandleCoinPickup(GameObject coin)
         {
-            Destroy(coin);
+            //Destroy(coin);
             OnCoinCollected?.Invoke();
         }
 

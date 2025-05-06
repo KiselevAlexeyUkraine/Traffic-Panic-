@@ -950,7 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c654225ab1130e469680b14d8f04bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 120
+  targetDistance: 2150
   generator: {fileID: 1746278179}
 --- !u!4 &1305627483
 Transform:
@@ -1194,6 +1194,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1238460125}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1546826598 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7466340232345902037, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
+  m_PrefabInstance: {fileID: 264450196459536288}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1746278178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1298,18 @@ PrefabInstance:
       objectReference: {fileID: 1746278179}
     - target: {fileID: 1271897448549364651, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
       propertyPath: isFirstLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1271897448549364651, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1546826598}
+    - target: {fileID: 1394437661109759795, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1667019499635338044, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
+      propertyPath: m_UseGravity
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2592659118311662921, guid: 19943feb281191c4dbc9f91aa4e5006c, type: 3}
