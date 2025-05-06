@@ -312,7 +312,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -890,217 +890,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8948746695133450372, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1430786957}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8006505925173007391, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 865987967}
-    - targetCorrespondingSourceObject: {fileID: 1762988323136796166, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 865987966}
-    - targetCorrespondingSourceObject: {fileID: 1637626212002510396, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 865987965}
-    - targetCorrespondingSourceObject: {fileID: 4726547533491108144, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1851794442}
-    - targetCorrespondingSourceObject: {fileID: 2336084533635264914, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 865987969}
-    - targetCorrespondingSourceObject: {fileID: 7279637326524256575, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 865987968}
-    - targetCorrespondingSourceObject: {fileID: 7636353907067005033, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1650638994}
-    - targetCorrespondingSourceObject: {fileID: 1724113303684000828, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1119114678}
-    - targetCorrespondingSourceObject: {fileID: 6260896353128584256, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 992366319}
-    - targetCorrespondingSourceObject: {fileID: 3377067295973230960, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1119540924}
-    - targetCorrespondingSourceObject: {fileID: 9091854440232903249, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 939690200}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
---- !u!1 &865987957 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6260896353128584256, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987958 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7636353907067005033, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987959 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4726547533491108144, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987960 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1637626212002510396, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987961 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1762988323136796166, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987962 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8006505925173007391, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987963 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7279637326524256575, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &865987964 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2336084533635264914, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &865987965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
---- !u!114 &865987966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
---- !u!114 &865987967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
---- !u!114 &865987968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
---- !u!114 &865987969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987964}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
 --- !u!114 &865987970 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5972022882782964559, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
   m_PrefabInstance: {fileID: 865987956}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987964}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c12c0fcd7efcf1f4b8df7aa73c969991, type: 3}
@@ -1111,37 +908,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8948746695133450372, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
   m_PrefabInstance: {fileID: 865987956}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &939690195 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9091854440232903249, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &939690200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 939690195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,7 +919,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
@@ -1236,37 +1001,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
---- !u!114 &963194229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 509217233
-      Data2: 1211274442
-      Data3: 546151341
-      Data4: 517337225
-    Path: event:/New Folder/music_main_menu
-  Event: 
-  EventPlayTrigger: 1
-  EventStopTrigger: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1311,32 +1045,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &992366319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
 --- !u!1 &994473986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,68 +1089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a437b1d0903a8814f952f40dcdb673ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1119114673 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1724113303684000828, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1119114678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119114673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
---- !u!1 &1119540918 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3377067295973230960, guid: 36362b78a33393747b18e325e5f38a1f, type: 3}
-  m_PrefabInstance: {fileID: 865987956}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1119540924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119540918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
 --- !u!1 &1430786956
 GameObject:
   m_ObjectHideFlags: 0
@@ -6431,32 +6077,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &1650638994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
 --- !u!1 &1664418078
 GameObject:
   m_ObjectHideFlags: 0
@@ -6490,32 +6110,6 @@ Transform:
   - {fileID: 1645554130}
   m_Father: {fileID: 519629741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1851794442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865987959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4882e38a1c9784eb5a90dc0ce9a0d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound:
-    Guid:
-      Data1: 1804207549
-      Data2: 1224663981
-      Data3: 1988326062
-      Data4: 1721583181
-    Path: event:/New Folder/ui_buttonhover
-  clickSound:
-    Guid:
-      Data1: -2011047932
-      Data2: 1261751041
-      Data3: 737516991
-      Data4: -1479378901
-    Path: event:/New Folder/ui_buttonclick
 --- !u!1 &1863989110
 GameObject:
   m_ObjectHideFlags: 0
@@ -11532,6 +11126,7 @@ MonoBehaviour:
   _speed: 15
   _playerMovement: {fileID: 0}
   _speedModifier: {fileID: 0}
+  _playerCollisionHandler: {fileID: 0}
   IsFirstLevel: 0
   _conditionsMet: 0
 --- !u!1660057539 &9223372036854775807
