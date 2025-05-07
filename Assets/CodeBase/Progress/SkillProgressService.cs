@@ -11,14 +11,13 @@ namespace Codebase.Services
 
         private void Awake()
         {
-           
+            Instance = this;
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
 
-            Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadSkills();
         }
@@ -49,7 +48,7 @@ namespace Codebase.Services
         {
             foreach (var key in new[] { "Armor", "Magnet" })
             {
-                float duration = PlayerPrefs.GetFloat(key + "_Duration", 15f);
+                float duration = PlayerPrefs.GetFloat(key + "_Duration", 0f);
                 skillDurations[key] = duration;
                 Debug.Log($"[SkillProgressService] Init {key} with duration {duration}");
             }
