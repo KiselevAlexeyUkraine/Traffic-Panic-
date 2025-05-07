@@ -4,6 +4,10 @@ using UnityEngine.EventSystems;
 using Zenject;
 using Codebase.Services;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Codebase.Components.Ui.Pages.Menu
 {
     public class ExitPage : BasePage
@@ -21,17 +25,8 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-            _accept.onClick.AddListener(() =>
-            {
-                _audioService.PlayClickSound();
-                Application.Quit();
-            });
-
-            _cancel.onClick.AddListener(() =>
-            {
-                _audioService.PlayClickSound();
-                PageSwitcher.Open(PageName.Menu).Forget();
-            });
+            _accept.onClick.AddListener(OnAcceptClick);
+            _cancel.onClick.AddListener(OnCancelClick);
 
             AddHoverSound(_accept);
             AddHoverSound(_cancel);
@@ -41,6 +36,23 @@ namespace Codebase.Components.Ui.Pages.Menu
         {
             _accept.onClick.RemoveAllListeners();
             _cancel.onClick.RemoveAllListeners();
+        }
+
+        private void OnAcceptClick()
+        {
+            _audioService.PlayClickSound();
+
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
+        private void OnCancelClick()
+        {
+            _audioService.PlayClickSound();
+            PageSwitcher.Open(PageName.Menu).Forget();
         }
 
         private void AddHoverSound(Button button)

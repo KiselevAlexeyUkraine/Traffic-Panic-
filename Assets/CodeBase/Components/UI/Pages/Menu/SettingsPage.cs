@@ -14,7 +14,6 @@ namespace Codebase.Components.Ui.Pages.Menu
         [SerializeField] private Slider _musicVolume;
 
         private AudioService _audioService;
-        private bool _isInitialized = false;
 
         [Inject]
         private void Construct(AudioService audioService)
@@ -24,20 +23,18 @@ namespace Codebase.Components.Ui.Pages.Menu
 
         private void Awake()
         {
-          /*  _back.onClick.AddListener(() =>
+            _back.onClick.AddListener(() =>
             {
                 _audioService.PlayClickSound();
                 PageSwitcher.Open(PageName.Menu).Forget();
             });
-          */
+
             _masterVolume.onValueChanged.AddListener(OnMasterVolumeChanged);
             _soundsVolume.onValueChanged.AddListener(OnSoundsVolumeChanged);
             _musicVolume.onValueChanged.AddListener(OnMusicVolumeChanged);
 
             AddHoverSound(_back);
             LoadSettings();
-
-            _isInitialized = true;
         }
         public void Back()
         {
@@ -46,7 +43,6 @@ namespace Codebase.Components.Ui.Pages.Menu
         }
         private void LoadSettings()
         {
-            _isInitialized = false;
             _masterVolume.value = _audioService.SavedMasterVolume;
             _soundsVolume.value = _audioService.SavedSoundsVolume;
             _musicVolume.value = _audioService.SavedMusicVolume;
@@ -55,19 +51,19 @@ namespace Codebase.Components.Ui.Pages.Menu
         private void OnMasterVolumeChanged(float value)
         {
             _audioService.SetMasterVolume(value);
-            if (_isInitialized) _audioService.PlayClickSound();
+            _audioService.PlayClickSound();
         }
 
         private void OnSoundsVolumeChanged(float value)
         {
             _audioService.SetSoundsVolume(value);
-            if (_isInitialized) _audioService.PlayClickSound();
+            _audioService.PlayClickSound();
         }
 
         private void OnMusicVolumeChanged(float value)
         {
             _audioService.SetMusicVolume(value);
-            if (_isInitialized) _audioService.PlayClickSound();
+            _audioService.PlayClickSound();
         }
 
         private void OnDestroy()
