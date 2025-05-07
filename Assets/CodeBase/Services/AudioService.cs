@@ -22,6 +22,10 @@ namespace Codebase.Services
         private void Awake()
         {
             LoadAudioSettings();
+        }
+
+        private void Start()
+        {
             ApplyVolume();
         }
 
@@ -29,7 +33,7 @@ namespace Codebase.Services
         {
             if (_audioSource != null && _buttonClick != null)
             {
-                _audioSource.PlayOneShot(_buttonClick);
+                _audioSource.PlayOneShot(_buttonClick, SavedSoundsVolume);
             }
         }
 
@@ -37,7 +41,7 @@ namespace Codebase.Services
         {
             if (_audioSource != null && _pauseClick != null)
             {
-                _audioSource.PlayOneShot(_pauseClick);
+                _audioSource.PlayOneShot(_pauseClick, SavedSoundsVolume);
             }
         }
 
@@ -86,7 +90,7 @@ namespace Codebase.Services
 
         private void SetVolumeToMixer(string parameter, float value)
         {
-            float volume = Mathf.Log10(value) * 20f;
+            float volume = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
             _mixer.SetFloat(parameter, volume);
         }
     }
