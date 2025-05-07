@@ -10,7 +10,7 @@ namespace Codebase.Components.Level
         [Min(0)]
         [SerializeField] private int _levelsCount = 3;
         [SerializeField] private float _zBound = -10f;
-        [SerializeField] private float _speed = 15f;
+        //[SerializeField] private float _speed = 15f;
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private SpeedModifier _speedModifier;
         [SerializeField] private PlayerCollisionHandler _playerCollisionHandler;
@@ -137,7 +137,6 @@ namespace Codebase.Components.Level
             _isNitroActive = false;
             _targetMultiplier = 1f;
             _boostTimer = 0f;
-            Debug.Log("DeactivateNitro called, resetting isNitroActive and multiplier");
         }
 
         private void Update()
@@ -145,17 +144,15 @@ namespace Codebase.Components.Level
             if (_boostTimer > 0f)
             {
                 _boostTimer -= Time.deltaTime;
-                Debug.Log($"Boost timer: {_boostTimer}, isNitroActive: {_isNitroActive}");
                 if (_boostTimer <= 0f && !_isNitroActive)
                 {
                     ResetSpeedMultiplier();
-                    Debug.Log("Boost timer expired, resetting multiplier");
                 }
             }
 
             _speedMultiplier = _targetMultiplier;
             float speed = _baseSpeed * _speedMultiplier;
-            Debug.Log($"Generator Update: speedMultiplier={_speedMultiplier}, targetMultiplier={_targetMultiplier}, speed={speed}");
+            
 
             foreach (Level level in _handledLevels)
                 level.Move(Vector3.back, speed, 0f);
@@ -190,7 +187,6 @@ namespace Codebase.Components.Level
         {
             _targetMultiplier = Mathf.Max(_targetMultiplier, multiplier);
             _isNitroActive = multiplier >= 2.5f;
-            Debug.Log($"SetSpeedMultiplier called, new target: {_targetMultiplier}, isNitroActive: {_isNitroActive}");
         }
 
         private void CheckConditions()
@@ -201,7 +197,6 @@ namespace Codebase.Components.Level
                 _playerMovement.LaneChangeCount >= REQUIRED_LANE_CHANGES && _speedModifier.HasBoosted)
             {
                 _conditionsMet = true;
-                Debug.Log("Conditions met! Switching to standard level generation.");
             }
             else
             {
@@ -217,12 +212,10 @@ namespace Codebase.Components.Level
                 return;
             }
             _targetMultiplier = 1f;
-            Debug.Log("ResetSpeedMultiplier applied, target: 1");
         }
 
         private void HandleBoost(float multiplier, float duration)
         {
-            Debug.Log($"HandleBoost called with multiplier: {multiplier}, duration: {duration}");
             SetSpeedMultiplier(multiplier);
             if (multiplier >= 2.5f)
             {

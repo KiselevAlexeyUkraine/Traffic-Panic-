@@ -44,7 +44,7 @@ namespace Codebase.Components.Ui
             {
                 TextReady.SetActive(false);
                 Debug.Log("Skill is good!");
-                var skillKey = "Nitro";//SkillSelectorPersistent.Instance.SelectedSkill.ToString();
+                var skillKey = SkillSelectorPersistent.Instance.SelectedSkill.ToString();
                 _collisionHandler.TriggerSkillByKey(skillKey);
                 ResetProgress();
             }

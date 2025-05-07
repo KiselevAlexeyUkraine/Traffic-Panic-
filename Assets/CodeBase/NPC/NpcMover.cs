@@ -8,7 +8,7 @@ namespace Codebase.NPC
 
         [SerializeField] private float moveDuration = 1.2f;
         [SerializeField] private MoveDirection direction = MoveDirection.Stay;
-        [SerializeField] private float carSpeedX = 5f;
+        //[SerializeField] private float carSpeedX = 5f;
         [SerializeField] private Animator animator;
 
         private readonly float[] _positionsX = { -6f, -3f, 0f, 3f, 6f };
