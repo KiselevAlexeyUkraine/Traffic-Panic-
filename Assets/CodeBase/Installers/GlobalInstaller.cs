@@ -15,6 +15,8 @@ namespace Codebase.Installers
         private AudioService _audioService;
         [SerializeField]
         private SkyboxRotation _skyboxRotation;
+        //[SerializeField]
+        //private GameObject _settings;
 
         public override void InstallBindings()
         {
@@ -24,6 +26,7 @@ namespace Codebase.Installers
             Container.Bind<AudioService>().FromComponentInNewPrefab(_audioService).AsSingle().NonLazy();
             Container.Bind<EventSystem>().FromComponentInNewPrefab(_eventSystem).AsSingle().NonLazy();
             Container.Bind<SkyboxRotation>().FromComponentInNewPrefab(_skyboxRotation).AsSingle().NonLazy();
+            //Container.Bind().FromComponentInNewPrefab(_settings).AsSingle().NonLazy();
         }
     }
 }

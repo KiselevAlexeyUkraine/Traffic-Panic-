@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using Zenject;
 
 namespace Codebase.Services
 {
@@ -47,7 +46,6 @@ namespace Codebase.Services
             SavedMasterVolume = Mathf.Clamp(value, 0.0001f, 1f);
             SetVolumeToMixer("MasterVolume", SavedMasterVolume);
             PlayerPrefs.SetFloat(MasterVolumeKey, SavedMasterVolume);
-            PlayerPrefs.Save();
         }
 
         public void SetSoundsVolume(float value)
@@ -55,13 +53,19 @@ namespace Codebase.Services
             SavedSoundsVolume = Mathf.Clamp(value, 0.0001f, 1f);
             SetVolumeToMixer("SoundsVolume", SavedSoundsVolume);
             PlayerPrefs.SetFloat(SoundsVolumeKey, SavedSoundsVolume);
-            PlayerPrefs.Save();
         }
 
         public void SetMusicVolume(float value)
         {
             SavedMusicVolume = Mathf.Clamp(value, 0.0001f, 1f);
             SetVolumeToMixer("MusicVolume", SavedMusicVolume);
+            PlayerPrefs.SetFloat(MusicVolumeKey, SavedMusicVolume);
+        }
+
+        public void SaveVolumes()
+        {
+            PlayerPrefs.SetFloat(MasterVolumeKey, SavedMasterVolume);
+            PlayerPrefs.SetFloat(SoundsVolumeKey, SavedSoundsVolume);
             PlayerPrefs.SetFloat(MusicVolumeKey, SavedMusicVolume);
             PlayerPrefs.Save();
         }

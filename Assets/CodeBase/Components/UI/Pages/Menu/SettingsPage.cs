@@ -34,18 +34,34 @@ namespace Codebase.Components.Ui.Pages.Menu
             _musicVolume.onValueChanged.AddListener(OnMusicVolumeChanged);
 
             AddHoverSound(_back);
-            LoadSettings();
+
+            ApplySavedSettings();
         }
-        public void Back()
+
+        private void OnEnable()
         {
-            Debug.Log("AAAAA");
-            PageSwitcher.Open(PageName.Menu).Forget();
+            ApplySavedSettings();
         }
-        private void LoadSettings()
+
+        private void OnDisable()
         {
-            _masterVolume.value = _audioService.SavedMasterVolume;
-            _soundsVolume.value = _audioService.SavedSoundsVolume;
-            _musicVolume.value = _audioService.SavedMusicVolume;
+            SaveSettings();
+        }
+
+        private void ApplySavedSettings()
+        {
+            _masterVolume.SetValueWithoutNotify(_audioService.SavedMasterVolume);
+            _soundsVolume.SetValueWithoutNotify(_audioService.SavedSoundsVolume);
+            _musicVolume.SetValueWithoutNotify(_audioService.SavedMusicVolume);
+
+            _audioService.SetMasterVolume(_audioService.SavedMasterVolume);
+            _audioService.SetSoundsVolume(_audioService.SavedSoundsVolume);
+            _audioService.SetMusicVolume(_audioService.SavedMusicVolume);
+        }
+
+        private void SaveSettings()
+        {
+            _audioService.SaveVolumes();
         }
 
         private void OnMasterVolumeChanged(float value)
