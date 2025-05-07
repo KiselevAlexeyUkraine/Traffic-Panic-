@@ -35,7 +35,7 @@ namespace Codebase.Components.Ui
 
         private void UpdateUI()
         {
-            selectedLevelText.text = "Выбран уровень: " + (_selectedLevel - 1);
+            selectedLevelText.text = "Level selected: " + (_selectedLevel - 1);
 
             level1Button.interactable = _selectedLevel != 2;
             level2Button.interactable = _selectedLevel != 3;
