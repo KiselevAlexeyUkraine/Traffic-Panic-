@@ -46,7 +46,7 @@ namespace Codebase.Services
 
         private void LoadSkills()
         {
-            foreach (var key in new[] { "Armor", "Magnet" })
+            foreach (var key in new[] { "Armor", "Magnet", "Nitro" })
             {
                 float duration = PlayerPrefs.GetFloat(key + "_Duration", 0f);
                 skillDurations[key] = duration;
